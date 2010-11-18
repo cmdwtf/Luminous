@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luminous", "Luminous\Luminous.csproj", "{2B793A9A-8B34-4D81-9907-C18707ACA440}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luminous.Windows.Forms", "Luminous.Windows.Forms\Luminous.Windows.Forms.csproj", "{D5761A90-93E9-4E30-9E57-855A408E170C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luminous.Windows", "Luminous.Windows\Luminous.Windows.csproj", "{26AF19AD-07C5-4141-B078-8CCCED8EECC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "License", "License", "{E9DFA6D6-8891-4CD8-A84C-68B30249A9CF}"
+	ProjectSection(SolutionItems) = preProject
+		lgpl-3.0.txt = lgpl-3.0.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs20
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Luminous.Windows.Forms\\Luminous.Windows.Forms.csproj
+		SccProjectName1 = Luminous.Windows.Forms
+		SccLocalPath1 = Luminous.Windows.Forms
+		SccProjectUniqueName2 = Luminous.Windows\\Luminous.Windows.csproj
+		SccProjectName2 = Luminous.Windows
+		SccLocalPath2 = Luminous.Windows
+		SccProjectUniqueName3 = Luminous\\Luminous.csproj
+		SccProjectName3 = Luminous
+		SccLocalPath3 = Luminous
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B793A9A-8B34-4D81-9907-C18707ACA440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B793A9A-8B34-4D81-9907-C18707ACA440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B793A9A-8B34-4D81-9907-C18707ACA440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B793A9A-8B34-4D81-9907-C18707ACA440}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5761A90-93E9-4E30-9E57-855A408E170C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5761A90-93E9-4E30-9E57-855A408E170C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5761A90-93E9-4E30-9E57-855A408E170C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5761A90-93E9-4E30-9E57-855A408E170C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26AF19AD-07C5-4141-B078-8CCCED8EECC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26AF19AD-07C5-4141-B078-8CCCED8EECC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26AF19AD-07C5-4141-B078-8CCCED8EECC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26AF19AD-07C5-4141-B078-8CCCED8EECC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
