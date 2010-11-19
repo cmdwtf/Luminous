@@ -20,6 +20,7 @@ namespace Luminous.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using System.Security;
@@ -43,10 +44,8 @@ namespace Luminous.Extensions
         /// </code></example>
         public static IDisposable AsForeground(this ConsoleColor foregroundColor)
         {
-            if (!Enum.IsDefined(typeof(ConsoleColor), foregroundColor))
-            {
-                throw new ArgumentOutOfRangeException("foregroundColor");
-            }
+            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(ConsoleColor), foregroundColor));
+
             return new ConsoleColorizer(foregroundColor, true);
         }
 
@@ -56,10 +55,8 @@ namespace Luminous.Extensions
         /// <example>See <see cref="M:ConsoleColorExtensions.AsForeground" /> for example.</example>
         public static IDisposable AsBackground(this ConsoleColor backgroundColor)
         {
-            if (!Enum.IsDefined(typeof(ConsoleColor), backgroundColor))
-            {
-                throw new ArgumentOutOfRangeException("backgroundColor");
-            }
+            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(ConsoleColor), backgroundColor));
+
             return new ConsoleColorizer(backgroundColor, false);
         }
 

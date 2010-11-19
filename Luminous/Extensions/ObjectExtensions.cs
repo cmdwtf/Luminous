@@ -60,7 +60,7 @@ namespace Luminous.Extensions
             Contract.Requires<InvalidCastException>(!(@this == null && typeof(T).IsValueType));
 
             var type = typeof(T);
-            var result = Convert(@this, type);
+            var result = Convert(@this, type, formatProvider);
             if (result == null)
             {
                 if (type.IsValueType) throw new InvalidCastException();

@@ -22,6 +22,7 @@ namespace Luminous.Windows.Forms
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
+    using System.Diagnostics.Contracts;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Text;
@@ -131,6 +132,7 @@ namespace Luminous.Windows.Forms
             get
             {
                 CreateParams cp = base.CreateParams;
+                Contract.Assume(cp != null);
                 cp.ExStyle |= NativeMethods.WS_EX_NOACTIVATE;
                 if (NonInteractive) cp.ExStyle |= NativeMethods.WS_EX_TRANSPARENT | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TOOLWINDOW;
                 return cp;
@@ -151,10 +153,8 @@ namespace Luminous.Windows.Forms
         /// <exception cref="T:System.ArgumentNullException"><paramref name="content" /> is <code>null</code>.</exception>
         public Popup(Control content)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException("content");
-            }
+            Contract.Requires<ArgumentNullException>(content != null);
+
             Content = content;
             FocusOnOpen = true;
             AcceptAlt = true;
@@ -190,6 +190,12 @@ namespace Luminous.Windows.Forms
         #endregion
 
         #region " Methods "
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(Content != null);
+        }
 
         /// <summary>
         /// Raises the <see cref="E:System.Windows.Forms.ToolStripItem.VisibleChanged"/> event.
@@ -446,7 +452,10 @@ namespace Luminous.Windows.Forms
         {
             if (Content.IsDisposed || Content.Disposing)
             {
-                e.Cancel = true;
+                if (e != null)
+                {
+                    e.Cancel = true;
+                }
                 return;
             }
             UpdateRegion();

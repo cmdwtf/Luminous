@@ -19,6 +19,7 @@
 namespace Luminous.Windows.Forms
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Drawing;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
@@ -73,6 +74,8 @@ namespace Luminous.Windows.Forms
 
         internal static void AnimateWindow(Control control, int time, AnimationFlags flags)
         {
+            Contract.Requires<ArgumentNullException>(control != null);
+
             try
             {
                 SecurityPermission sp = new SecurityPermission(SecurityPermissionFlag.UnmanagedCode);
@@ -88,6 +91,8 @@ namespace Luminous.Windows.Forms
 
         internal static void SetTopMost(Control control)
         {
+            Contract.Requires<ArgumentNullException>(control != null);
+
             try
             {
                 SecurityPermission sp = new SecurityPermission(SecurityPermissionFlag.UnmanagedCode);

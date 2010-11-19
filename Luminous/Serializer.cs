@@ -34,7 +34,6 @@ namespace Luminous
         /// <summary>
         /// Deserializes an object from the array of bytes.
         /// </summary>
-        [Pure]
         public static T Deserialize<T>(byte[] array)
         {
             Contract.Requires<ArgumentNullException>(array != null);
@@ -53,10 +52,11 @@ namespace Luminous
         /// <summary>
         /// Serializes the object to the array of bytes.
         /// </summary>
-        [Pure]
         public static byte[] Serialize<T>(T obj)
         {
             Contract.Requires<ArgumentNullException>(obj != null);
+            Contract.Ensures(Contract.Result<byte[]>() != null);
+            Contract.Ensures(Contract.Result<byte[]>().Length > 0);
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -69,7 +69,6 @@ namespace Luminous
         /// <summary>
         /// Returns a deep copy of the object using serialization.
         /// </summary>
-        [Pure]
         public static T CopyBySerialization<T>(this T obj)
         {
             Contract.Requires<ArgumentNullException>(obj != null);

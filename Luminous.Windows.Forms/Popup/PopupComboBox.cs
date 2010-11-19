@@ -22,6 +22,7 @@ namespace Luminous.Windows.Forms
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
+    using System.Diagnostics.Contracts;
     using System.Drawing;
     using System.Text;
     using System.Windows.Forms;
@@ -59,16 +60,15 @@ namespace Luminous.Windows.Forms
             }
             set
             {
-                if (dropDownControl == value)
-                {
-                    return;
-                }
+                Contract.Requires<ArgumentNullException>(value != null);
+
+                if (dropDownControl == value) return;
+
                 dropDownControl = value;
-                if (dropDown != null)
-                {
-                    dropDown.Closed -= dropDown_Closed;
-                    dropDown.Dispose();
-                }
+
+                dropDown.Closed -= dropDown_Closed;
+                dropDown.Dispose();
+
                 dropDown = new Popup(value);
                 dropDown.Closed += dropDown_Closed;
             }

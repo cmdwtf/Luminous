@@ -21,6 +21,7 @@
                 }
                 if (dropDown != null)
                 {
+                    dropDown.Closed -= dropDown_Closed;
                     dropDown.Dispose();
                 }
             }
