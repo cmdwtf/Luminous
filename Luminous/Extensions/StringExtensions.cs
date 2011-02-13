@@ -29,6 +29,52 @@ namespace Luminous.Extensions
     /// <summary>Extension methods for the String class.</summary>
     public static class StringExtensions
     {
+        #region Coalesce
+
+        [Pure]
+        public static string Coalesce(this string @this, string other)
+        {
+            return !string.IsNullOrEmpty(@this) ? @this : other;
+        }
+
+        [Pure]
+        public static string Coalesce(this string @this, params string[] values)
+        {
+            if (!string.IsNullOrEmpty(@this) || values == null) return @this;
+            foreach (var value in values)
+            {
+                if (!string.IsNullOrEmpty(value)) return value;
+            }
+            return null;
+        }
+
+        public static string Coalesce(this string @this, IEnumerable<string> values)
+        {
+            if (!string.IsNullOrEmpty(@this) || values == null) return @this;
+            foreach (var value in values)
+            {
+                if (!string.IsNullOrEmpty(value)) return value;
+            }
+            return null;
+        }
+
+        [Pure]
+        public static string CoalesceWithEmpty(this string @this, params string[] values)
+        {
+            Contract.Ensures(Contract.Result<string>() != null);
+
+            return @this.Coalesce(values) ?? string.Empty;
+        }
+
+        public static string CoalesceWithEmpty(this string @this, IEnumerable<string> values)
+        {
+            Contract.Ensures(Contract.Result<string>() != null);
+
+            return @this.Coalesce(values) ?? string.Empty;
+        }
+
+        #endregion
+
         #region ToStringOrNull
 
         [Pure]
@@ -57,58 +103,6 @@ namespace Luminous.Extensions
         {
             if (!@this.HasValue) return null;
             return @this.Value.ToString(format, formatProvider);
-        }
-
-        #endregion
-
-        #region Coalesce
-
-        [Pure]
-        public static string Coalesce(this string @this, string other)
-        {
-            return !string.IsNullOrEmpty(@this) ? @this : other;
-        }
-
-        [Pure]
-        public static string Coalesce(this string @this, params string[] other)
-        {
-            string result = @this;
-            if (other == null || other.Length == 0) return result;
-            foreach (var str in other)
-            {
-                if (!string.IsNullOrEmpty(result)) return result;
-                result = str;
-            }
-            return result;
-        }
-
-        public static string Coalesce(this string @this, IEnumerable<string> other)
-        {
-            string result = @this;
-            if (other == null) return null;
-            if (!string.IsNullOrEmpty(result)) return result;
-            foreach (var str in other)
-            {
-                if (!string.IsNullOrEmpty(result)) return result;
-                result = str;
-            }
-            return result;
-        }
-
-        [Pure]
-        public static string CoalesceWithEmpty(this string @this, params string[] other)
-        {
-            Contract.Ensures(Contract.Result<string>() != null);
-
-            return @this.Coalesce(other).Coalesce(string.Empty);
-        }
-
-        [Pure]
-        public static string CoalesceWithEmpty(this string @this, IEnumerable<string> other)
-        {
-            Contract.Ensures(Contract.Result<string>() != null);
-
-            return @this.Coalesce(other).Coalesce(string.Empty);
         }
 
         #endregion

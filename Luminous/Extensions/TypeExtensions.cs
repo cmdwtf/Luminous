@@ -20,42 +20,32 @@ namespace Luminous.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Text;
-    using System.IO;
 
-    /// <summary>Extension methods for the Stream class.</summary>
-    public static class StreamExtensions
+    /// <summary>Extension methods for the Type class.</summary>
+    public static class TypeExtensions
     {
-        /// <summary>
-        /// Returns stream’s contents as an array of bytes.
-        /// </summary>
-        public static byte[] ReadToEnd(this Stream stream)
+        public static string GetFullName(this Type @this)
         {
-            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(@this != null);
 
-            long? originalPosition = null;
-            if (stream.CanSeek)
+            if (!@this.IsGenericType) return @this.FullName;
+
+            string name = @this.FullName;
+            name = name.Substring(0, name.IndexOf('`'));
+
+            name += '<';
+            foreach (var t in @this.GetGenericArguments())
             {
-                originalPosition = stream.Position;
-                stream.Position = 0;
+                if (name[name.Length - 1] != '<') name += ", ";
+                name += t.GetFullName();
             }
-            try
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    stream.CopyTo(ms);
-                    return ms.ToArray();
-                }
-            }
-            finally
-            {
-                if (stream.CanSeek && originalPosition.HasValue && originalPosition.Value >= 0)
-                {
-                    stream.Position = originalPosition.Value;
-                }
-            }
+            name += '>';
+
+            return name;
         }
     }
 }

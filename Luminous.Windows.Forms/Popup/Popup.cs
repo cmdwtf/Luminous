@@ -270,7 +270,7 @@ namespace Luminous.Windows.Forms
         [UIPermission(SecurityAction.LinkDemand, Window = UIPermissionWindow.AllWindows)]
         protected override bool ProcessDialogKey(Keys keyData)
         {
-            if (AcceptAlt && ((keyData & Keys.Alt) == Keys.Alt))
+            if (AcceptAlt && ((keyData & Keys.KeyCode) == Keys.Alt))
             {
                 if ((keyData & Keys.F4) != Keys.F4)
                 {
