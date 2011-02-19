@@ -16,26 +16,29 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Text;
 
-    internal static partial class Native
+    /// <summary>
+    /// Specifies the icon shown on a CommandLink control. 
+    /// </summary>
+    public enum CommandLinkIcon
     {
-        public static class Messages
-        {
-            [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-            public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-            public enum ListView : uint
-            {
-                First = 0x1000,
-                SetExtendedListViewStyle = First + 54,
-            }
-        }
+        /// <summary>
+        /// Do not show any icon.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// Show an arrow icon.
+        /// </summary>
+        Arrow = 1,
+        /// <summary>
+        /// Show an elevation icon (shield).
+        /// </summary>
+        Shield = 2,
     }
 }

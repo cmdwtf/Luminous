@@ -16,26 +16,28 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Text;
 
-    internal static partial class Native
+    /// <summary>
+    /// Provides data for a TaskDialog's HyperlinkClick event.
+    /// </summary>
+    public class TaskDialogHyperlinkClickEventArgs : EventArgs
     {
-        public static class Messages
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskDialogHyperlinkClickedEventArgs"/> class.
+        /// </summary>
+        public TaskDialogHyperlinkClickEventArgs()
         {
-            [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-            public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-            public enum ListView : uint
-            {
-                First = 0x1000,
-                SetExtendedListViewStyle = First + 54,
-            }
         }
+
+        /// <summary>
+        /// A string containing the URL of the hyperlink.
+        /// </summary>
+        public string Href { get; set; }
     }
 }

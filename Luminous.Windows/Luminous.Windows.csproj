@@ -110,8 +110,39 @@
     <Compile Include="..\Luminous\Properties\AssemblyInfo.Common.cs">
       <Link>Properties\AssemblyInfo.Common.cs</Link>
     </Compile>
+    <Compile Include="Controls\CommandLink.cs" />
+    <Compile Include="Controls\CommandLinkIcon.cs" />
+    <Compile Include="Converters\CommandLinkIconToGridVisibilityValueConverter.cs" />
+    <Compile Include="Converters\CommandLinkIconToVisibilityValueConverter.cs" />
+    <Compile Include="Converters\FontSize75Converter.cs" />
+    <Compile Include="Converters\VisibilityMultiValueConverter.cs" />
+    <Compile Include="Properties\Resources.pl.Designer.cs">
+      <DependentUpon>Resources.pl.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialog\TaskDialog.cs" />
+    <Compile Include="TaskDialog\TaskDialogButton.cs" />
+    <Compile Include="TaskDialog\TaskDialogCommonButtons.cs" />
+    <Compile Include="TaskDialog\TaskDialogHelpers.cs" />
+    <Compile Include="TaskDialog\TaskDialogHyperlinkClickEventArgs.cs" />
+    <Compile Include="TaskDialog\TaskDialogIcon.cs" />
+    <Compile Include="TaskDialog\TaskDialogProgressBarState.cs" />
+    <Compile Include="TaskDialog\TaskDialogRadioButton.cs" />
+    <Compile Include="TaskDialog\TaskDialogResult.cs" />
+    <Compile Include="TaskDialog\TaskDialogSound.cs" />
+    <Compile Include="TaskDialog\TaskDialogTimerEventArgs.cs" />
+    <Compile Include="TaskDialog\TaskDialogWindow.xaml.cs">
+      <DependentUpon>TaskDialogWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Input\ApplicationExitCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,14 +152,72 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Themes\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Luminous\Luminous.csproj">
       <Project>{2B793A9A-8B34-4D81-9907-C18707ACA440}</Project>
       <Name>Luminous</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="TaskDialog\TaskDialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\CommandLink.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Resources\ArrowDisabled.png" />
+    <Resource Include="Themes\Resources\ArrowHovered.png" />
+    <Resource Include="Themes\Resources\ArrowNormal.png" />
+    <Resource Include="Themes\Resources\ShieldNormal.png" />
+    <Resource Include="Themes\Resources\ShieldDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TaskDialog\Resources\ChevronLess.png" />
+    <Resource Include="TaskDialog\Resources\ChevronLessHovered.png" />
+    <Resource Include="TaskDialog\Resources\ChevronLessPressed.png" />
+    <Resource Include="TaskDialog\Resources\ChevronMore.png" />
+    <Resource Include="TaskDialog\Resources\ChevronMoreHovered.png" />
+    <Resource Include="TaskDialog\Resources\ChevronMorePressed.png" />
+    <Resource Include="TaskDialog\Resources\Error.png" />
+    <Resource Include="TaskDialog\Resources\Information.png" />
+    <Resource Include="TaskDialog\Resources\Question.png" />
+    <Resource Include="TaskDialog\Resources\Security.png" />
+    <Resource Include="TaskDialog\Resources\SecurityError.png" />
+    <Resource Include="TaskDialog\Resources\SecurityQuestion.png" />
+    <Resource Include="TaskDialog\Resources\SecuritySuccess.png" />
+    <Resource Include="TaskDialog\Resources\SecurityWarning.png" />
+    <Resource Include="TaskDialog\Resources\SmallError.png" />
+    <Resource Include="TaskDialog\Resources\SmallInformation.png" />
+    <Resource Include="TaskDialog\Resources\SmallQuestion.png" />
+    <Resource Include="TaskDialog\Resources\SmallSecurity.png" />
+    <Resource Include="TaskDialog\Resources\SmallSecurityError.png" />
+    <Resource Include="TaskDialog\Resources\SmallSecurityQuestion.png" />
+    <Resource Include="TaskDialog\Resources\SmallSecuritySucess.png" />
+    <Resource Include="TaskDialog\Resources\SmallSecurityWarning.png" />
+    <Resource Include="TaskDialog\Resources\SmallWarning.png" />
+    <Resource Include="TaskDialog\Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.pl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.pl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Resources\ShieldHovered.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <CompileDependsOn>$(CompileDependsOn);CheckForCodeContracts</CompileDependsOn>

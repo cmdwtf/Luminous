@@ -16,26 +16,23 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows.Converters
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.InteropServices;
-    using System.Text;
+    using System.Globalization;
+    using System.Windows.Data;
 
-    internal static partial class Native
+    [ValueConversion(typeof(double), typeof(double))]
+    internal class FontSize75Converter : IValueConverter
     {
-        public static class Messages
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-            public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+            return System.Convert.ToDouble(value) * .75;
+        }
 
-            public enum ListView : uint
-            {
-                First = 0x1000,
-                SetExtendedListViewStyle = First + 54,
-            }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return System.Convert.ToDouble(value) / .75;
         }
     }
 }

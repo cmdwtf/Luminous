@@ -16,26 +16,33 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows.Converters
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Text;
+    using System.Windows;
+    using System.Windows.Data;
+    using Luminous.Windows.Controls;
 
-    internal static partial class Native
+    [ValueConversion(typeof(CommandLinkIcon), typeof(Visibility))]
+    internal class CommandLinkIconToGridVisibilityValueConverter : IValueConverter
     {
-        public static class Messages
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-            public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-            public enum ListView : uint
+            CommandLinkIcon icon = CommandLinkIcon.None;
+            if (value is CommandLinkIcon)
             {
-                First = 0x1000,
-                SetExtendedListViewStyle = First + 54,
+                icon = (CommandLinkIcon)value;
             }
+            return (icon != CommandLinkIcon.None) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Binding.DoNothing;
         }
     }
 }

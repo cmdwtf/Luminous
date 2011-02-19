@@ -16,26 +16,31 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Text;
 
-    internal static partial class Native
+    /// <summary>
+    /// Structure containing information used to display a radio button in a task dialog.
+    /// </summary>
+    public struct TaskDialogRadioButton
     {
-        public static class Messages
-        {
-            [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-            public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+        /// <summary>
+        /// Indicates the value to be returned when this radio button is selected.
+        /// </summary>
+        public TaskDialogResult Result { get; set; }
 
-            public enum ListView : uint
-            {
-                First = 0x1000,
-                SetExtendedListViewStyle = First + 54,
-            }
-        }
+        /// <summary>
+        /// Gets or sets the text shown on the radio button.
+        /// </summary>
+        public string Text { get; set; }
+
+        /// <summary>
+        /// Gets or sets an arbitrary object value that can be used to store custom information about this element.
+        /// </summary>
+        public object Tag { get; set; }
     }
 }

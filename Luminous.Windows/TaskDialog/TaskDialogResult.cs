@@ -16,57 +16,53 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
-    /// Types of animation of the pop-up window.
+    /// Specifies which task dialog button the user clicked.
     /// </summary>
-    [Flags]
-    public enum PopupAnimations
+    public enum TaskDialogResult
     {
         /// <summary>
-        /// Uses no animation.
+        /// The task dialog returns no result.
         /// </summary>
         None = 0,
         /// <summary>
-        /// Animates the window from left to right. This flag can be used with roll or slide animation.
+        /// The result value of the task dialog is OK.
         /// </summary>
-        LeftToRight = 0x00001,
+        OK = 1,
         /// <summary>
-        /// Animates the window from right to left. This flag can be used with roll or slide animation.
+        /// The result value of the task dialog is Yes.
         /// </summary>
-        RightToLeft = 0x00002,
+        Yes = 2,
         /// <summary>
-        /// Animates the window from top to bottom. This flag can be used with roll or slide animation.
+        /// The result value of the task dialog is No.
         /// </summary>
-        TopToBottom = 0x00004,
+        No = 3,
         /// <summary>
-        /// Animates the window from bottom to top. This flag can be used with roll or slide animation.
+        /// The result value of the task dialog is Abort.
         /// </summary>
-        BottomToTop = 0x00008,
+        Abort = 4,
         /// <summary>
-        /// Makes the window appear to collapse inward if it is hiding or expand outward if the window is showing.
+        /// The result value of the task dialog is Retry.
         /// </summary>
-        Center = 0x00010,
+        Retry = 5,
         /// <summary>
-        /// Uses a slide animation.
+        /// The result value of the task dialog is Ignore.
         /// </summary>
-        Slide = 0x40000,
+        Ignore = 6,
         /// <summary>
-        /// Uses a fade effect.
+        /// The result value of the task dialog is Cancel.
         /// </summary>
-        Blend = 0x80000,
+        Cancel = 7,
         /// <summary>
-        /// Uses a roll animation.
+        /// The result value of the task dialog is Close.
         /// </summary>
-        Roll = 0x100000,
-        /// <summary>
-        /// Uses a default animation.
-        /// </summary>
-        SystemDefault = 0x200000,
+        Close = 8,
     }
 }

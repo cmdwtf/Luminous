@@ -16,26 +16,36 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows.Converters
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Text;
+    using System.Windows;
+    using System.Windows.Data;
 
-    internal static partial class Native
+    [ValueConversion(typeof(Visibility), typeof(Visibility))]
+    internal class VisibilityMultiValueConverter : IMultiValueConverter
     {
-        public static class Messages
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-            public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-            public enum ListView : uint
+            Visibility v = Visibility.Collapsed;
+            if (values == null || values.Length == 0) return v;
+            foreach (object _v in values)
             {
-                First = 0x1000,
-                SetExtendedListViewStyle = First + 54,
+                if (_v is Visibility && (Visibility)_v == Visibility.Visible)
+                {
+                    v = Visibility.Visible;
+                }
             }
+            return v;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
         }
     }
 }

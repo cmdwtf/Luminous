@@ -16,26 +16,51 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows.Input
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Text;
+    using System.Windows;
+    using System.Windows.Input;
 
-    internal static partial class Native
+    public sealed class ApplicationExitCommand : ICommand
     {
-        public static class Messages
-        {
-            [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-            public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+        #region Static Members
 
-            public enum ListView : uint
+        public static ICommand Instance
+        {
+            get { return _instance; }
+        }
+
+        private static ICommand _instance = new ApplicationExitCommand();
+
+        #endregion
+
+        #region Instance Members
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public void Execute(object parameter)
+        {
+            int exitCode = parameter is int ? (int)parameter : 0;
+
+            if (Application.Current != null)
             {
-                First = 0x1000,
-                SetExtendedListViewStyle = First + 54,
+                Application.Current.Shutdown(exitCode);
+            }
+            else
+            {
+                Environment.Exit(exitCode);
             }
         }
+
+        #endregion
     }
 }

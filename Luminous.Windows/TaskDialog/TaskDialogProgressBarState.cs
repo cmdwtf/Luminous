@@ -16,26 +16,20 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Text;
 
-    internal static partial class Native
+    /// <summary>
+    /// Determines the current state of the progress bar.
+    /// </summary>
+    public enum TaskDialogProgressBarState
     {
-        public static class Messages
-        {
-            [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-            public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-            public enum ListView : uint
-            {
-                First = 0x1000,
-                SetExtendedListViewStyle = First + 54,
-            }
-        }
+        Normal = 0,
+        Pause = 1,
+        Error = 2,
     }
 }

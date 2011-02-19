@@ -16,30 +16,37 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Windows.Forms
+namespace Luminous.Windows.Converters
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
+    using System.Globalization;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Text;
+    using System.Windows;
+    using System.Windows.Data;
+    using Luminous.Windows.Controls;
 
-    internal static partial class Native
+    [ValueConversion(typeof(CommandLinkIcon), typeof(Visibility))]
+    internal class CommandLinkIconToVisibilityValueConverter : IValueConverter
     {
-        public static class ListView
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            public enum ExtendedStyle
+            CommandLinkIcon icon = CommandLinkIcon.None;
+            if (value is CommandLinkIcon)
             {
-                DoubleBuffer = 0x00010000,
+                icon = (CommandLinkIcon)value;
             }
-
-            public static void SetExtendedListViewStyle(System.Windows.Forms.ListView @this, ExtendedStyle style, bool enable = true)
+            if (icon == CommandLinkIcon.None)
             {
-                Contract.Requires<ArgumentNullException>(@this != null);
-
-                Messages.Send(new HandleRef(@this, @this.Handle), (uint)Messages.ListView.SetExtendedListViewStyle, new IntPtr((int)style), enable ? new IntPtr((int)style) : IntPtr.Zero);
+                return Visibility.Collapsed;
             }
+            return (icon == CommandLinkIcon.Arrow ^ System.Convert.ToBoolean(parameter)) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Binding.DoNothing;
         }
     }
 }

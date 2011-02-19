@@ -1,5 +1,5 @@
 #region License
-// Copyright © 2010 £ukasz Œwi¹tkowski.
+// Copyright © 2011 £ukasz Œwi¹tkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
