@@ -112,6 +112,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfo.Common.cs</LastGenOutput>
     </None>
+    <Compile Include="Media\SoundScheme.cs" />
+    <Compile Include="Media\SystemSound.cs" />
     <Compile Include="Properties\AssemblyInfo.Common.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

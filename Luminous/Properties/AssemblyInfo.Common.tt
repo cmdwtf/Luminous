@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyCompany("Łukasz Świątkowski")]
 [assembly: AssemblyProduct("Luminous")]
-[assembly: AssemblyCopyright("Copyright © 2010 Łukasz Świątkowski. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2011 Łukasz Świątkowski. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 
 // Version information for an assembly consists of the following four values:
