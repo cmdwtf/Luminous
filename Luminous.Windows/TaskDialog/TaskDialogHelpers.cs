@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ namespace Luminous.Windows
         #region " Close Button "
 
         [DllImport("user32.dll")]
-        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, [param: MarshalAs(UnmanagedType.Bool)] bool bRevert);
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
@@ -145,6 +145,76 @@ namespace Luminous.Windows
 
         #endregion
 
+        #region " Localization "
+
+        public static string ToLocalizedString(this TaskDialogResult @this)
+        {
+            switch (@this)
+            {
+                case TaskDialogResult.OK:
+                    return Properties.Resources.OKText;
+
+                case TaskDialogResult.Yes:
+                    return Properties.Resources.YesText;
+
+                case TaskDialogResult.No:
+                    return Properties.Resources.NoText;
+
+                case TaskDialogResult.Abort:
+                    return Properties.Resources.AbortText;
+
+                case TaskDialogResult.Retry:
+                    return Properties.Resources.RetryText;
+
+                case TaskDialogResult.Ignore:
+                    return Properties.Resources.IgnoreText;
+
+                case TaskDialogResult.Cancel:
+                    return Properties.Resources.CancelText;
+
+                case TaskDialogResult.Close:
+                    return Properties.Resources.CloseText;
+
+                default:
+                    return Properties.Resources.NoneText;
+            }
+        }
+
+        public static string ToLocalizedString(this TaskDialogCommonButtons @this)
+        {
+            switch (@this)
+            {
+                case TaskDialogCommonButtons.OK:
+                    return Properties.Resources.OKText;
+
+                case TaskDialogCommonButtons.Yes:
+                    return Properties.Resources.YesText;
+
+                case TaskDialogCommonButtons.No:
+                    return Properties.Resources.NoText;
+
+                case TaskDialogCommonButtons.Abort:
+                    return Properties.Resources.AbortText;
+
+                case TaskDialogCommonButtons.Retry:
+                    return Properties.Resources.RetryText;
+
+                case TaskDialogCommonButtons.Ignore:
+                    return Properties.Resources.IgnoreText;
+
+                case TaskDialogCommonButtons.Cancel:
+                    return Properties.Resources.CancelText;
+
+                case TaskDialogCommonButtons.Close:
+                    return Properties.Resources.CloseText;
+
+                default:
+                    return Properties.Resources.NoneText;
+            }
+        }
+
+        #endregion
+
         public static string ProductName
         {
             get
@@ -226,7 +296,7 @@ namespace Luminous.Windows
                     {
                         s += "   ";
                     }
-                    s += b.Result.ToString(); // TODO: localize
+                    s += b.Result.ToLocalizedString();
                 }
             }
             foreach (TaskDialogCommonButtons b in CommonButtonsOrder)
@@ -237,7 +307,7 @@ namespace Luminous.Windows
                     {
                         s += "   ";
                     }
-                    s += b.ToString(); // TODO: localize
+                    s += b.ToLocalizedString();
                 }
             }
             return s;
@@ -281,7 +351,7 @@ namespace Luminous.Windows
                     {
                         s += Environment.NewLine + Environment.NewLine;
                     }
-                    s += b.Result.ToString(); // TODO: localize
+                    s += b.Result.ToLocalizedString();
                 }
             }
             return s;
@@ -298,7 +368,7 @@ namespace Luminous.Windows
                     {
                         s += Environment.NewLine;
                     }
-                    s += " * " + b.Result.ToString(); // TODO: localize
+                    s += " * " + b.Result.ToLocalizedString();
                 }
             }
             return s;

@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -19,10 +19,7 @@
 namespace Luminous.Windows.Converters
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
-    using System.Text;
     using System.Windows;
     using System.Windows.Data;
     using Luminous.Windows.Controls;

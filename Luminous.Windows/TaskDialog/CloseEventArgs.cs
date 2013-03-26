@@ -22,27 +22,16 @@ namespace Luminous.Windows
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.ComponentModel;
 
-    /// <summary>
-    /// Provides data for a TaskDialog's Tick event.
-    /// </summary>
-    public class TaskDialogTimerEventArgs : EventArgs
+    public class CloseEventArgs : CancelEventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TaskDialogTimerEventArgs"/> class.
-        /// </summary>
-        public TaskDialogTimerEventArgs()
+        public CloseEventArgs(bool cancel, TaskDialogResult result)
+            : base(cancel)
         {
+            Result = result;
         }
 
-        /// <summary>
-        /// A time interval between now and time since the timer was started or resetted.
-        /// </summary>
-        public TimeSpan Interval { get; set; }
-
-        /// <summary>
-        /// A value indicating whether to reset the timer.
-        /// </summary>
-        public bool Reset { get; set; }
+        public TaskDialogResult Result { get; set; }
     }
 }

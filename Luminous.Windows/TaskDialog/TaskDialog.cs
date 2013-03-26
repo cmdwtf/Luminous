@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ namespace Luminous.Windows
     {
         #region " MessageBox "
 
-        private const Window Null = null;
+        internal const Window Null = null;
 
         /// <summary>
         /// Displays a task dialog with specified text.
@@ -233,6 +233,12 @@ namespace Luminous.Windows
         public TaskDialog()
         {
             _TaskDialogWindow = new TaskDialogWindow(this, true);
+            try
+            {
+                _TaskDialogWindow.Owner = TaskDialog.Null;
+            }
+            catch { }
+            _TaskDialogWindow.WindowTitle = TaskDialogHelpers.ProductName;
         }
 
         #endregion
@@ -333,6 +339,11 @@ namespace Luminous.Windows
             {
                 _TaskDialogWindow.ContentText = value;
             }
+        }
+
+        public Grid GetCustomContentPanel()
+        {
+            return _TaskDialogWindow.PanelCustomContent;
         }
 
         public TaskDialogCommonButtons CommonButtons
@@ -686,6 +697,18 @@ namespace Luminous.Windows
         #endregion
 
         #region " Events "
+
+        public event EventHandler<CloseEventArgs> CanClose
+        {
+            add
+            {
+                _TaskDialogWindow.CanClose += value;
+            }
+            remove
+            {
+                _TaskDialogWindow.CanClose -= value;
+            }
+        }
 
         public event EventHandler<TaskDialogTimerEventArgs> Tick
         {

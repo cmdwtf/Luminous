@@ -1,5 +1,5 @@
 ﻿<!-- License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@
             <Setter Property="LineHeight" Value="{Binding Path=FontSize}" />
             <Setter Property="Foreground" Value="#000000" />
         </Style>
-        <Style TargetType="{x:Type Hyperlink}">
+        <Style TargetType="{x:Type Hyperlink}" BasedOn="{StaticResource {x:Type Hyperlink}}">
             <Setter Property="Foreground" Value="#0066CC" />
             <Setter Property="TextDecorations" Value="{x:Null}" />
             <Style.Triggers>
@@ -159,7 +159,7 @@
         <!-- Radio buttons -->
         <StackPanel Name="PanelRadioButtons" Grid.Column="1" Grid.Row="4" Margin="9,0,9,2" Visibility="Collapsed">
             <StackPanel.Resources>
-                <Style TargetType="{x:Type RadioButton}">
+                <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
                     <Setter Property="Margin" Value="9,0,9,7" />
                     <Setter Property="HorizontalAlignment" Value="Left" />
                 </Style>
@@ -173,15 +173,16 @@
         <StackPanel Name="PanelCommandLinks" Grid.Column="1" Grid.Row="6" Margin="9,6,9,9" Visibility="Collapsed" />
 
         <!-- Buttons -->
-        <StackPanel Name="PanelButtons" Grid.Row="7" Grid.ColumnSpan="2" Margin="0,6,0,0"  Background="#F0F0F0">
+        <StackPanel Name="PanelButtons" Grid.Row="7" Grid.ColumnSpan="2" Margin="0,6,0,0"  Background="#F0F0F0"
+                    Validation.ErrorTemplate="{x:Null}">
             <StackPanel.Visibility>
-                <MultiBinding Mode="OneWay">
+                <MultiBinding Mode="OneWayToSource">
                     <MultiBinding.Converter>
                         <conv:VisibilityMultiValueConverter/>
                     </MultiBinding.Converter>
-                    <Binding ElementName="Expander" Path="Visibility" />
-                    <Binding ElementName="CheckBoxVerification" Path="Visibility" />
-                    <Binding ElementName="PanelRightButtons" Path="Visibility" />
+                    <Binding Path="Expander.Visibility" />
+                    <Binding Path="CheckBoxVerification.Visibility" />
+                    <Binding Path="PanelRightButtons.Visibility" />
                 </MultiBinding>
             </StackPanel.Visibility>
             <Border Background="#F0F0F0" BorderThickness="0,1,0,0" BorderBrush="#DFDFDF" />
@@ -206,7 +207,7 @@
                 <CheckBox x:Name="CheckBoxVerification" Grid.Row="1" Margin="14,9,9,0" Padding="7,0,0,0" HorizontalAlignment="Left" Visibility="Collapsed" />
                 <WrapPanel x:Name="PanelRightButtons" Grid.Column="1" Grid.RowSpan="2" Margin="0,3,9,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Visibility="Collapsed">
                     <WrapPanel.Resources>
-                        <Style TargetType="{x:Type Button}">
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                             <!--Setter Property="MinWidth">
                                 <Setter.Value>
                                     <MultiBinding>

@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -86,6 +86,7 @@ namespace Luminous.Windows
             {
                 if (Owner != value)
                 {
+                    if (value == null) value = TaskDialog.Null;
                     base.Owner = value;
                     UpdateStartupLocation();
                     ShowInTaskbar = value == null;
@@ -103,6 +104,10 @@ namespace Luminous.Windows
             {
                 if (WindowTitle != value)
                 {
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        value = TaskDialogHelpers.ProductName;
+                    }
                     this.Title = value;
                 }
             }
@@ -125,6 +130,7 @@ namespace Luminous.Windows
                     switch (value)
                     {
                         case TaskDialogIcon.Information:
+                            //ImageMainIcon.Source = new BitmapImage(new Uri("pack://application:,,,/TaskDialog/Resources/Information.png"));
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Information.png", UriKind.Relative));
                             _Sound = TaskDialogSound.Information;
                             break;
@@ -798,6 +804,7 @@ namespace Luminous.Windows
 
         #region " Events "
 
+        public event EventHandler<CloseEventArgs> CanClose;
         public event EventHandler<TaskDialogTimerEventArgs> Tick;
         public event EventHandler<TaskDialogHyperlinkClickEventArgs> HyperlinkClick;
 
@@ -850,7 +857,6 @@ namespace Luminous.Windows
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            DeleteTimer();
             if (Tag == null)
             {
                 if (_IsOnlyOK == true)
@@ -862,6 +868,18 @@ namespace Luminous.Windows
                     Tag = TaskDialogResult.Cancel;
                 }
             }
+            if (CanClose != null)
+            {
+                CloseEventArgs cea;
+                CanClose(this, cea = new CloseEventArgs(e.Cancel, (TaskDialogResult)Tag));
+                if (cea.Cancel)
+                {
+                    e.Cancel = true;
+                    base.OnClosing(e);
+                    return;
+                }
+            }
+            DeleteTimer();
             base.OnClosing(e);
         }
 
@@ -1191,12 +1209,12 @@ namespace Luminous.Windows
                     Button btn = UseCommandLinks ? (Button)(cl = new CommandLink()) : new Button();
                     if (string.IsNullOrEmpty(b.Text))
                     {
-                        btn.Content = b.Result.ToString(); // TODO: Localize
+                        btn.Content = b.Result.ToLocalizedString();
                     }
                     else if (UseCommandLinks)
                     {
                         cl.Content = b.Text;
-                        cl.Note = b.Note;
+                        cl.Note = string.IsNullOrEmpty(b.Note) ? (object)b.Note : new TextBlock(new Run(b.Note)) { TextWrapping = TextWrapping.Wrap, MaxWidth = 800 };
                         cl.Icon = b.IsElevationRequired ? CommandLinkIcon.Shield : (UseCommandLinksNoIcon ? CommandLinkIcon.None : CommandLinkIcon.Arrow);
                     }
                     else
@@ -1234,7 +1252,7 @@ namespace Luminous.Windows
                     {
                         PanelRightButtons.Visibility = Visibility.Visible;
                         Button btn = new Button();
-                        btn.Content = cb.ToString(); // TODO: LOCALIZE
+                        btn.Content = cb.ToLocalizedString();
                         btn.Click += Button_Click;
                         btn.Tag = cb;
                         if (cb == TaskDialogCommonButtons.Cancel)
@@ -1322,7 +1340,7 @@ namespace Luminous.Windows
                 foreach (TaskDialogRadioButton rb in RadioButtons)
                 {
                     RadioButton rbtn = new RadioButton() { Visibility = Visibility.Visible };
-                    rbtn.Content = new TextBlock { Text = rb.Text ?? rb.Result.ToString(), TextWrapping = TextWrapping.Wrap }; // TODO: Localize
+                    rbtn.Content = new TextBlock { Text = rb.Text ?? rb.Result.ToLocalizedString(), TextWrapping = TextWrapping.Wrap };
                     rbtn.Click += RadioButton_Click;
                     rbtn.Tag = rb;
                     PanelRadioButtons.Children.Add(rbtn);

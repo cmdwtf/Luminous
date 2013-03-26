@@ -1,5 +1,5 @@
 ﻿<!-- License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -311,7 +311,7 @@
                                     <ContentPresenter RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                       Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" />
                                 </Label>
-                                <Label TextBlock.LineHeight="{Binding FontSize}" Style="{x:Null}" Foreground="{TemplateBinding Foreground}" Background="Transparent" Padding="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Top">
+                                <Label TextBlock.LineHeight="{TemplateBinding FontSize}" Style="{x:Null}" Foreground="{TemplateBinding Foreground}" Background="Transparent" Padding="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Top">
                                     <Label.FontSize>
                                         <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="FontSize">
                                             <Binding.Converter>
