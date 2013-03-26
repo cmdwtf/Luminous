@@ -16,10 +16,8 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous
+namespace System
 {
-    using System;
-
     public class EventArgs<T> : EventArgs
     {
         public EventArgs(T data)

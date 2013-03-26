@@ -16,9 +16,8 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous
+namespace System
 {
-    using System;
     using System.Reflection;
     using System.Linq.Expressions;
 
