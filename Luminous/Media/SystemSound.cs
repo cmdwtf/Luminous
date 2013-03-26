@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ namespace Luminous.Media
         {
             try
             {
-                string soundPath = Registry.GetValue(@"HKEY_CURRENT_USER\AppEvents\Schemes\Apps\.Default\" + _name + @"\.Current", null, null) as string;
+                string soundPath = Registry.GetValue(@"HKEY_CURRENT_USER\AppEvents\Schemes\Apps\.Default\" + _name + @"\.Current", null, null) as string ?? string.Empty;
                 if (!File.Exists(soundPath) && File.Exists(Path.Combine(_mediaPath, soundPath)))
                 {
                     soundPath = Path.Combine(_mediaPath, soundPath);

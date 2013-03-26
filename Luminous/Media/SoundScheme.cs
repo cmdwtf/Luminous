@@ -1,5 +1,5 @@
 #region License
-// Copyright © 2011 £ukasz Œwi¹tkowski
+// Copyright © 2013 £ukasz Œwi¹tkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -263,7 +263,7 @@ namespace Luminous.Media
             get { return _windowsLogon; }
         }
 
-        private static SystemSound _windowsUAC = new SystemSound("WindowsUAC");
+        private static SystemSound _windowsUAC = new SystemSound(Environment.OSVersion.Version.Major >= 6 ? "WindowsUAC" : "SystemHand");
         /// <summary>Gets the sound associated with the WindowsUAC program event in the current Windows sound scheme.</summary>
         /// <returns>A <see cref="T:SystemSound" />.</returns>
         public static SystemSound WindowsUAC

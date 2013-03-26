@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyCompany("Łukasz Świątkowski")]
 [assembly: AssemblyProduct("Luminous")]
-[assembly: AssemblyCopyright("Copyright © 2011 Łukasz Świątkowski. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2013 Łukasz Świątkowski. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 
 // Version information for an assembly consists of the following four values:
@@ -20,5 +20,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.10083")]
-[assembly: AssemblyFileVersion("1.0.0.10083")]
+[assembly: AssemblyVersion("1.0.1.3122")]
+[assembly: AssemblyFileVersion("1.0.1.3122")]

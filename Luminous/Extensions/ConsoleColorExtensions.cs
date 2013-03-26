@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Extensions
+namespace System
 {
     using System;
     using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace Luminous.Extensions
         /// </code></example>
         public static IDisposable AsForeground(this ConsoleColor foregroundColor)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(ConsoleColor), foregroundColor));
+            //Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(ConsoleColor), foregroundColor));
 
             return new ConsoleColorizer(foregroundColor, true);
         }
@@ -55,7 +55,7 @@ namespace Luminous.Extensions
         /// <example>See <see cref="M:ConsoleColorExtensions.AsForeground" /> for example.</example>
         public static IDisposable AsBackground(this ConsoleColor backgroundColor)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(ConsoleColor), backgroundColor));
+            //Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(ConsoleColor), backgroundColor));
 
             return new ConsoleColorizer(backgroundColor, false);
         }

@@ -16,36 +16,21 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace System
+namespace Luminous.ExpressionParser
 {
     using System;
-    using System.Diagnostics.Contracts;
+    using System.Diagnostics;
 
-    /// <summary>Extension methods for the Type class.</summary>
-    public static class TypeExtensions
+    [DebuggerDisplay("{Name}({ParametersCount})")]
+    public abstract class StatementBase : IStatement
     {
-        public static string GetFullName(this Type @this)
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public decimal Invoke(params decimal[] parameters)
         {
-            Contract.Requires<ArgumentNullException>(@this != null);
-
-            if (!@this.IsGenericType) return @this.FullName;
-
-            string name = @this.FullName;
-            if (name.IndexOf('`') >= 0)
-            {
-                name = name.Substring(0, name.IndexOf('`'));
-            }
-
-            name += '<';
-            Type[] types = @this.GetGenericArguments();
-            for (int i = 0; i < types.Length; i++)
-            {
-                if (i > 0) name += ", ";
-                name += types[i].GetFullName();
-            }
-            name += '>';
-
-            return name;
+            throw new NotImplementedException();
         }
+        public abstract decimal Invoke(params IEvaluableElement[] parameters);
+        public virtual int ParametersCount { get { return 1; } }
+        public abstract string Name { get; }
     }
 }

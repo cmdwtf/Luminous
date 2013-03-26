@@ -16,36 +16,25 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace System
+namespace Luminous.ExpressionParser
 {
     using System;
-    using System.Diagnostics.Contracts;
+    using System.Collections.Generic;
+    using System.Diagnostics;
 
-    /// <summary>Extension methods for the Type class.</summary>
-    public static class TypeExtensions
+    [DebuggerDisplay("M{Name}<{Elements.Count}>")]
+    internal sealed class MultipleElements : IExpressionElement
     {
-        public static string GetFullName(this Type @this)
+        public MultipleElements(IEnumerable<IExpressionElement> elements)
         {
-            Contract.Requires<ArgumentNullException>(@this != null);
+            this.Elements.AddRange(elements);
+        }
 
-            if (!@this.IsGenericType) return @this.FullName;
+        public readonly List<IExpressionElement> Elements = new List<IExpressionElement>();
 
-            string name = @this.FullName;
-            if (name.IndexOf('`') >= 0)
-            {
-                name = name.Substring(0, name.IndexOf('`'));
-            }
-
-            name += '<';
-            Type[] types = @this.GetGenericArguments();
-            for (int i = 0; i < types.Length; i++)
-            {
-                if (i > 0) name += ", ";
-                name += types[i].GetFullName();
-            }
-            name += '>';
-
-            return name;
+        public string Name
+        {
+            get { return Elements.Count == 0 ? "?" : Elements[0].Name; }
         }
     }
 }

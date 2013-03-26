@@ -16,36 +16,20 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace System
+namespace Luminous.ExpressionParser
 {
     using System;
-    using System.Diagnostics.Contracts;
+    using System.ComponentModel;
 
-    /// <summary>Extension methods for the Type class.</summary>
-    public static class TypeExtensions
+    public class UndefinedVariableFoundEventArgs : HandledEventArgs
     {
-        public static string GetFullName(this Type @this)
+        public UndefinedVariableFoundEventArgs(string name)
+            : base(false)
         {
-            Contract.Requires<ArgumentNullException>(@this != null);
-
-            if (!@this.IsGenericType) return @this.FullName;
-
-            string name = @this.FullName;
-            if (name.IndexOf('`') >= 0)
-            {
-                name = name.Substring(0, name.IndexOf('`'));
-            }
-
-            name += '<';
-            Type[] types = @this.GetGenericArguments();
-            for (int i = 0; i < types.Length; i++)
-            {
-                if (i > 0) name += ", ";
-                name += types[i].GetFullName();
-            }
-            name += '>';
-
-            return name;
+            this.Name = name;
         }
+
+        public string Name { get; private set; }
+        public IVariable HandledVariable { get; set; }
     }
 }

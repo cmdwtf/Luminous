@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ namespace Luminous.Collections
     using System.Linq;
     using System.Text;
 
-    public class DictionaryList<T> : System.Collections.Generic.IList<T>
+    public class DictionaryList<T> : IList<T>
     {
         private Dictionary<int, T> _keyIsIndex;
         private Dictionary<T, int> _keyIsObject;

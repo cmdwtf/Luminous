@@ -50,6 +50,9 @@
     <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -84,7 +87,7 @@
     <DocumentationFile>bin\Release\Luminous.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\..\key\Luminous.snk</AssemblyOriginatorKeyFile>
@@ -100,26 +103,134 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\DictionaryList.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\ConsoleColorExtensions.cs" />
-    <Compile Include="Extensions\FileInfoExtensions.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Extensions\StreamExtensions.cs" />
+    <Compile Include="Collections\Matrix.cs" />
+    <Compile Include="ComponentModel\NotifyingObject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ComponentModel\PropertyChangedHandlerAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ComponentModel\NotificationDispatcher.cs" />
+    <Compile Include="ComponentModel\PropertyChangingHandlerAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Either.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExpressionParser\AstNode.cs" />
+    <Compile Include="ExpressionParser\BinaryOperator.cs" />
+    <Compile Include="ExpressionParser\Constant.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExpressionParser\EvaluateUndefinedFunction.cs" />
+    <Compile Include="ExpressionParser\EvaluateUndefinedVariable.cs" />
+    <Compile Include="ExpressionParser\ExpressionElements.cs" />
+    <Compile Include="ExpressionParser\ExpressionValidator.cs" />
+    <Compile Include="ExpressionParser\Function.cs" />
+    <Compile Include="ExpressionParser\FunctionBase.cs" />
+    <Compile Include="ExpressionParser\Functions.cs" />
+    <Compile Include="ExpressionParser\IAstTreeNode.cs" />
+    <Compile Include="ExpressionParser\IBinaryOperator.cs" />
+    <Compile Include="ExpressionParser\IConstant.cs" />
+    <Compile Include="ExpressionParser\IEvaluableElement.cs" />
+    <Compile Include="ExpressionParser\IExpressionElement.cs" />
+    <Compile Include="ExpressionParser\IFunction.cs" />
+    <Compile Include="ExpressionParser\ILiteral.cs" />
+    <Compile Include="ExpressionParser\IOperator.cs" />
+    <Compile Include="ExpressionParser\IStatement.cs" />
+    <Compile Include="ExpressionParser\IUnaryOperator.cs" />
+    <Compile Include="ExpressionParser\IVariable.cs" />
+    <Compile Include="ExpressionParser\Literal.cs" />
+    <Compile Include="ExpressionParser\MultipleElements.cs" />
+    <Compile Include="ExpressionParser\NumericExpression.cs" />
+    <Compile Include="ExpressionParser\OperatorAssociativity.cs" />
+    <Compile Include="ExpressionParser\Operators.cs" />
+    <Compile Include="ExpressionParser\ParsedExpression.cs" />
+    <Compile Include="ExpressionParser\StatementBase.cs" />
+    <Compile Include="ExpressionParser\Statements.cs" />
+    <Compile Include="ExpressionParser\Symbol.cs" />
+    <Compile Include="ExpressionParser\UnaryOperator.cs" />
+    <Compile Include="ExpressionParser\UndefinedFunctionFoundEventArgs.cs" />
+    <Compile Include="ExpressionParser\UndefinedVariableFoundEventArgs.cs" />
+    <Compile Include="ExpressionParser\UnknownFunction.cs" />
+    <Compile Include="ExpressionParser\UnknownVariable.cs" />
+    <Compile Include="ExpressionParser\Variable.cs" />
+    <Compile Include="ExpressionParser\VariableChecking.cs" />
+    <Compile Include="ExpressionParser\VariableReference.cs" />
+    <Compile Include="Extensions\ConsoleColorExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\DictionaryExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\EnumExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\FileInfoExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\StreamExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Media\SoundScheme.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Media\SystemSound.cs" />
+    <Compile Include="Serializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Text.RegularExpressions\TimeoutRegex.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Threading\TimeoutTask.cs" />
+    <Compile Include="Traversing\ITraverser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Traversing\TraverseNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Traversing\Traverser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Traversing\TraverserNotImplementedException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Type.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml.Linq\XClassAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml.Linq\XCssDeclaration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml.Linq\XCssRule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml.Linq\XCssRules.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml.Linq\XInlineStyle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml.Serialization\XmlSerializer2.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <None Include="Properties\AssemblyInfo.Common.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfo.Common.cs</LastGenOutput>
     </None>
-    <Compile Include="Media\SoundScheme.cs" />
-    <Compile Include="Media\SystemSound.cs" />
     <Compile Include="Properties\AssemblyInfo.Common.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyInfo.Common.tt</DependentUpon>
     </Compile>
-    <Compile Include="Serializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

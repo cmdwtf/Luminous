@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -19,12 +19,9 @@
 namespace Luminous
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.IO;
-    using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using System.Text;
 
     /// <summary>
     /// Provides methods for object serialization/deserialization.
@@ -62,7 +59,9 @@ namespace Luminous
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(ms, obj);
-                return ms.ToArray();
+                byte[] bytes = ms.ToArray();
+                Contract.Assume(bytes.Length > 0);
+                return bytes;
             }
         }
 
@@ -75,6 +74,5 @@ namespace Luminous
 
             return Deserialize<T>(Serialize<T>(obj));
         }
-
     }
 }

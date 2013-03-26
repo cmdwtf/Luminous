@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -16,55 +16,34 @@
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Luminous.Extensions
+namespace System.IO
 {
     using System;
-    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Threading;
 
     /// <summary>Extension methods for the FileInfo class.</summary>
-    public static class FileInfoExtensions //?
+    public static class FileInfoExtensions
     {
-        public static FileStream TryOpenFile(string path, FileAccess access, FileShare share)
+        public static FileStream TryOpen(this FileInfo fileInfo, FileAccess access = FileAccess.ReadWrite, FileShare share = FileShare.None)
         {
-            try
-            {
-                if (!File.Exists(path)) return null;
-                return File.Open(path, FileMode.Open, access, share);
-            }
-            catch (IOException) { return null; }
-            catch (UnauthorizedAccessException) { return null; }
+            Contract.Requires<ArgumentNullException>(fileInfo != null);
+
+            return fileInfo.Open(FileMode.Open, access, share);
         }
 
-        public static FileStream WaitAndOpenFile(string path, FileAccess access, FileShare share, TimeSpan timeout)
+        public static FileStream WaitAndOpen(this FileInfo fileInfo, TimeSpan timeout, FileAccess access = FileAccess.ReadWrite, FileShare share = FileShare.None)
         {
+            Contract.Requires<ArgumentNullException>(fileInfo != null);
+
             DateTime dt = DateTime.UtcNow;
             FileStream fs = null;
-            while ((fs = TryOpenFile(path, access, share)) == null && (DateTime.UtcNow - dt) < timeout)
+            while ((fs = TryOpen(fileInfo, access, share)) == null && (DateTime.UtcNow - dt) < timeout)
             {
                 Thread.Sleep(250); // who knows better way and wants a free cookie? ;)
             }
             return fs;
         }
-
-        #region " Other Methods"
-        public static FileStream TryOpenFileForReading(this FileInfo fileInfo) { return TryOpenFileForReading(fileInfo.FullName); }
-        public static FileStream TryOpenFileForReading(string path) { return TryOpenFile(path, FileAccess.Read); }
-        public static FileStream TryOpenFileForWriting(this FileInfo fileInfo) { return TryOpenFileForWriting(fileInfo.FullName); }
-        public static FileStream TryOpenFileForWriting(string path) { return TryOpenFile(path, FileAccess.ReadWrite); }
-        public static FileStream TryOpenFile(this FileInfo fileInfo, FileAccess access) { return TryOpenFile(fileInfo.FullName, access); }
-        public static FileStream TryOpenFile(string path, FileAccess access) { return TryOpenFile(path, access, FileShare.None); }
-        public static FileStream TryOpenFile(this FileInfo fileInfo, FileAccess access, FileShare share) { return TryOpenFile(fileInfo.FullName, access, share); }
-        public static FileStream WaitAndOpenFileForReading(this FileInfo fileInfo, TimeSpan timeout) { return WaitAndOpenFileForReading(fileInfo.FullName, timeout); }
-        public static FileStream WaitAndOpenFileForReading(string path, TimeSpan timeout) { return WaitAndOpenFile(path, FileAccess.Read, timeout); }
-        public static FileStream WaitAndOpenFileForWriting(this FileInfo fileInfo, TimeSpan timeout) { return WaitAndOpenFileForWriting(fileInfo.FullName, timeout); }
-        public static FileStream WaitAndOpenFileForWriting(string path, TimeSpan timeout) { return WaitAndOpenFile(path, FileAccess.ReadWrite, timeout); }
-        public static FileStream WaitAndOpenFile(this FileInfo fileInfo, FileAccess access, TimeSpan timeout) { return WaitAndOpenFile(fileInfo.FullName, access, timeout); }
-        public static FileStream WaitAndOpenFile(string path, FileAccess access, TimeSpan timeout) { return WaitAndOpenFile(path, access, FileShare.None, timeout); }
-        public static FileStream WaitAndOpenFile(this FileInfo fileInfo, FileAccess access, FileShare share, TimeSpan timeout) { return WaitAndOpenFile(fileInfo.FullName, access, share, timeout); }
-        #endregion
     }
 }
