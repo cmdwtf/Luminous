@@ -50,6 +50,19 @@
     <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSQLServerOption />
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -84,7 +97,7 @@
     <DocumentationFile>bin\Release\Luminous.Windows.Forms.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\..\key\Luminous.snk</AssemblyOriginatorKeyFile>
@@ -104,6 +117,10 @@
     <Compile Include="..\Luminous\Properties\AssemblyInfo.Common.cs">
       <Link>Properties\AssemblyInfo.Common.cs</Link>
     </Compile>
+    <Compile Include="Drawing\ControlPaint.cs" />
+    <Compile Include="Drawing\ImageStrip.cs" />
+    <Compile Include="Drawing\ImageStripOrientation.cs" />
+    <Compile Include="Extensions\IComponentExtensions.cs" />
     <Compile Include="Native.Messages.cs" />
     <Compile Include="Extensions\ListViewExtensions.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />
@@ -130,6 +147,52 @@
       <DependentUpon>PopupComboBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialog\BackgroundForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskDialog\Button.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TaskDialog\Button.Designer.cs">
+      <DependentUpon>Button.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialog\ChevronButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TaskDialog\ChevronButton.Designer.cs">
+      <DependentUpon>ChevronButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialog\CommandLink.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TaskDialog\CommandLink.Designer.cs">
+      <DependentUpon>CommandLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialog\TaskDialogHelpers.cs" />
+    <Compile Include="TaskDialog\Label.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TaskDialog\Label.Designer.cs">
+      <DependentUpon>Label.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialog\Native.cs" />
+    <Compile Include="TaskDialog\TaskDialog.cs" />
+    <Compile Include="TaskDialog\TaskDialogButton.cs" />
+    <Compile Include="TaskDialog\TaskDialogDefaultButton.cs" />
+    <Compile Include="TaskDialog\TaskDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskDialog\TaskDialogForm.Designer.cs">
+      <DependentUpon>TaskDialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskDialog\TaskDialogIcon.cs" />
+    <Compile Include="TaskDialog\TaskDialogLockSystemParameters.cs" />
+    <Compile Include="TaskDialog\TaskDialogResult.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +205,60 @@
       <Project>{2B793A9A-8B34-4D81-9907-C18707ACA440}</Project>
       <Name>Luminous</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.pl.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskDialog\ChevronButton.resx">
+      <DependentUpon>ChevronButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskDialog\CommandLink.resx">
+      <DependentUpon>CommandLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskDialog\TaskDialogForm.resx">
+      <DependentUpon>TaskDialogForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ArrowDisabled.png" />
+    <Content Include="Resources\ArrowHovered.png" />
+    <Content Include="Resources\ArrowNormal.png" />
+    <Content Include="Resources\BigError.png" />
+    <Content Include="Resources\BigInformation.png" />
+    <Content Include="Resources\BigQuestion.png" />
+    <Content Include="Resources\BigSecurity.png" />
+    <Content Include="Resources\BigSecurityError.png" />
+    <Content Include="Resources\BigSecurityQuestion.png" />
+    <Content Include="Resources\BigSecuritySuccess.png" />
+    <Content Include="Resources\BigSecurityWarning.png" />
+    <Content Include="Resources\BigWarning.png" />
+    <Content Include="Resources\ChevronLess.png" />
+    <Content Include="Resources\ChevronLessHovered.png" />
+    <Content Include="Resources\ChevronLessPressed.png" />
+    <Content Include="Resources\ChevronMore.png" />
+    <Content Include="Resources\ChevronMoreHovered.png" />
+    <Content Include="Resources\ChevronMorePressed.png" />
+    <Content Include="Resources\Error.png" />
+    <Content Include="Resources\Information.png" />
+    <Content Include="Resources\Question.png" />
+    <Content Include="Resources\Security.png" />
+    <Content Include="Resources\SecurityError.png" />
+    <Content Include="Resources\SecurityQuestion.png" />
+    <Content Include="Resources\SecuritySuccess.png" />
+    <Content Include="Resources\SecurityWarning.png" />
+    <Content Include="Resources\SmallError.png" />
+    <Content Include="Resources\SmallInformation.png" />
+    <Content Include="Resources\SmallQuestion.png" />
+    <Content Include="Resources\SmallSecurity.png" />
+    <Content Include="Resources\SmallSecurityError.png" />
+    <Content Include="Resources\SmallSecurityQuestion.png" />
+    <Content Include="Resources\SmallSecuritySucess.png" />
+    <Content Include="Resources\SmallSecurityWarning.png" />
+    <Content Include="Resources\SmallWarning.png" />
+    <Content Include="Resources\Warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -263,12 +263,46 @@ namespace Luminous.Media
             get { return _windowsLogon; }
         }
 
-        private static SystemSound _windowsUAC = new SystemSound(Environment.OSVersion.Version.Major >= 6 ? "WindowsUAC" : "SystemHand");
+        private static SystemSound _windowsUAC = new SystemSound("WindowsUAC");
         /// <summary>Gets the sound associated with the WindowsUAC program event in the current Windows sound scheme.</summary>
         /// <returns>A <see cref="T:SystemSound" />.</returns>
         public static SystemSound WindowsUAC
         {
             get { return _windowsUAC; }
         }
+
+        #region Common Sounds
+
+        public static SystemSound Error
+        {
+            get { return SystemHand; }
+        }
+
+        public static SystemSound Information
+        {
+            get { return SystemAsterisk; }
+        }
+
+        public static SystemSound Question
+        {
+            get { return SystemQuestion; }
+        }
+
+        public static SystemSound Security
+        {
+            get
+            {
+                return Environment.OSVersion.Version.Major >= 6
+                       ? WindowsUAC
+                       : SystemHand;
+            }
+        }
+
+        public static SystemSound Warning
+        {
+            get { return SystemExclamation; }
+        }
+
+        #endregion
     }
 }

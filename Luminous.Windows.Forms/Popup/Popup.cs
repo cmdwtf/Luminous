@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ namespace Luminous.Windows.Forms
     [ToolboxItem(false)]
     public partial class Popup : ToolStripDropDown
     {
-        #region " Fields & Properties "
+        #region Fields & Properties
 
         /// <summary>
         /// Gets the content of the pop-up.
@@ -141,7 +141,7 @@ namespace Luminous.Windows.Forms
 
         #endregion
 
-        #region " Constructors "
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PopupControl.Popup"/> class.
@@ -189,7 +189,7 @@ namespace Luminous.Windows.Forms
 
         #endregion
 
-        #region " Methods "
+        #region Methods
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
@@ -495,7 +495,7 @@ namespace Luminous.Windows.Forms
 
         #endregion
 
-        #region " Resizing Support "
+        #region Resizing Support
 
         /// <summary>
         /// Processes Windows messages.

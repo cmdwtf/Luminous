@@ -109,6 +109,9 @@
     </Window.Resources>
 
     <Grid>
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="CustomScale" />
+        </Grid.LayoutTransform>
         <Grid.RowDefinitions>
             <!-- Main instruction -->
             <RowDefinition Height="Auto" />

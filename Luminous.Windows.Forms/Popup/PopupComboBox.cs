@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2011 Łukasz Świątkowski
+// Copyright © 2013 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -168,7 +168,7 @@ namespace Luminous.Windows.Forms
             base.WndProc(ref m);
         }
 
-        #region " Unused Properties "
+        #region Unused Properties
 
         /// <summary>This property is not relevant for this class.</summary>
         /// <returns>This property is not relevant for this class.</returns>

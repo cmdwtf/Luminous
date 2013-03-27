@@ -149,7 +149,6 @@
     <Compile Include="TaskDialog\TaskDialogProgressBarState.cs" />
     <Compile Include="TaskDialog\TaskDialogRadioButton.cs" />
     <Compile Include="TaskDialog\TaskDialogResult.cs" />
-    <Compile Include="TaskDialog\TaskDialogSound.cs" />
     <Compile Include="TaskDialog\TaskDialogTimerEventArgs.cs" />
     <Compile Include="TaskDialog\TaskDialogWindow.xaml.cs">
       <DependentUpon>TaskDialogWindow.xaml</DependentUpon>

@@ -135,7 +135,9 @@ namespace Luminous.Windows
 
         public static void RemoveWindowIcon(Window window)
         {
-            IntPtr hwnd = (PresentationSource.FromVisual(window) as HwndSource).Handle;
+            var hwndSource = PresentationSource.FromVisual(window) as HwndSource;
+            if (hwndSource == null) return;
+            IntPtr hwnd = hwndSource.Handle;
             int extendedStyle = (int)GetWindowLong(hwnd, GWL_EXSTYLE);
             SetWindowLong(hwnd, GWL_EXSTYLE, new IntPtr(extendedStyle | WS_EX_DLGMODALFRAME));
             SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);

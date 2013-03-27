@@ -259,6 +259,8 @@ namespace Luminous.Windows
 
         #region " Properties "
 
+        public static float CustomScale { get; set; }
+
         private TaskDialogWindow _TaskDialogWindow;
 
         /// <summary>

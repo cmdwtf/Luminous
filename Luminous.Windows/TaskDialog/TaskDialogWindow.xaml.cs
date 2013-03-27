@@ -51,6 +51,7 @@ namespace Luminous.Windows
             : this()
         {
             this._TaskDialog = taskDialog;
+            this.CustomScale.ScaleX = this.CustomScale.ScaleY = TaskDialog.CustomScale;
 
             if (TaskDialogHelpers.IsSegoeUIInstalled)
             {
@@ -58,7 +59,7 @@ namespace Luminous.Windows
                 this.FontSize = 12;
             }
 
-            _Sound = TaskDialogSound.Default;
+            _Sound = SoundScheme.Default;
             ImageMainIcon.Visibility = Visibility.Collapsed;
             if (!(_IsTaskDialog = isTaskDialog))
             {
@@ -132,52 +133,52 @@ namespace Luminous.Windows
                         case TaskDialogIcon.Information:
                             //ImageMainIcon.Source = new BitmapImage(new Uri("pack://application:,,,/TaskDialog/Resources/Information.png"));
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Information.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Information;
+                            _Sound = SoundScheme.Information;
                             break;
                         case TaskDialogIcon.Question:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Question.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Question;
+                            _Sound = SoundScheme.Question;
                             break;
                         case TaskDialogIcon.Warning:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Warning.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Warning;
+                            _Sound = SoundScheme.Warning;
                             break;
                         case TaskDialogIcon.Error:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Error.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Error;
+                            _Sound = SoundScheme.Error;
                             break;
                         case TaskDialogIcon.SecuritySuccess:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/SecuritySuccess.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Information;
+                            _Sound = SoundScheme.Information;
                             break;
                         case TaskDialogIcon.SecurityQuestion:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/SecurityQuestion.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Question;
+                            _Sound = SoundScheme.Question;
                             break;
                         case TaskDialogIcon.SecurityWarning:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/SecurityWarning.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Warning;
+                            _Sound = SoundScheme.Warning;
                             break;
                         case TaskDialogIcon.SecurityError:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/SecurityError.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Error;
+                            _Sound = SoundScheme.Error;
                             break;
                         case TaskDialogIcon.SecurityShield:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Security.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Security;
+                            _Sound = SoundScheme.Security;
                             break;
                         case TaskDialogIcon.SecurityShieldBlue:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Security.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Security;
+                            _Sound = SoundScheme.Security;
                             break;
                         case TaskDialogIcon.SecurityShieldGray:
                             ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Security.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Security;
+                            _Sound = SoundScheme.Security;
                             break;
                         default:
                             ImageMainIcon.Source = null;
                             ImageMainIcon.Visibility = Visibility.Collapsed;
-                            _Sound = TaskDialogSound.Default;
+                            _Sound = SoundScheme.Default;
                             break;
                     }
                     UpdateMainIconPosition();
@@ -382,52 +383,52 @@ namespace Luminous.Windows
                     {
                         case TaskDialogIcon.Information:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallInformation.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Information;
+                            _Sound = SoundScheme.Information;
                             break;
                         case TaskDialogIcon.Question:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallQuestion.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Question;
+                            _Sound = SoundScheme.Question;
                             break;
                         case TaskDialogIcon.Warning:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallWarning.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Warning;
+                            _Sound = SoundScheme.Warning;
                             break;
                         case TaskDialogIcon.Error:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallError.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Error;
+                            _Sound = SoundScheme.Error;
                             break;
                         case TaskDialogIcon.SecuritySuccess:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecuritySuccess.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Information;
+                            _Sound = SoundScheme.Information;
                             break;
                         case TaskDialogIcon.SecurityQuestion:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurityQuestion.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Question;
+                            _Sound = SoundScheme.Question;
                             break;
                         case TaskDialogIcon.SecurityWarning:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurityWarning.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Warning;
+                            _Sound = SoundScheme.Warning;
                             break;
                         case TaskDialogIcon.SecurityError:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurityError.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Error;
+                            _Sound = SoundScheme.Error;
                             break;
                         case TaskDialogIcon.SecurityShield:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurity.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Security;
+                            _Sound = SoundScheme.Security;
                             break;
                         case TaskDialogIcon.SecurityShieldBlue:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurity.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Security;
+                            _Sound = SoundScheme.Security;
                             break;
                         case TaskDialogIcon.SecurityShieldGray:
                             ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurity.png", UriKind.Relative));
-                            _Sound = TaskDialogSound.Security;
+                            _Sound = SoundScheme.Security;
                             break;
                         default:
                             ImageFooterIcon.Source = null;
                             ImageFooterIcon.Visibility = Visibility.Collapsed;
-                            _Sound = TaskDialogSound.Default;
+                            _Sound = SoundScheme.Default;
                             break;
                     }
                     ImageFooterIcon.EndInit();
@@ -833,7 +834,7 @@ namespace Luminous.Windows
             {
                 try
                 {
-                    TaskDialogSound.Default.Play();
+                    SoundScheme.Default.Play();
                     Clipboard.SetText(_IsTaskDialog ? TaskDialogHelpers.TaskDialogToString(this) : TaskDialogHelpers.MessageBoxToString(this));
                 }
                 catch { }
