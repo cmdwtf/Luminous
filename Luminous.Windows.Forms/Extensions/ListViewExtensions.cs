@@ -30,6 +30,13 @@ namespace System.Windows.Forms
     /// <summary>Extension methods for the ListView class.</summary>
     public static class ListViewExtensions
     {
+        public static void EnableSimpleSelect(this ListView @this, bool enable)
+        {
+            Contract.Requires<ArgumentNullException>(@this != null);
+
+            Native.ListView.SetExtendedListViewStyle(@this, Native.ListView.ExtendedStyle.SimpleSelect, enable);
+        }
+
         public static void EnableDoubleBuffering(this ListView @this, bool enable = true)
         {
             Contract.Requires<ArgumentNullException>(@this != null);

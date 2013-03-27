@@ -31,6 +31,7 @@ namespace Luminous.Windows.Forms
         {
             public enum ExtendedStyle
             {
+                SimpleSelect = 0x00100000,
                 DoubleBuffer = 0x00010000,
             }
 

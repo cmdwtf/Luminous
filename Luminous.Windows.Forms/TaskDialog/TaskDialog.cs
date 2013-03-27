@@ -19,6 +19,7 @@
 namespace Luminous.Windows.Forms
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Drawing;
     using System.Linq;
     using System.Reflection;
@@ -352,7 +353,17 @@ namespace Luminous.Windows.Forms
 
         #region Fields and Properties
 
-        public static float CustomScale { get; set; }
+        public static float _customScale = 1f;
+        public static float CustomScale
+        {
+            get { return _customScale; }
+            set
+            {
+                Contract.Requires<ArgumentOutOfRangeException>(value > 0);
+
+                _customScale = value;
+            }
+        }
 
         private SystemSound _sound;
         /// <summary>

@@ -37,6 +37,7 @@ namespace Luminous.Windows
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Text;
     using System.Windows.Controls;
@@ -259,7 +260,18 @@ namespace Luminous.Windows
 
         #region " Properties "
 
-        public static float CustomScale { get; set; }
+
+        public static float _customScale = 1f;
+        public static float CustomScale
+        {
+            get { return _customScale; }
+            set
+            {
+                Contract.Requires<ArgumentOutOfRangeException>(value > 0);
+
+                _customScale = value;
+            }
+        }
 
         private TaskDialogWindow _TaskDialogWindow;
 
