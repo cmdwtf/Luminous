@@ -49,7 +49,7 @@ namespace Luminous.Windows
     {
         #region " MessageBox "
 
-        internal const Window Null = null;
+        public static Window DefaultOwnerWindow { get; set; }
 
         /// <summary>
         /// Displays a task dialog with specified text.
@@ -58,7 +58,7 @@ namespace Luminous.Windows
         /// <returns>One of the TaskDialogResult values.</returns>
         public static TaskDialogResult Show(string text)
         {
-            return Show(Null, text);
+            return Show(DefaultOwnerWindow, text);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Luminous.Windows
         /// <returns>One of the TaskDialogResult values.</returns>
         public static TaskDialogResult Show(string text, string title)
         {
-            return Show(Null, text, title);
+            return Show(DefaultOwnerWindow, text, title);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Luminous.Windows
         /// <returns>One of the TaskDialogResult values.</returns>
         public static TaskDialogResult Show(string text, string title, TaskDialogCommonButtons buttons)
         {
-            return Show(Null, text, title, buttons);
+            return Show(DefaultOwnerWindow, text, title, buttons);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Luminous.Windows
         /// <returns>One of the TaskDialogResult values.</returns>
         public static TaskDialogResult Show(string text, string title, TaskDialogCommonButtons buttons, TaskDialogIcon icon)
         {
-            return Show(Null, text, title, buttons, icon, TaskDialogHelpers.GetFirstButton(buttons));
+            return Show(DefaultOwnerWindow, text, title, buttons, icon, TaskDialogHelpers.GetFirstButton(buttons));
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Luminous.Windows
         /// <returns>One of the TaskDialogResult values.</returns>
         public static TaskDialogResult Show(string text, string title, TaskDialogCommonButtons buttons, TaskDialogIcon icon, TaskDialogResult defaultButton)
         {
-            return Show(Null, text, title, buttons, icon, defaultButton);
+            return Show(DefaultOwnerWindow, text, title, buttons, icon, defaultButton);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Luminous.Windows
         /// <returns>One of the TaskDialogResult values.</returns>
         public static TaskDialogResult Show(string windowTitle, string mainInstruction, string content, TaskDialogCommonButtons commonButtons, TaskDialogIcon icon)
         {
-            return Show(Null, windowTitle, mainInstruction, content, commonButtons, icon);
+            return Show(DefaultOwnerWindow, windowTitle, mainInstruction, content, commonButtons, icon);
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace Luminous.Windows
             _TaskDialogWindow = new TaskDialogWindow(this, true);
             try
             {
-                _TaskDialogWindow.Owner = TaskDialog.Null;
+                _TaskDialogWindow.Owner = TaskDialog.DefaultOwnerWindow;
             }
             catch { }
             _TaskDialogWindow.WindowTitle = TaskDialogHelpers.ProductName;

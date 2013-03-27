@@ -87,7 +87,7 @@ namespace Luminous.Windows
             {
                 if (Owner != value)
                 {
-                    if (value == null) value = TaskDialog.Null;
+                    if (value == null) value = TaskDialog.DefaultOwnerWindow;
                     base.Owner = value;
                     UpdateStartupLocation();
                     ShowInTaskbar = value == null;

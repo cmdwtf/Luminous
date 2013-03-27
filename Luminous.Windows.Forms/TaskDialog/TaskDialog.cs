@@ -33,7 +33,7 @@ namespace Luminous.Windows.Forms
     {
         #region MessageBox
 
-        private static readonly IWin32Window NullWindow = null;
+        public static IWin32Window DefaultOwnerWindow { get; set; }
 
         /// <summary>
         /// Displays a Vista-like message box with specified text.
@@ -42,7 +42,7 @@ namespace Luminous.Windows.Forms
         /// <returns>One of the DialogResult values.</returns>
         public static DialogResult Show(string text)
         {
-            return Show(NullWindow, text);
+            return Show(DefaultOwnerWindow, text);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Luminous.Windows.Forms
         /// <returns>One of the DialogResult values.</returns>
         public static DialogResult Show(string text, string caption)
         {
-            return Show(NullWindow, text, caption);
+            return Show(DefaultOwnerWindow, text, caption);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Luminous.Windows.Forms
         /// <returns>One of the DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
         {
-            return Show(NullWindow, text, caption, buttons);
+            return Show(DefaultOwnerWindow, text, caption, buttons);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Luminous.Windows.Forms
         /// <returns>One of the DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
-            return Show(NullWindow, text, caption, buttons, icon, MessageBoxDefaultButton.Button1);
+            return Show(DefaultOwnerWindow, text, caption, buttons, icon, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Luminous.Windows.Forms
         /// <returns>One of the DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
         {
-            return Show(NullWindow, text, caption, buttons, icon, defaultButton);
+            return Show(DefaultOwnerWindow, text, caption, buttons, icon, defaultButton);
         }
 
         /// <summary>
