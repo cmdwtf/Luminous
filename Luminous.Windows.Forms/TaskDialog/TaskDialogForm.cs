@@ -38,7 +38,7 @@ namespace Luminous.Windows.Forms
             // Add any initialization after the InitializeComponent() call.
             SuspendLayouts();
 
-            Font = new Font("Segoe UI", 9f * TaskDialog.CustomScale, SystemFonts.MessageBoxFont.Style, GraphicsUnit.Pixel, SystemFonts.MessageBoxFont.GdiCharSet, SystemFonts.MessageBoxFont.GdiVerticalFont);
+            Font = new Font("Segoe UI", 9f * TaskDialog.CustomScale, SystemFonts.MessageBoxFont.Style, GraphicsUnit.Point, SystemFonts.MessageBoxFont.GdiCharSet, SystemFonts.MessageBoxFont.GdiVerticalFont);
             LabelTitle.Font = new Font(Font.FontFamily, Font.Size * 1.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
 
             PictureBoxIcon.Scale(new SizeF(TaskDialog.CustomScale, TaskDialog.CustomScale));
