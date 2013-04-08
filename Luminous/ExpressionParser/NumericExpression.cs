@@ -38,14 +38,11 @@ namespace Luminous.ExpressionParser
 
         public bool ZeroOnError { get; set; }
 
-        public NumericExpression()
-            : this(ExpressionElements.All)
-        {
-            AdditionalVariableChars = "_$";
-        }
+        public NumericExpression() : this(ExpressionElements.All) { }
 
         public NumericExpression(ExpressionElements elementsToInclude)
         {
+            AdditionalVariableChars = "_$";
             if ((elementsToInclude & ExpressionElements.ArithmeticOperators) != ExpressionElements.None)
             {
                 Operators.Add(new UnaryPlusOperator());
