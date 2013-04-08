@@ -22,11 +22,13 @@ namespace System
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
     using System.Security;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Xml;
     using System.Xml.Linq;
     using Luminous;
 
@@ -121,7 +123,7 @@ namespace System
         {
             Contract.Requires<ArgumentNullException>(@this != null);
             Contract.Requires<ArgumentOutOfRangeException>(startIndex >= 0);
-            Contract.Requires<ArgumentOutOfRangeException>(startIndex <= endIndex);
+            Contract.Requires<ArgumentOutOfRangeException>(startIndex <= endIndex || startIndex == endIndex + 1);
             Contract.Requires<ArgumentOutOfRangeException>(endIndex < @this.Length);
             Contract.Ensures(Contract.Result<string>() != null);
 
@@ -146,9 +148,16 @@ namespace System
             Contract.Requires<ArgumentNullException>(@this != null);
             Contract.Ensures(Contract.Result<string>() != null);
 
-            string xml = new XElement("_", @this).ToString();
-            Contract.Assume(xml.Length >= 7);
-            return xml.Clip(3, 4);
+            var sb = new StringBuilder();
+            using (var xw = XmlWriter.Create(sb, new XmlWriterSettings
+            {
+                CheckCharacters = false,
+                OmitXmlDeclaration = true,
+            }))
+            {
+                new XElement("_", @this).Save(xw);
+            }
+            return sb.ToString().Clip(3, 4);
         }
 
         [Pure]
@@ -157,11 +166,17 @@ namespace System
             Contract.Requires<ArgumentNullException>(@this != null);
             Contract.Ensures(Contract.Result<string>() != null);
 
-            XDocument xd = XDocument.Parse(string.Format("<_>{0}</_>", @this));
-            XElement el = null;
-            if (xd == null || (el = xd.Element("_")) == null)
-                throw new ArgumentException("The specified string is not a valid XML encoded string.");
-            return el.Value;
+            using (var xw = XmlReader.Create(new StringReader(string.Format("<_>{0}</_>", @this)), new XmlReaderSettings
+            {
+                CheckCharacters = false,
+            }))
+            {
+                XDocument xd = XDocument.Load(xw);
+                XElement el = null;
+                if (xd == null || (el = xd.Element("_")) == null)
+                    throw new ArgumentException("The specified string is not a valid XML encoded string.");
+                return el.Value;
+            }
         }
 
         public static string Indent(this string @this, int width = 4, char indentChar = ' ')
