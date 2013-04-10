@@ -52,6 +52,10 @@ namespace Luminous.Windows
         {
             this._TaskDialog = taskDialog;
             this.CustomScale.ScaleX = this.CustomScale.ScaleY = TaskDialog.CustomScale;
+            if (TaskDialog.CustomScale != 1f)
+            {
+                TextOptions.SetTextFormattingMode(this, TextFormattingMode.Ideal);
+            }
 
             if (TaskDialogHelpers.IsSegoeUIInstalled)
             {
