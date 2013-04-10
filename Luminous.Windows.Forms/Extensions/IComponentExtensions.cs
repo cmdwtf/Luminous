@@ -20,13 +20,16 @@ namespace System.ComponentModel
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics.Contracts;
 
     public static class IComponentExtensions
     {
-        public static bool IsInDesignMode(this IComponent target)
+        public static bool IsInDesignMode(this IComponent component)
         {
+            Contract.Requires<ArgumentNullException>(component != null);
+
             bool designMode = false;
-            ISite site = target.Site;
+            ISite site = component.Site;
             if (site != null)
             {
                 designMode = site.DesignMode;
@@ -34,15 +37,28 @@ namespace System.ComponentModel
             return designMode;
         }
 
-        public static bool IsInRuntimeMode(this IComponent target)
+        public static bool IsInRuntimeMode(this IComponent component)
         {
+            Contract.Requires<ArgumentNullException>(component != null);
+
             bool flag = true;
-            ISite site = target.Site;
+            ISite site = component.Site;
             if (site != null)
             {
                 flag = !site.DesignMode;
             }
             return flag;
+        }
+
+        public static void DisposeAlso(this IComponent component, IDisposable disposable)
+        {
+            Contract.Requires<ArgumentNullException>(component != null);
+            Contract.Requires<ArgumentNullException>(disposable != null);
+
+            component.Disposed += (sender, e) =>
+            {
+                disposable.Dispose();
+            };
         }
     }
 }

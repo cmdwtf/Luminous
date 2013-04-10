@@ -72,6 +72,8 @@ namespace System.Windows.Forms
 
         public static bool IsInDesignMode(this Control target)
         {
+            Contract.Requires<ArgumentNullException>(target != null);
+
             for (Control control = target; control != null; control = control.Parent)
             {
                 ISite site = control.Site;
@@ -85,6 +87,8 @@ namespace System.Windows.Forms
 
         public static bool IsInRuntimeMode(this Control target)
         {
+            Contract.Requires<ArgumentNullException>(target != null);
+
             for (Control control = target; control != null; control = control.Parent)
             {
                 ISite site = control.Site;
