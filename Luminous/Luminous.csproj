@@ -182,6 +182,7 @@
     <Compile Include="Extensions\FileInfoExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs">
       <SubType>Code</SubType>
     </Compile>

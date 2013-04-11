@@ -25,38 +25,38 @@ namespace System.Collections.Generic
     using System.Text;
 
     /// <summary>Extension methods for the Dictionary class.</summary>
-    public static class DictionaryExcensions
+    public static class DictionaryExtensions
     {
         [Pure]
-        public static TValue TryGetValue<TKey, TValue>(this Dictionary<TKey, TValue> @this, TKey key, TValue defaultValue)
+        public static TValue TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            Contract.Requires<ArgumentNullException>(@this != null);
+            Contract.Requires<ArgumentNullException>(dictionary != null);
 
             TValue value;
-            if (@this.TryGetValue(key, out value)) return value;
+            if (dictionary.TryGetValue(key, out value)) return value;
             return defaultValue;
         }
 
         [Pure]
-        public static TValue TryGetNotNullValue<TKey, TValue>(this Dictionary<TKey, TValue> @this, TKey key, TValue defaultValue)
+        public static TValue TryGetNotNullValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            Contract.Requires<ArgumentNullException>(@this != null);
+            Contract.Requires<ArgumentNullException>(dictionary != null);
             Contract.Requires<ArgumentNullException>(defaultValue != null);
 
             TValue value;
-            if (@this.TryGetValue(key, out value) && value != null) return value;
+            if (dictionary.TryGetValue(key, out value) && value != null) return value;
             return defaultValue;
         }
 
         [Pure]
-        public static TValue TryGetNotEmptyValue<TKey, TValue>(this Dictionary<TKey, TValue> @this, TKey key, TValue defaultValue)
+        public static TValue TryGetNotEmptyValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            Contract.Requires<ArgumentNullException>(@this != null);
+            Contract.Requires<ArgumentNullException>(dictionary != null);
             Contract.Requires<ArgumentNullException>(defaultValue != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(defaultValue.ToString()));
 
             TValue value;
-            if (@this.TryGetValue(key, out value) && value != null && value.ToString().Length > 0) return value;
+            if (dictionary.TryGetValue(key, out value) && value != null && value.ToString().Length > 0) return value;
             return defaultValue;
         }
     }
