@@ -29,7 +29,6 @@ namespace Luminous.Windows.Forms
     /// </summary>
     internal partial class TaskDialogForm : Form
     {
-
         public TaskDialogForm()
         {
             // This call is required by the Windows Form Designer.
@@ -66,6 +65,8 @@ namespace Luminous.Windows.Forms
 
             //'TableLayoutPanelFooter.ColumnStyles(0) = New ColumnStyle(SizeType.Absolute, 0.0!)
             //'TableLayoutPanelExpanderFooter.ColumnStyles(0) = New ColumnStyle(SizeType.Absolute, 0.0!)
+
+            TaskDialog.OnFormConstructed(this);
 
             ResumeLayouts();
         }
@@ -126,14 +127,14 @@ namespace Luminous.Windows.Forms
 
         #region Fields and Properties
 
-        private Button[] _buttons;
-        private Button[] Buttons
+        private Control[] _buttons;
+        private Control[] Buttons
         {
             get
             {
                 if (_buttons == null)
                 {
-                    _buttons = new Button[] { Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9, Button10, Button11 };
+                    _buttons = new[] { Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9, Button10, Button11 };
                 }
                 return _buttons;
             }
@@ -244,14 +245,14 @@ namespace Luminous.Windows.Forms
                 }
                 for (int i = 0; i < Buttons.Length; i++)
                 {
-                    Button button = this.Buttons[i];
+                    Control button = this.Buttons[i];
                     button.Visible = i < value.Length;
                     if (i < value.Length)
                     {
                         if (value[i].Result == TaskDialogResult.Cancel)
                         {
                             this.CanCancel = true;
-                            this.CancelButton = this.Buttons[i];
+                            this.CancelButton = (IButtonControl)this.Buttons[i];
                         }
                         if (value[i].UseCustomText)
                         {
@@ -263,11 +264,11 @@ namespace Luminous.Windows.Forms
                         }
                         if (value[i].ShowElevationIcon)
                         {
-                            button.Image = Properties.Resources.SmallSecurity;
+                            ((IButtonControlWithImage)button).Image = Properties.Resources.SmallSecurity;
                         }
                         else
                         {
-                            button.Image = null;
+                            ((IButtonControlWithImage)button).Image = null;
                         }
                         button.Enabled = value[i].IsEnabled;
                         button.Tag = value[i];
@@ -276,8 +277,8 @@ namespace Luminous.Windows.Forms
                 if (value.Length == 1)
                 {
                     CanCancel = true;
-                    CancelButton = Buttons[0];
-                    AcceptButton = Buttons[0];
+                    CancelButton = (IButtonControl)Buttons[0];
+                    AcceptButton = (IButtonControl)Buttons[0];
                 }
             }
         }
@@ -709,6 +710,7 @@ namespace Luminous.Windows.Forms
         protected override void OnLoad(System.EventArgs e)
         {
             base.OnLoad(e);
+            borderSize = Size - ClientSize;
 
             //'Tag = Nothing
             //'Dim i As Integer = DirectCast(DefaultButton, Integer)
@@ -738,6 +740,16 @@ namespace Luminous.Windows.Forms
             //'End If
         }
 
+        private Size borderSize;
+
+        public override Size GetPreferredSize(Size proposedSize)
+        {
+            Size size = this.TableLayoutPanel.GetPreferredSize(proposedSize);
+            size.Width = Math.Max(size.Width, MinimumSize.Width) + borderSize.Width;
+            size.Height = Math.Max(size.Height, MinimumSize.Height) + borderSize.Height;
+            return size;
+        }
+
         private void UpdateLabelContentMargin()
         {
             LabelContent.Margin = new Padding(LabelContent.Margin.Left, _drawGradient ? 16 : 8, LabelContent.Margin.Right, (!LabelExpandedContent.Visible || string.IsNullOrEmpty(LabelExpandedContent.Text)) && CustomControl == null ? 16 : 8);
@@ -752,7 +764,7 @@ namespace Luminous.Windows.Forms
             int i = (int)DefaultButton;
             if (i > 0 && i <= VButtons.Length)
             {
-                AcceptButton = Buttons[i - 1];
+                AcceptButton = (IButtonControl)Buttons[i - 1];
                 Buttons[i - 1].Focus();
             }
             else
@@ -784,7 +796,7 @@ namespace Luminous.Windows.Forms
 
         private void Button_Click(object sender, System.EventArgs e)
         {
-            Button button = sender as Button;
+            var button = sender as Control;
             TaskDialogButton vButton = (TaskDialogButton)button.Tag;
             Tag = vButton;
             vButton.RaiseClickEvent(sender, e);

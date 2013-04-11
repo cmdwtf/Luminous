@@ -47,17 +47,28 @@ namespace Luminous.Windows.Forms
             this.PanelButtons = new System.Windows.Forms.Panel();
             this.TableLayoutPanelButtons = new System.Windows.Forms.TableLayoutPanel();
             this.FlowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
-            this.Button1 = new Luminous.Windows.Forms.Button();
-            this.Button2 = new Luminous.Windows.Forms.Button();
-            this.Button3 = new Luminous.Windows.Forms.Button();
-            this.Button4 = new Luminous.Windows.Forms.Button();
-            this.Button5 = new Luminous.Windows.Forms.Button();
-            this.Button6 = new Luminous.Windows.Forms.Button();
-            this.Button7 = new Luminous.Windows.Forms.Button();
-            this.Button8 = new Luminous.Windows.Forms.Button();
-            this.Button9 = new Luminous.Windows.Forms.Button();
-            this.Button10 = new Luminous.Windows.Forms.Button();
-            this.Button11 = new Luminous.Windows.Forms.Button();
+            this.Button1 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button2 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button3 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button4 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button5 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button6 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button7 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button8 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button9 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button10 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            this.Button11 = (System.Windows.Forms.Control)TaskDialog.ButtonFactory();
+            //this.Button1 = new Luminous.Windows.Forms.Button();
+            //this.Button2 = new Luminous.Windows.Forms.Button();
+            //this.Button3 = new Luminous.Windows.Forms.Button();
+            //this.Button4 = new Luminous.Windows.Forms.Button();
+            //this.Button5 = new Luminous.Windows.Forms.Button();
+            //this.Button6 = new Luminous.Windows.Forms.Button();
+            //this.Button7 = new Luminous.Windows.Forms.Button();
+            //this.Button8 = new Luminous.Windows.Forms.Button();
+            //this.Button9 = new Luminous.Windows.Forms.Button();
+            //this.Button10 = new Luminous.Windows.Forms.Button();
+            //this.Button11 = new Luminous.Windows.Forms.Button();
             this.FlowLayoutPanelButtonsLeft = new System.Windows.Forms.FlowLayoutPanel();
             this.ButtonExpander = new Luminous.Windows.Forms.ChevronButton();
             this.CheckBox = new System.Windows.Forms.CheckBox();
@@ -369,143 +380,143 @@ namespace Luminous.Windows.Forms
             // Button1
             // 
             this.Button1.AutoSize = true;
-            this.Button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button1.Location = new System.Drawing.Point(4, 4);
             this.Button1.Margin = new System.Windows.Forms.Padding(4);
             this.Button1.Name = "Button1";
             this.Button1.Size = new System.Drawing.Size(75, 25);
             this.Button1.TabIndex = 0;
-            this.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button1.Visible = false;
             this.Button1.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button2
             // 
             this.Button2.AutoSize = true;
-            this.Button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button2.Location = new System.Drawing.Point(87, 4);
             this.Button2.Margin = new System.Windows.Forms.Padding(4);
             this.Button2.Name = "Button2";
             this.Button2.Size = new System.Drawing.Size(75, 25);
             this.Button2.TabIndex = 1;
-            this.Button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button2.Visible = false;
             this.Button2.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button3
             // 
             this.Button3.AutoSize = true;
-            this.Button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button3.Location = new System.Drawing.Point(170, 4);
             this.Button3.Margin = new System.Windows.Forms.Padding(4);
             this.Button3.Name = "Button3";
             this.Button3.Size = new System.Drawing.Size(75, 25);
             this.Button3.TabIndex = 2;
-            this.Button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button3.Visible = false;
             this.Button3.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button4
             // 
             this.Button4.AutoSize = true;
-            this.Button4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button4.Location = new System.Drawing.Point(253, 4);
             this.Button4.Margin = new System.Windows.Forms.Padding(4);
             this.Button4.Name = "Button4";
             this.Button4.Size = new System.Drawing.Size(75, 25);
             this.Button4.TabIndex = 3;
-            this.Button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button4.Visible = false;
             this.Button4.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button5
             // 
             this.Button5.AutoSize = true;
-            this.Button5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button5.Location = new System.Drawing.Point(336, 4);
             this.Button5.Margin = new System.Windows.Forms.Padding(4);
             this.Button5.Name = "Button5";
             this.Button5.Size = new System.Drawing.Size(75, 25);
             this.Button5.TabIndex = 4;
-            this.Button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button5.Visible = false;
             this.Button5.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button6
             // 
             this.Button6.AutoSize = true;
-            this.Button6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button6.Location = new System.Drawing.Point(419, 4);
             this.Button6.Margin = new System.Windows.Forms.Padding(4);
             this.Button6.Name = "Button6";
             this.Button6.Size = new System.Drawing.Size(75, 25);
             this.Button6.TabIndex = 5;
-            this.Button6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button6.Visible = false;
             this.Button6.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button7
             // 
             this.Button7.AutoSize = true;
-            this.Button7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button7.Location = new System.Drawing.Point(502, 4);
             this.Button7.Margin = new System.Windows.Forms.Padding(4);
             this.Button7.Name = "Button7";
             this.Button7.Size = new System.Drawing.Size(75, 25);
             this.Button7.TabIndex = 6;
-            this.Button7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button7.Visible = false;
             this.Button7.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button8
             // 
             this.Button8.AutoSize = true;
-            this.Button8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button8.Location = new System.Drawing.Point(585, 4);
             this.Button8.Margin = new System.Windows.Forms.Padding(4);
             this.Button8.Name = "Button8";
             this.Button8.Size = new System.Drawing.Size(75, 25);
             this.Button8.TabIndex = 7;
-            this.Button8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button8.Visible = false;
             this.Button8.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button9
             // 
             this.Button9.AutoSize = true;
-            this.Button9.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button9.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button9.Location = new System.Drawing.Point(668, 4);
             this.Button9.Margin = new System.Windows.Forms.Padding(4);
             this.Button9.Name = "Button9";
             this.Button9.Size = new System.Drawing.Size(75, 25);
             this.Button9.TabIndex = 8;
-            this.Button9.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button9.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button9.Visible = false;
             this.Button9.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button10
             // 
             this.Button10.AutoSize = true;
-            this.Button10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button10.Location = new System.Drawing.Point(751, 4);
             this.Button10.Margin = new System.Windows.Forms.Padding(4);
             this.Button10.Name = "Button10";
             this.Button10.Size = new System.Drawing.Size(75, 25);
             this.Button10.TabIndex = 9;
-            this.Button10.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button10.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button10.Visible = false;
             this.Button10.Click += new System.EventHandler(this.Button_Click);
             // 
             // Button11
             // 
             this.Button11.AutoSize = true;
-            this.Button11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            //this.Button11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Button11.Location = new System.Drawing.Point(834, 4);
             this.Button11.Margin = new System.Windows.Forms.Padding(4);
             this.Button11.Name = "Button11";
             this.Button11.Size = new System.Drawing.Size(75, 25);
             this.Button11.TabIndex = 10;
-            this.Button11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            //this.Button11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.Button11.Visible = false;
             this.Button11.Click += new System.EventHandler(this.Button_Click);
             // 
@@ -655,18 +666,18 @@ namespace Luminous.Windows.Forms
         internal Luminous.Windows.Forms.Label LabelFooter;
         internal Luminous.Windows.Forms.Label LabelExpandedFooter;
         internal System.Windows.Forms.FlowLayoutPanel FlowLayoutPanelButtons;
-        internal Luminous.Windows.Forms.Button Button1;
         internal System.Windows.Forms.TableLayoutPanel TableLayoutPanelButtons;
-        internal Luminous.Windows.Forms.Button Button2;
-        internal Luminous.Windows.Forms.Button Button3;
-        internal Luminous.Windows.Forms.Button Button4;
-        internal Luminous.Windows.Forms.Button Button5;
-        internal Luminous.Windows.Forms.Button Button6;
-        internal Luminous.Windows.Forms.Button Button7;
-        internal Luminous.Windows.Forms.Button Button8;
-        internal Luminous.Windows.Forms.Button Button9;
-        internal Luminous.Windows.Forms.Button Button10;
-        internal Luminous.Windows.Forms.Button Button11;
+        internal System.Windows.Forms.Control Button1;
+        internal System.Windows.Forms.Control Button2;
+        internal System.Windows.Forms.Control Button3;
+        internal System.Windows.Forms.Control Button4;
+        internal System.Windows.Forms.Control Button5;
+        internal System.Windows.Forms.Control Button6;
+        internal System.Windows.Forms.Control Button7;
+        internal System.Windows.Forms.Control Button8;
+        internal System.Windows.Forms.Control Button9;
+        internal System.Windows.Forms.Control Button10;
+        internal System.Windows.Forms.Control Button11;
         internal System.Windows.Forms.TableLayoutPanel TableLayoutPanelExpanderFooter;
         internal Luminous.Windows.Forms.Label LabelExpandedContent;
         internal System.Windows.Forms.FlowLayoutPanel FlowLayoutPanelButtonsLeft;

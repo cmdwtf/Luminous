@@ -769,5 +769,18 @@ namespace Luminous.Windows.Forms
         #endregion
 
         #endregion
+
+        #region Custom Theming
+
+        public static Func<IButtonControlWithImage> ButtonFactory = new Func<IButtonControlWithImage>(() => new Button() { AutoSizeMode = AutoSizeMode.GrowAndShrink, TextImageRelation = TextImageRelation.ImageBeforeText });
+
+        internal static void OnFormConstructed(Form form)
+        {
+            FormConstructed(form, EventArgs.Empty);
+        }
+
+        public static event EventHandler FormConstructed = delegate { };
+
+        #endregion
     }
 }
