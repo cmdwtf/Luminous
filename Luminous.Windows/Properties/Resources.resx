@@ -118,31 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AbortText" xml:space="preserve">
-    <value>&amp;Abort</value>
+    <value>_Abort</value>
   </data>
   <data name="CancelText" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="CloseText" xml:space="preserve">
-    <value>C&amp;lose</value>
+    <value>C_lose</value>
   </data>
   <data name="CollapsedText" xml:space="preserve">
     <value>More details</value>
   </data>
   <data name="ContinueText" xml:space="preserve">
-    <value>&amp;Continue</value>
+    <value>_Continue</value>
   </data>
   <data name="ExpandedText" xml:space="preserve">
     <value>Fewer details</value>
   </data>
   <data name="IgnoreText" xml:space="preserve">
-    <value>&amp;Ignore</value>
+    <value>_Ignore</value>
   </data>
   <data name="NoneText" xml:space="preserve">
     <value>None</value>
   </data>
   <data name="NoText" xml:space="preserve">
-    <value>&amp;No</value>
+    <value>_No</value>
   </data>
   <data name="NoToAllText" xml:space="preserve">
     <value>No to all</value>
@@ -151,10 +151,10 @@
     <value>OK</value>
   </data>
   <data name="RetryText" xml:space="preserve">
-    <value>&amp;Retry</value>
+    <value>_Retry</value>
   </data>
   <data name="YesText" xml:space="preserve">
-    <value>&amp;Yes</value>
+    <value>_Yes</value>
   </data>
   <data name="YesToAllText" xml:space="preserve">
     <value>Yes to all</value>

@@ -118,31 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AbortText" xml:space="preserve">
-    <value>&amp;Przerwij</value>
+    <value>_Przerwij</value>
   </data>
   <data name="CancelText" xml:space="preserve">
     <value>Anuluj</value>
   </data>
   <data name="CloseText" xml:space="preserve">
-    <value>Za&amp;mknij</value>
+    <value>Za_mknij</value>
   </data>
   <data name="CollapsedText" xml:space="preserve">
     <value>Więcej szczegółów</value>
   </data>
   <data name="ContinueText" xml:space="preserve">
-    <value>&amp;Kontynuuj</value>
+    <value>_Kontynuuj</value>
   </data>
   <data name="ExpandedText" xml:space="preserve">
     <value>Mniej szczegółów</value>
   </data>
   <data name="IgnoreText" xml:space="preserve">
-    <value>&amp;Ignoruj</value>
+    <value>_Ignoruj</value>
   </data>
   <data name="NoneText" xml:space="preserve">
     <value>Brak</value>
   </data>
   <data name="NoText" xml:space="preserve">
-    <value>&amp;Nie</value>
+    <value>_Nie</value>
   </data>
   <data name="NoToAllText" xml:space="preserve">
     <value>Nie na wszystkie</value>
@@ -151,10 +151,10 @@
     <value>OK</value>
   </data>
   <data name="RetryText" xml:space="preserve">
-    <value>&amp;Ponów</value>
+    <value>_Ponów</value>
   </data>
   <data name="YesText" xml:space="preserve">
-    <value>&amp;Tak</value>
+    <value>_Tak</value>
   </data>
   <data name="YesToAllText" xml:space="preserve">
     <value>Tak na wszystkie</value>
