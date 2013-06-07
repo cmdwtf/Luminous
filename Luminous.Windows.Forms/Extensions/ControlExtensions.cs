@@ -29,6 +29,27 @@ namespace System.Windows.Forms
     /// <summary>Extension methods for the Control class.</summary>
     public static class ControlExtensions
     {
+        /// <summary>
+        /// Checks whether the handle is created anywhere in the control tree (from the control up to the top-level parent).
+        /// </summary>
+        public static bool IsHandleCreatedAnywhere(this Control @this)
+        {
+            Contract.Requires<ArgumentNullException>(@this != null);
+            lock (@this)
+            {
+                Control control = @this;
+                while (control != null && !control.IsHandleCreated)
+                {
+                    control = control.Parent;
+                }
+                if (control == null)
+                {
+                    return false;
+                }
+                return control.IsHandleCreated;
+            }
+        }
+
         public static void SafeInvoke(this Control @this, Action action)
         {
             // Contract.Requires<ArgumentNullException>(@this != null);
@@ -40,14 +61,28 @@ namespace System.Windows.Forms
                 return;
             }
 
-            if (!@this.IsHandleCreated && !@this.IsDisposed)
+            if (!@this.IsHandleCreatedAnywhere())
             {
-                // force to create handle
-                IntPtr handle = @this.Handle;
-                @this.Name = @this.Name + handle.ToString().Substring(0, 0);
+                throw new InvalidOperationException("The control and its parent(s) have no handle created yet.");
+            }
+            while (@this.Disposing || @this.IsDisposed)
+            {
+                if (@this.Parent == null && (!(@this is Form) || (@this as Form).Owner == null))
+                {
+                    throw new ObjectDisposedException("The control is currently disposing or already disposed.");
+                }
+                @this = @this.Parent != null
+                            ? @this.Parent
+                            : @this is Form
+                                ? (@this as Form).Owner
+                                : null;
+                if (@this == null)
+                {
+                    throw new InvalidOperationException("The control has no parent/owner with a created handle.");
+                }
             }
 
-            if (!@this.IsDisposed && @this.InvokeRequired)
+            if (@this.InvokeRequired)
             {
                 @this.Invoke(action);
             }
