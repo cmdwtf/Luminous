@@ -52,7 +52,7 @@ namespace System.Windows.Forms
 
         public static void SafeInvoke(this Control @this, Action action)
         {
-            // Contract.Requires<ArgumentNullException>(@this != null);
+            Contract.Requires<ArgumentNullException>(@this != null);
             Contract.Requires<ArgumentNullException>(action != null);
 
             if (@this == null)
@@ -94,7 +94,7 @@ namespace System.Windows.Forms
 
         public static TResult SafeInvoke<TResult>(this Control @this, Func<TResult> func)
         {
-            // Contract.Requires<ArgumentNullException>(@this != null);
+            Contract.Requires<ArgumentNullException>(@this != null);
             Contract.Requires<ArgumentNullException>(func != null);
 
             TResult result = default(TResult);

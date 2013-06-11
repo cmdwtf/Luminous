@@ -256,7 +256,8 @@ namespace Luminous.Windows.Forms
                 vdf.ShowDialog(Owner);
                 _vdf = null;
                 VerificationFlagChecked = vdf.CheckBoxState;
-                Result = ((TaskDialogButton)vdf.Tag).Result;
+                Result = vdf.Tag is TaskDialogButton ? ((TaskDialogButton)vdf.Tag).Result
+                                                     : (TaskDialogResult)(-1); // TaskDialog force-closed by exiting app
                 return Result;
             }
         }
