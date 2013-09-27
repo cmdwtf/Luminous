@@ -21,9 +21,9 @@ namespace System
     using System.Reflection;
     using System.Linq.Expressions;
 
-    public static class Type<TType>
+    public static class TypeInfo
     {
-        public static FieldInfo GetField<TField>(Expression<Func<TType, TField>> field)
+        public static FieldInfo GetField<TField>(Expression<Func<TField>> field)
         {
             var lambdaExpression = field as LambdaExpression;
             if (lambdaExpression == null)
@@ -42,7 +42,45 @@ namespace System
             return (FieldInfo)memberExpression.Member;
         }
 
-        public static PropertyInfo GetProperty<TProperty>(Expression<Func<TType, TProperty>> property)
+        public static FieldInfo GetField<TType, TField>(Expression<Func<TType, TField>> field)
+        {
+            var lambdaExpression = field as LambdaExpression;
+            if (lambdaExpression == null)
+            {
+                throw new ArgumentNullException("field");
+            }
+            var memberExpression = lambdaExpression.Body as MemberExpression;
+            if (memberExpression == null)
+            {
+                throw new ArgumentNullException("field");
+            }
+            if (!(memberExpression.Member is FieldInfo))
+            {
+                throw new ArgumentNullException("field");
+            }
+            return (FieldInfo)memberExpression.Member;
+        }
+
+        public static PropertyInfo GetProperty<TProperty>(Expression<Func<TProperty>> property)
+        {
+            var lambdaExpression = property as LambdaExpression;
+            if (lambdaExpression == null)
+            {
+                throw new ArgumentNullException("property");
+            }
+            var memberExpression = lambdaExpression.Body as MemberExpression;
+            if (memberExpression == null)
+            {
+                throw new ArgumentNullException("property");
+            }
+            if (!(memberExpression.Member is PropertyInfo))
+            {
+                throw new ArgumentNullException("property");
+            }
+            return (PropertyInfo)memberExpression.Member;
+        }
+
+        public static PropertyInfo GetProperty<TType, TProperty>(Expression<Func<TType, TProperty>> property)
         {
             var lambdaExpression = property as LambdaExpression;
             if (lambdaExpression == null)
@@ -85,12 +123,22 @@ namespace System
             return methodExpr.Method;
         }
 
-        public static MethodInfo GetMethod(Expression<Action<TType>> method)
+        public static MethodInfo GetMethod(Expression<Action> method)
         {
             return GetMethodInfo(method);
         }
 
-        public static MethodInfo GetMethod(Expression<Func<TType, object>> method)
+        public static MethodInfo GetMethod<TType>(Expression<Action<TType>> method)
+        {
+            return GetMethodInfo(method);
+        }
+
+        public static MethodInfo GetMethod(Expression<Func<object>> method)
+        {
+            return GetMethodInfo(method);
+        }
+
+        public static MethodInfo GetMethod<TType>(Expression<Func<TType, object>> method)
         {
             return GetMethodInfo(method);
         }
@@ -100,15 +148,24 @@ namespace System
             return GetMethodInfo(method).GetParameters()[index];
         }
 
-        public static ParameterInfo GetMethodParameter(Expression<Action<TType>> method, int index)
+        public static ParameterInfo GetMethodParameter(Expression<Action> method, int index)
         {
             return GetParameterInfo(method, index);
         }
 
-        public static ParameterInfo GetMethodParameter(Expression<Func<TType, object>> method, int index)
+        public static ParameterInfo GetMethodParameter<TType>(Expression<Action<TType>> method, int index)
         {
             return GetParameterInfo(method, index);
         }
 
+        public static ParameterInfo GetMethodParameter(Expression<Func<object>> method, int index)
+        {
+            return GetParameterInfo(method, index);
+        }
+
+        public static ParameterInfo GetMethodParameter<TType>(Expression<Func<TType, object>> method, int index)
+        {
+            return GetParameterInfo(method, index);
+        }
     }
 }

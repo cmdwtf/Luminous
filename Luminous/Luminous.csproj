@@ -212,7 +212,7 @@
     <Compile Include="Traversing\TraverserNotImplementedException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Type.cs">
+    <Compile Include="TypeInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Xml.Linq\XClassAttribute.cs">
