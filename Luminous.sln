@@ -13,21 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "License", "License", "{E9DF
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs20
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Luminous.Windows.Forms\\Luminous.Windows.Forms.csproj
-		SccProjectName1 = Luminous.Windows.Forms
-		SccLocalPath1 = Luminous.Windows.Forms
-		SccProjectUniqueName2 = Luminous.Windows\\Luminous.Windows.csproj
-		SccProjectName2 = Luminous.Windows
-		SccLocalPath2 = Luminous.Windows
-		SccProjectUniqueName3 = Luminous\\Luminous.csproj
-		SccProjectName3 = Luminous
-		SccLocalPath3 = Luminous
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

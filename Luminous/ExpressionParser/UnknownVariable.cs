@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright © 2013 Łukasz Świątkowski
+// Copyright © 2014 Łukasz Świątkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify

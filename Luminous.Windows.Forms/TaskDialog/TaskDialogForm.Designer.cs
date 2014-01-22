@@ -619,8 +619,9 @@ namespace Luminous.Windows.Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TaskDialogForm";
+            this.Shown += new System.EventHandler(this.TaskDialogForm_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskDialogForm_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TaskDialog_FormClosed);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TaskDialogForm_FormClosed);
             this.TableLayoutPanelContent.ResumeLayout(false);
             this.TableLayoutPanelContent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxIcon)).EndInit();

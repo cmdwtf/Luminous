@@ -13,10 +13,14 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -121,6 +125,12 @@
     <Compile Include="Drawing\ImageStrip.cs" />
     <Compile Include="Drawing\ImageStripOrientation.cs" />
     <Compile Include="Extensions\IComponentExtensions.cs" />
+    <Compile Include="IndeterminateProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IndeterminateProgressBar.Designer.cs">
+      <DependentUpon>IndeterminateProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Native.Messages.cs" />
     <Compile Include="Extensions\ListViewExtensions.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />

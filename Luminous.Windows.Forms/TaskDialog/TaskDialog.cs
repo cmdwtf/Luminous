@@ -1,5 +1,5 @@
 #region License
-// Copyright © 2013 £ukasz Œwi¹tkowski
+// Copyright © 2014 £ukasz Œwi¹tkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -161,52 +161,52 @@ namespace Luminous.Windows.Forms
         /// <returns>One of the DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
         {
-            TaskDialog vd = new TaskDialog();
-            vd.Content = text;
-            vd.WindowTitle = caption;
+            TaskDialog td = new TaskDialog();
+            td.Content = text;
+            td.WindowTitle = caption;
             switch (buttons)
             {
                 case MessageBoxButtons.AbortRetryIgnore:
-                    vd.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Abort), new TaskDialogButton(TaskDialogResult.Retry), new TaskDialogButton(TaskDialogResult.Ignore) };
+                    td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Abort), new TaskDialogButton(TaskDialogResult.Retry), new TaskDialogButton(TaskDialogResult.Ignore) };
                     break;
                 case MessageBoxButtons.OKCancel:
-                    vd.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.OK), new TaskDialogButton(TaskDialogResult.Cancel) };
+                    td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.OK), new TaskDialogButton(TaskDialogResult.Cancel) };
                     break;
                 case MessageBoxButtons.RetryCancel:
-                    vd.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Retry), new TaskDialogButton(TaskDialogResult.Cancel) };
+                    td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Retry), new TaskDialogButton(TaskDialogResult.Cancel) };
                     break;
                 case MessageBoxButtons.YesNo:
-                    vd.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Yes), new TaskDialogButton(TaskDialogResult.No) };
+                    td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Yes), new TaskDialogButton(TaskDialogResult.No) };
                     break;
                 case MessageBoxButtons.YesNoCancel:
-                    vd.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Yes), new TaskDialogButton(TaskDialogResult.No), new TaskDialogButton(TaskDialogResult.Cancel) };
+                    td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Yes), new TaskDialogButton(TaskDialogResult.No), new TaskDialogButton(TaskDialogResult.Cancel) };
                     break;
                 default:
-                    vd.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.OK) };
+                    td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.OK) };
                     break;
             }
             switch (icon)
             {
                 case MessageBoxIcon.Information:
-                    vd.MainIcon = TaskDialogIcon.Information;
+                    td.MainIcon = TaskDialogIcon.Information;
                     break;
                 case MessageBoxIcon.Warning:
-                    vd.MainIcon = TaskDialogIcon.Warning;
+                    td.MainIcon = TaskDialogIcon.Warning;
                     break;
                 case MessageBoxIcon.Error:
-                    vd.MainIcon = TaskDialogIcon.Error;
+                    td.MainIcon = TaskDialogIcon.Error;
                     break;
                 case MessageBoxIcon.Question:
-                    vd.MainIcon = TaskDialogIcon.Question;
+                    td.MainIcon = TaskDialogIcon.Question;
                     break;
                 default:
-                    vd.CustomMainIcon = null;
+                    td.CustomMainIcon = null;
                     break;
             }
-            vd.DefaultButton = TaskDialogHelpers.MakeTaskDialogDefaultButton(defaultButton);
-            vd.Owner = owner;
-            vd.Show();
-            return TaskDialogHelpers.MakeDialogResult(vd.Result);
+            td.DefaultButton = TaskDialogHelpers.MakeTaskDialogDefaultButton(defaultButton);
+            td.Owner = owner;
+            td.Show();
+            return TaskDialogHelpers.MakeDialogResult(td.Result);
         }
 
         private static void SetStartPosition(Form f, IWin32Window o)
@@ -245,24 +245,24 @@ namespace Luminous.Windows.Forms
 
         private TaskDialogResult ShowInternal(IWin32Window Owner)
         {
-            using (TaskDialogForm vdf = new TaskDialogForm())
+            using (var tdf = new TaskDialogForm { TaskDialog = this })
             {
-                _vdf = vdf;
-                vdf.LinkClicked += vdf_LinkClicked;
-                vdf.Load += vdf_Load;
-                vdf.RightToLeft = RightToLeft;
-                vdf.RightToLeftLayout = RightToLeftLayout;
-                SetStartPosition(_vdf, Owner);
-                vdf.ShowDialog(Owner);
-                _vdf = null;
-                VerificationFlagChecked = vdf.CheckBoxState;
-                Result = vdf.Tag is TaskDialogButton ? ((TaskDialogButton)vdf.Tag).Result
+                _tdf = tdf;
+                tdf.LinkClicked += tdf_LinkClicked;
+                tdf.Load += tdf_Load;
+                tdf.RightToLeft = RightToLeft;
+                tdf.RightToLeftLayout = RightToLeftLayout;
+                SetStartPosition(tdf, Owner);
+                tdf.ShowDialog(Owner);
+                _tdf = null;
+                VerificationFlagChecked = tdf.CheckBoxState;
+                Result = tdf.Tag is TaskDialogButton ? ((TaskDialogButton)tdf.Tag).Result
                                                      : (TaskDialogResult)(-1); // TaskDialog force-closed by exiting app
                 return Result;
             }
         }
 
-        private void vdf_LinkClicked(System.Object sender, LinkLabelLinkClickedEventArgs e)
+        private void tdf_LinkClicked(System.Object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (LinkClicked != null)
             {
@@ -270,67 +270,68 @@ namespace Luminous.Windows.Forms
             }
         }
 
-        private void vdf_Load(object sender, EventArgs e)
+        private void tdf_Load(object sender, EventArgs e)
         {
-            _vdf.SuspendLayouts();
-            _vdf.Content = Content;
-            if (_contentLink != null && _contentLink != _vdf.LabelContent)
+            _tdf.SuspendLayouts();
+            OnFormLoad(_tdf);
+            _tdf.Content = Content;
+            if (_contentLink != null && _contentLink != _tdf.LabelContent)
             {
                 foreach (LinkLabel.Link link in ContentLinks)
                 {
-                    _vdf.LabelContent.Links.Add(link);
+                    _tdf.LabelContent.Links.Add(link);
                 }
                 _contentLink.Dispose();
-                _contentLink = _vdf.LabelContent;
+                _contentLink = _tdf.LabelContent;
             }
-            _vdf.Caption = WindowTitle;
-            _vdf.Title = MainInstruction;
-            _vdf.VButtons = Buttons;
-            _vdf.MainIcon = MainIcon;
+            _tdf.Caption = WindowTitle;
+            _tdf.Title = MainInstruction;
+            _tdf.VButtons = Buttons;
+            _tdf.MainIcon = MainIcon;
             if (CustomMainIcon != null)
-                _vdf.Image = CustomMainIcon;
-            _vdf.FooterIcon = FooterIcon;
+                _tdf.Image = CustomMainIcon;
+            _tdf.FooterIcon = FooterIcon;
             if (CustomFooterIcon != null)
-                _vdf.FooterImage = CustomFooterIcon;
-            _vdf.FooterText = FooterText;
-            if (_footer != null && _footer != _vdf.LabelFooter)
+                _tdf.FooterImage = CustomFooterIcon;
+            _tdf.FooterText = FooterText;
+            if (_footer != null && _footer != _tdf.LabelFooter)
             {
                 foreach (LinkLabel.Link link in FooterLinks)
                 {
-                    _vdf.LabelFooter.Links.Add(link);
+                    _tdf.LabelFooter.Links.Add(link);
                 }
                 _footer.Dispose();
-                _footer = _vdf.LabelFooter;
+                _footer = _tdf.LabelFooter;
             }
-            _vdf.DefaultButton = DefaultButton;
-            _vdf.CheckBoxState = VerificationFlagChecked;
-            _vdf.CheckBoxText = VerificationText;
-            _vdf.ExpandFooterArea = ExpandFooterArea;
-            _vdf.ExpandedInformation = ExpandedInformation;
-            if (_expanded != null && _expanded != (ExpandFooterArea ? _vdf.LabelExpandedFooter : _vdf.LabelExpandedContent))
+            _tdf.DefaultButton = DefaultButton;
+            _tdf.CheckBoxState = VerificationFlagChecked;
+            _tdf.CheckBoxText = VerificationText;
+            _tdf.ExpandFooterArea = ExpandFooterArea;
+            _tdf.ExpandedInformation = ExpandedInformation;
+            if (_expanded != null && _expanded != (ExpandFooterArea ? _tdf.LabelExpandedFooter : _tdf.LabelExpandedContent))
             {
                 foreach (LinkLabel.Link link in ExpandedInformationLinks)
                 {
                     if (ExpandFooterArea)
-                        _vdf.LabelExpandedFooter.Links.Add(link);
+                        _tdf.LabelExpandedFooter.Links.Add(link);
                     else
-                        _vdf.LabelExpandedContent.Links.Add(link);
+                        _tdf.LabelExpandedContent.Links.Add(link);
                 }
                 _expanded.Dispose();
                 _expanded = ExpandFooterArea
-                            ? _vdf.LabelExpandedFooter
-                            : _vdf.LabelExpandedContent;
+                            ? _tdf.LabelExpandedFooter
+                            : _tdf.LabelExpandedContent;
             }
-            _vdf.Expanded = ExpandedByDefault;
-            _vdf.ExpandedControlText = ExpandedControlText;
-            _vdf.CollapsedControlText = CollapsedControlText;
-            _vdf.CustomControl = CustomControl;
+            _tdf.Expanded = ExpandedByDefault;
+            _tdf.ExpandedControlText = ExpandedControlText;
+            _tdf.CollapsedControlText = CollapsedControlText;
+            _tdf.CustomControl = CustomControl;
             if (Sound != null)
-                _vdf.Sound = Sound;
-            _vdf.ResumeLayouts();
+                _tdf.Sound = Sound;
+            _tdf.ResumeLayouts();
         }
 
-        private TaskDialogForm _vdf;
+        private TaskDialogForm _tdf;
 
         /// <summary>
         /// Closes the TaskDialog form.
@@ -338,15 +339,15 @@ namespace Luminous.Windows.Forms
         /// <param name="result">A TaskDialogResult that represents the result of the form.</param>
         public void Close(TaskDialogResult result)
         {
-            if (_vdf == null)
+            if (_tdf == null)
             {
                 throw new InvalidOperationException("Cannot invoke this method before the dialog is shown, or after it is closed.");
             }
             var button = new TaskDialogButton(result);
-            _vdf.Tag = button;
+            _tdf.Tag = button;
             if (button.Result != TaskDialogResult.None)
             {
-                _vdf.DialogResult = DialogResult.OK;
+                _tdf.DialogResult = DialogResult.OK;
             }
         }
 
@@ -413,9 +414,9 @@ namespace Luminous.Windows.Forms
             {
                 if (_contentLink == null)
                 {
-                    if (_vdf != null)
+                    if (_tdf != null)
                     {
-                        _contentLink = _vdf.LabelContent;
+                        _contentLink = _tdf.LabelContent;
                     }
                     else
                     {
@@ -516,9 +517,9 @@ namespace Luminous.Windows.Forms
             {
                 if (_footer == null)
                 {
-                    if (_vdf != null)
+                    if (_tdf != null)
                     {
-                        _footer = _vdf.LabelFooter;
+                        _footer = _tdf.LabelFooter;
                     }
                     else
                     {
@@ -649,11 +650,11 @@ namespace Luminous.Windows.Forms
             {
                 if (_expanded == null)
                 {
-                    if (_vdf != null)
+                    if (_tdf != null)
                     {
                         _expanded = ExpandFooterArea
-                                    ? _vdf.LabelExpandedFooter
-                                    : _vdf.LabelExpandedContent;
+                                    ? _tdf.LabelExpandedFooter
+                                    : _tdf.LabelExpandedContent;
                     }
                     else
                     {
@@ -780,7 +781,25 @@ namespace Luminous.Windows.Forms
             FormConstructed(form, EventArgs.Empty);
         }
 
+        private void OnFormLoad(Form form)
+        {
+            FormLoad(form, EventArgs.Empty);
+        }
+
+        internal void OnFormShown(Form form)
+        {
+            FormShown(form, EventArgs.Empty);
+        }
+
+        internal void OnFormClosed(Form form)
+        {
+            FormClosed(form, EventArgs.Empty);
+        }
+
         public static event EventHandler FormConstructed = delegate { };
+        public event EventHandler FormLoad = delegate { };
+        public event EventHandler FormShown = delegate { };
+        public event EventHandler FormClosed = delegate { };
 
         #endregion
     }

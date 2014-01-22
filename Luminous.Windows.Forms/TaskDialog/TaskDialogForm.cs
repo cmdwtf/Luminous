@@ -1,5 +1,5 @@
 #region License
-// Copyright © 2013 £ukasz Œwi¹tkowski
+// Copyright © 2014 £ukasz Œwi¹tkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -29,6 +29,8 @@ namespace Luminous.Windows.Forms
     /// </summary>
     internal partial class TaskDialogForm : Form
     {
+        internal TaskDialog TaskDialog;
+
         public TaskDialogForm()
         {
             // This call is required by the Windows Form Designer.
@@ -698,13 +700,19 @@ namespace Luminous.Windows.Forms
             }
         }
 
-        private void TaskDialog_FormClosed(object sender, FormClosedEventArgs e)
+        private void TaskDialogForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            TaskDialog.OnFormClosed(this);
             if (_control != null)
             {
                 this.TableLayoutPanelContents.Controls.Remove(_control);
                 _control = null;
             }
+        }
+
+        private void TaskDialogForm_Shown(object sender, EventArgs e)
+        {
+            TaskDialog.OnFormShown(this);
         }
 
         protected override void OnLoad(System.EventArgs e)
@@ -791,7 +799,33 @@ namespace Luminous.Windows.Forms
 
             Activate();
 
+            uint result = 0;
+            if (Native.SystemParametersInfo(Native.SPI_GETSNAPTODEFBUTTON, 0, ref result, 0))
+            {
+                if (result != 0)
+                {
+                    var c = FindFocusedControl();
+                    if (c != null)
+                    {
+                        var  p = c.PointToScreen(new Point(c.Width / 2, c.Height / 2));
+                        Cursor.Position = p;
+                    }
+                }
+            }
+
             base.OnShown(e);
+        }
+
+        private Control FindFocusedControl()
+        {
+            var control = this as Control;
+            var container = control as ContainerControl;
+            while (container != null)
+            {
+                control = container.ActiveControl;
+                container = control as ContainerControl;
+            }
+            return control;
         }
 
         private void Button_Click(object sender, System.EventArgs e)

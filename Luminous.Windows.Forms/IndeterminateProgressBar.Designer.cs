@@ -1,6 +1,6 @@
 ﻿namespace Luminous.Windows.Forms
 {
-    partial class ComboBox
+    partial class IndeterminateProgressBar
     {
         /// <summary>
         /// Required designer variable.
@@ -15,6 +15,10 @@
         {
             if (disposing)
             {
+                if (timer.Enabled)
+                {
+                    timer.Enabled = false;
+                }
                 if (components != null)
                 {
                     components.Dispose();
@@ -31,14 +35,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // ComboBox
+            // timer
             // 
+            this.timer.Interval = 25;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer timer;
     }
 }

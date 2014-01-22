@@ -1,5 +1,5 @@
 #region License
-// Copyright © 2013 £ukasz Œwi¹tkowski
+// Copyright © 2014 £ukasz Œwi¹tkowski
 // http://www.lukesw.net/
 //
 // This library is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ namespace Luminous.Windows.Forms
     {
         public const uint GENERIC_ALL = 0x10000000;
         public const uint DESKTOP_SWITCHDESKTOP = 0x100;
+        public const uint SPI_GETSNAPTODEFBUTTON = 95;
 
         [DllImport("user32.dll", SetLastError=true)]
         public static extern IntPtr GetThreadDesktop(uint dwThreadId);
@@ -53,5 +54,9 @@ namespace Luminous.Windows.Forms
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseDesktop(IntPtr hDesktop);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref uint pvParam, uint fWinIni);
     }
 }
