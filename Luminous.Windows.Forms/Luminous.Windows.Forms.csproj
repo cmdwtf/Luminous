@@ -104,7 +104,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\key\Luminous.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\.meta\cmdwtf.Luminous.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -206,11 +206,6 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\key\Luminous.snk">
-      <Link>Luminous.snk</Link>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Luminous\Luminous.csproj">
       <Project>{2B793A9A-8B34-4D81-9907-C18707ACA440}</Project>
       <Name>Luminous</Name>
@@ -269,6 +264,11 @@
     <Content Include="Resources\SmallSecurityWarning.png" />
     <Content Include="Resources\SmallWarning.png" />
     <Content Include="Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.meta\cmdwtf.Luminous.snk">
+      <Link>cmdwtf.Luminous.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

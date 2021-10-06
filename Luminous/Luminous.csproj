@@ -104,7 +104,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\key\Luminous.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\.meta\cmdwtf.Luminous.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -237,6 +237,9 @@
     <Compile Include="Xml.Serialization\XmlSerializer2.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="..\.meta\cmdwtf.Luminous.snk">
+      <Link>cmdwtf.Luminous.snk</Link>
+    </None>
     <None Include="Properties\AssemblyInfo.Common.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfo.Common.cs</LastGenOutput>
@@ -247,11 +250,6 @@
       <DependentUpon>AssemblyInfo.Common.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\key\Luminous.snk">
-      <Link>Luminous.snk</Link>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

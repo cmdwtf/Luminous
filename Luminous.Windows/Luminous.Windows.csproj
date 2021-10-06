@@ -106,7 +106,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\key\Luminous.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\.meta\cmdwtf.Luminous.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -163,9 +163,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="..\..\..\key\Luminous.snk">
-      <Link>Luminous.snk</Link>
-    </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -234,7 +231,11 @@
   <ItemGroup>
     <Resource Include="Themes\Resources\ShieldHovered.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\.meta\cmdwtf.Luminous.snk">
+      <Link>cmdwtf.Luminous.snk</Link>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <CompileDependsOn>$(CompileDependsOn);CheckForCodeContracts</CompileDependsOn>
