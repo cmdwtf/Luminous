@@ -143,7 +143,7 @@ jobs:
     - name: Publish cmdwtf.Luminous.Windows.Forms
       uses: nitz/publish-nuget@13cf3a0ec3840b62a0fd20d559ab1e2a63b0d75a
       with:
-        PROJECT_FILE_PATH: Luminous.Windows.Forms/Luminous.Windows.Forms..csproj
+        PROJECT_FILE_PATH: Luminous.Windows.Forms/Luminous.Windows.Forms.csproj
         PACKAGE_NAME: cmdwtf.Luminous.Windows.Forms
         TAG_COMMIT: false
         VERSION_FILE_PATH: .meta/Version.props
