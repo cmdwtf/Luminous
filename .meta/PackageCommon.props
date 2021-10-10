@@ -35,5 +35,7 @@
       >
       <PackagePath>.\</PackagePath>
     </Content>
+    <!-- SourceLink needs to be able to find the repo root for each project. -->
+    <SourceRoot Include="$(cd)../"/>
   </ItemGroup>
 </Project>

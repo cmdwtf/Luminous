@@ -2,5 +2,4 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0-windows;net48;net472;net471;net47</TargetFrameworks>
   </PropertyGroup>
-
 </Project>
