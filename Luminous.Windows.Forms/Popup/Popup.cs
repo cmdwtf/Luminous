@@ -368,7 +368,7 @@ namespace Luminous.Windows.Forms
 
             _resizableTop = _resizableLeft = false;
             Point location = control.PointToScreen(new Point(area.Left, area.Top + area.Height));
-            Rectangle screen = Screen.FromControl(control).WorkingArea;
+            Rectangle screen = Screen.FromControl(control.FindForm()).WorkingArea;
             if (location.X + Size.Width > (screen.Left + screen.Width))
             {
                 _resizableLeft = true;
