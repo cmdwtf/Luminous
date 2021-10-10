@@ -1,6 +1,6 @@
-#region License
-// Copyright © 2014 £ukasz åwiπtkowski
-// http://www.lukesw.net/
+Ôªø#region License
+// Copyright ¬© 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright ¬© 2014 ≈Åukasz ≈öwiƒÖtkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,36 +14,36 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.Windows.Forms
 {
-    using System.Drawing;
-    using System.Windows.Forms;
+	using System.Drawing;
+	using System.Windows.Forms;
 
-    /// <summary>
-    /// Form used in LockSystem mode. Contains an image of grayed desktop.
-    /// </summary>
-    internal class BackgroundForm : Form
-    {
-        private Bitmap _background;
+	/// <summary>
+	/// Form used in LockSystem mode. Contains an image of grayed desktop.
+	/// </summary>
+	internal class BackgroundForm : Form
+	{
+		private readonly Bitmap _background;
 
-        public BackgroundForm(Bitmap background)
-        {
-            BackColor = Color.Black;
-            FormBorderStyle = FormBorderStyle.None;
-            Location = Point.Empty;
-            Size = Screen.PrimaryScreen.Bounds.Size;
-            StartPosition = FormStartPosition.Manual;
-            Visible = true;
-            _background = background;
-        }
+		public BackgroundForm(Bitmap background)
+		{
+			BackColor = Color.Black;
+			FormBorderStyle = FormBorderStyle.None;
+			Location = Point.Empty;
+			Size = Screen.PrimaryScreen.Bounds.Size;
+			StartPosition = FormStartPosition.Manual;
+			Visible = true;
+			_background = background;
+		}
 
-        protected override void OnShown(System.EventArgs e)
-        {
-            this.BackgroundImage = _background;
-            this.DoubleBuffered = true;
-            base.OnShown(e);
-        }
-    }
+		protected override void OnShown(System.EventArgs e)
+		{
+			BackgroundImage = _background;
+			DoubleBuffered = true;
+			base.OnShown(e);
+		}
+	}
 }

@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,17 +14,17 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace System
 {
-    public class EventArgs<T> : EventArgs
-    {
-        public EventArgs(T data)
-        {
-            Data = data;
-        }
+	public class EventArgs<T> : EventArgs
+	{
+		public EventArgs(T data)
+		{
+			Data = data;
+		}
 
-        public readonly T Data;
-    }
+		public readonly T Data;
+	}
 }

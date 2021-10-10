@@ -1,6 +1,6 @@
-#region License
-// Copyright © 2014 £ukasz åwiπtkowski
-// http://www.lukesw.net/
+Ôªø#region License
+// Copyright ¬© 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright ¬© 2014 ≈Åukasz ≈öwiƒÖtkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,168 +14,168 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.Windows.Forms
 {
-    using System;
+	using System;
 
-    /// <summary>
-    /// Represents a button on TaskDialog form.
-    /// </summary>
-    /// <remarks></remarks>
-    public class TaskDialogButton
-    {
-        #region Fields and Properties
+	/// <summary>
+	/// Represents a button on TaskDialog form.
+	/// </summary>
+	/// <remarks></remarks>
+	public class TaskDialogButton
+	{
+		#region Fields and Properties
 
-        private bool _useCustomText;
-        /// <summary>
-        /// Determines whether the button should contain a custom text.
-        /// </summary>
-        public bool UseCustomText
-        {
-            get { return _useCustomText; }
-            set { _useCustomText = value; }
-        }
+		private bool _useCustomText;
+		/// <summary>
+		/// Determines whether the button should contain a custom text.
+		/// </summary>
+		public bool UseCustomText
+		{
+			get => _useCustomText;
+			set => _useCustomText = value;
+		}
 
-        private string _text;
-        /// <summary>
-        /// The custom text shown on the button.
-        /// </summary>
-        public string Text
-        {
-            get { return _text; }
-            set { _text = value; }
-        }
+		private string _text;
+		/// <summary>
+		/// The custom text shown on the button.
+		/// </summary>
+		public string Text
+		{
+			get => _text;
+			set => _text = value;
+		}
 
-        private TaskDialogResult _result;
-        /// <summary>
-        /// Determines the value returned to the parent form when the button is clicked.
-        /// </summary>
-        public TaskDialogResult Result
-        {
-            get { return _result; }
-            set { _result = value; }
-        }
+		private TaskDialogResult _result;
+		/// <summary>
+		/// Determines the value returned to the parent form when the button is clicked.
+		/// </summary>
+		public TaskDialogResult Result
+		{
+			get => _result;
+			set => _result = value;
+		}
 
-        private bool _showElevationIcon;
-        /// <summary>
-        /// Determines whether to show the elevation icon (shield).
-        /// </summary>
-        public bool ShowElevationIcon
-        {
-            get { return _showElevationIcon; }
-            set { _showElevationIcon = value; }
-        }
+		private bool _showElevationIcon;
+		/// <summary>
+		/// Determines whether to show the elevation icon (shield).
+		/// </summary>
+		public bool ShowElevationIcon
+		{
+			get => _showElevationIcon;
+			set => _showElevationIcon = value;
+		}
 
-        private bool _isEnabled;
-        /// <summary>
-        /// Determines whether the button is enabled.
-        /// </summary>
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { _isEnabled = value; }
-        }
+		private bool _isEnabled;
+		/// <summary>
+		/// Determines whether the button is enabled.
+		/// </summary>
+		public bool IsEnabled
+		{
+			get => _isEnabled;
+			set => _isEnabled = value;
+		}
 
-        #endregion
+		#endregion
 
-        #region Events
+		#region Events
 
-        /// <summary>
-        /// Occurs when the button is clicked, but before the TaskDialog form is closed.
-        /// </summary>
-        public event EventHandler Click;
-        internal void RaiseClickEvent(object sender, EventArgs e)
-        {
-            if (Click != null)
-            {
-                Click(sender, e);
-            }
-        }
-        #endregion
+		/// <summary>
+		/// Occurs when the button is clicked, but before the TaskDialog form is closed.
+		/// </summary>
+		public event EventHandler Click;
+		internal void RaiseClickEvent(object sender, EventArgs e)
+		{
+			if (Click != null)
+			{
+				Click(sender, e);
+			}
+		}
+		#endregion
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Initializes the new instance of the TaskDialogButton.
-        /// </summary>
-        /// <param name="result">Determines the value returned to the parent form when the button is clicked.</param>
-        public TaskDialogButton(TaskDialogResult result)
-        {
-            _result = result;
-            _isEnabled = true;
-        }
+		/// <summary>
+		/// Initializes the new instance of the TaskDialogButton.
+		/// </summary>
+		/// <param name="result">Determines the value returned to the parent form when the button is clicked.</param>
+		public TaskDialogButton(TaskDialogResult result)
+		{
+			_result = result;
+			_isEnabled = true;
+		}
 
-        /// <summary>
-        /// Initializes the new instance of the TaskDialogButton.
-        /// </summary>
-        /// <param name="result">Determines the value returned to the parent form when the button is clicked.</param>
-        /// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
-        public TaskDialogButton(TaskDialogResult result, bool showElevationIcon)
-        {
-            _result = result;
-            _showElevationIcon = showElevationIcon;
-            _isEnabled = true;
-        }
+		/// <summary>
+		/// Initializes the new instance of the TaskDialogButton.
+		/// </summary>
+		/// <param name="result">Determines the value returned to the parent form when the button is clicked.</param>
+		/// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
+		public TaskDialogButton(TaskDialogResult result, bool showElevationIcon)
+		{
+			_result = result;
+			_showElevationIcon = showElevationIcon;
+			_isEnabled = true;
+		}
 
-        /// <summary>
-        /// Initializes the new instance of the TaskDialogButton.
-        /// </summary>
-        /// <param name="text">The custom text shown on the button.</param>
-        /// <param name="click">Occurs when the button is clicked, but before the TaskDialog form is closed.</param>
-        public TaskDialogButton(string text, EventHandler click)
-        {
-            _useCustomText = true;
-            _text = text;
-            _result = TaskDialogResult.None;
-            this.Click += click;
-            _isEnabled = true;
-        }
+		/// <summary>
+		/// Initializes the new instance of the TaskDialogButton.
+		/// </summary>
+		/// <param name="text">The custom text shown on the button.</param>
+		/// <param name="click">Occurs when the button is clicked, but before the TaskDialog form is closed.</param>
+		public TaskDialogButton(string text, EventHandler click)
+		{
+			_useCustomText = true;
+			_text = text;
+			_result = TaskDialogResult.None;
+			Click += click;
+			_isEnabled = true;
+		}
 
-        /// <summary>
-        /// Initializes the new instance of the TaskDialogButton.
-        /// </summary>
-        /// <param name="text">The custom text shown on the button.</param>
-        /// <param name="click">Occurs when the button is clicked, but before the TaskDialog form is closed.</param>
-        /// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
-        public TaskDialogButton(string text, EventHandler click, bool showElevationIcon)
-        {
-            _useCustomText = true;
-            _text = text;
-            _result = TaskDialogResult.None;
-            this.Click += click;
-            _showElevationIcon = showElevationIcon;
-            _isEnabled = true;
-        }
+		/// <summary>
+		/// Initializes the new instance of the TaskDialogButton.
+		/// </summary>
+		/// <param name="text">The custom text shown on the button.</param>
+		/// <param name="click">Occurs when the button is clicked, but before the TaskDialog form is closed.</param>
+		/// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
+		public TaskDialogButton(string text, EventHandler click, bool showElevationIcon)
+		{
+			_useCustomText = true;
+			_text = text;
+			_result = TaskDialogResult.None;
+			Click += click;
+			_showElevationIcon = showElevationIcon;
+			_isEnabled = true;
+		}
 
-        /// <summary>
-        /// Initializes the new instance of the TaskDialogButton.
-        /// </summary>
-        /// <param name="taskDialogResult">Determines the value returned to the parent form when the button is clicked.</param>
-        /// <param name="text">The custom text shown on the button.</param>
-        public TaskDialogButton(TaskDialogResult taskDialogResult, string text)
-        {
-            _useCustomText = true;
-            _text = text;
-            _result = taskDialogResult;
-            _isEnabled = true;
-        }
+		/// <summary>
+		/// Initializes the new instance of the TaskDialogButton.
+		/// </summary>
+		/// <param name="taskDialogResult">Determines the value returned to the parent form when the button is clicked.</param>
+		/// <param name="text">The custom text shown on the button.</param>
+		public TaskDialogButton(TaskDialogResult taskDialogResult, string text)
+		{
+			_useCustomText = true;
+			_text = text;
+			_result = taskDialogResult;
+			_isEnabled = true;
+		}
 
-        /// <summary>
-        /// Initializes the new instance of the TaskDialogButton.
-        /// </summary>
-        /// <param name="tresult">Determines the value returned to the parent form when the button is clicked.</param>
-        /// <param name="text">The custom text shown on the button.</param>
-        /// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
-        public TaskDialogButton(TaskDialogResult tresult, string text, bool showElevationIcon)
-        {
-            _useCustomText = true;
-            _text = text;
-            _result = tresult;
-            _showElevationIcon = showElevationIcon;
-            _isEnabled = true;
-        }
-        #endregion
-    }
+		/// <summary>
+		/// Initializes the new instance of the TaskDialogButton.
+		/// </summary>
+		/// <param name="tresult">Determines the value returned to the parent form when the button is clicked.</param>
+		/// <param name="text">The custom text shown on the button.</param>
+		/// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
+		public TaskDialogButton(TaskDialogResult tresult, string text, bool showElevationIcon)
+		{
+			_useCustomText = true;
+			_text = text;
+			_result = tresult;
+			_showElevationIcon = showElevationIcon;
+			_isEnabled = true;
+		}
+		#endregion
+	}
 }

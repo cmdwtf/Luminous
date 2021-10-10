@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,84 +14,83 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.Text.RegularExpressions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using Luminous.Threading;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text.RegularExpressions;
 
-    public static class TimeoutRegex
-    {
-        public const RegexOptions FastMultilineOptions = RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline;
-        public const RegexOptions FastSinglelineOptions = RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline;
+	using Luminous.Threading;
 
-        public static bool IsMatch(string input, string pattern)
-        {
-            return TimeoutTask.Run(() =>
-            {
-                return Regex.IsMatch(input, pattern);
-            });
-        }
+	public static class TimeoutRegex
+	{
+		public const RegexOptions FastMultilineOptions = RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline;
+		public const RegexOptions FastSinglelineOptions = RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline;
 
-        public static bool IsMatch(string input, string pattern, RegexOptions options)
-        {
-            return TimeoutTask.Run(() =>
-            {
-                return Regex.IsMatch(input, pattern, options);
-            });
-        }
+		public static bool IsMatch(string input, string pattern)
+		{
+			return TimeoutTask.Run(() =>
+			{
+				return Regex.IsMatch(input, pattern);
+			});
+		}
 
-        public static Match Match(string input, string pattern)
-        {
-            return TimeoutTask.Run(() =>
-            {
-                return Regex.Match(input, pattern);
-            });
-        }
+		public static bool IsMatch(string input, string pattern, RegexOptions options)
+		{
+			return TimeoutTask.Run(() =>
+			{
+				return Regex.IsMatch(input, pattern, options);
+			});
+		}
 
-        public static Match Match(string input, string pattern, RegexOptions options)
-        {
-            return TimeoutTask.Run(() =>
-            {
-                return Regex.Match(input, pattern, options);
-            });
-        }
+		public static Match Match(string input, string pattern)
+		{
+			return TimeoutTask.Run(() =>
+			{
+				return Regex.Match(input, pattern);
+			});
+		}
 
-        public static IList<Match> Matches(string input, string pattern)
-        {
-            return TimeoutTask.Run(() =>
-            {
-                return Regex.Matches(input, pattern).Cast<Match>().ToList().AsReadOnly();
-            });
-        }
+		public static Match Match(string input, string pattern, RegexOptions options)
+		{
+			return TimeoutTask.Run(() =>
+			{
+				return Regex.Match(input, pattern, options);
+			});
+		}
 
-        public static IList<Match> Matches(string input, string pattern, RegexOptions options)
-        {
-            return TimeoutTask.Run(() =>
-            {
-                return Regex.Matches(input, pattern, options).Cast<Match>().ToList().AsReadOnly();
-            });
-        }
+		public static IList<Match> Matches(string input, string pattern)
+		{
+			return TimeoutTask.Run(() =>
+			{
+				return Regex.Matches(input, pattern).Cast<Match>().ToList().AsReadOnly();
+			});
+		}
 
-        public static string[] Split(string input, string pattern)
-        {
-            return TimeoutTask.Run(() =>
-            {
-                return Regex.Split(input, pattern);
-            });
-        }
+		public static IList<Match> Matches(string input, string pattern, RegexOptions options)
+		{
+			return TimeoutTask.Run(() =>
+			{
+				return Regex.Matches(input, pattern, options).Cast<Match>().ToList().AsReadOnly();
+			});
+		}
 
-        public static string[] Split(string input, string pattern, RegexOptions options)
-        {
-            return TimeoutTask.Run(() =>
-            {
-                return Regex.Split(input, pattern, options);
-            });
-        }
-    }
+		public static string[] Split(string input, string pattern)
+		{
+			return TimeoutTask.Run(() =>
+			{
+				return Regex.Split(input, pattern);
+			});
+		}
+
+		public static string[] Split(string input, string pattern, RegexOptions options)
+		{
+			return TimeoutTask.Run(() =>
+			{
+				return Regex.Split(input, pattern, options);
+			});
+		}
+	}
 }

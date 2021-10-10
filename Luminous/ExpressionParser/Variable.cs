@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,42 +14,42 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ExpressionParser
 {
-    using System;
-    using System.Diagnostics;
+	using System;
+	using System.Diagnostics;
 
-    [DebuggerDisplay("{Name}")]
-    public class Variable : IVariable
-    {
-        private decimal _defaultStorage;
+	[DebuggerDisplay("{Name}")]
+	public class Variable : IVariable
+	{
+		private decimal _defaultStorage;
 
-        public Variable(string name)
-        {
-            Name = name;
-            GetValue = () => _defaultStorage;
-            SetValue = (value) => _defaultStorage = value;
-        }
+		public Variable(string name)
+		{
+			Name = name;
+			GetValue = () => _defaultStorage;
+			SetValue = (value) => _defaultStorage = value;
+		}
 
-        public Variable(string name, Func<decimal> getter, Action<decimal> setter)
-        {
-            Name = name;
-            GetValue = getter;
-            SetValue = setter;
-        }
+		public Variable(string name, Func<decimal> getter, Action<decimal> setter)
+		{
+			Name = name;
+			GetValue = getter;
+			SetValue = setter;
+		}
 
-        public string Name { get; protected set; }
+		public string Name { get; protected set; }
 
-        decimal IEvaluableElement.Evaluate() { return Value; }
-        public decimal Value
-        {
-            get { return GetValue(); }
-            set { SetValue(value); }
-        }
+		decimal IEvaluableElement.Evaluate() => Value;
+		public decimal Value
+		{
+			get => GetValue();
+			set => SetValue(value);
+		}
 
-        public readonly Func<decimal> GetValue;
-        public readonly Action<decimal> SetValue;
-    }
+		public readonly Func<decimal> GetValue;
+		public readonly Action<decimal> SetValue;
+	}
 }

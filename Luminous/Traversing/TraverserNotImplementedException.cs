@@ -1,6 +1,6 @@
 #region License
-// Copyright © 2014 £ukasz åwiπtkowski
-// http://www.lukesw.net/
+// Copyright ¬© 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright ¬© 2014 ≈Åukasz ≈öwiƒÖtkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,19 +14,19 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.Traversing
 {
-    using System;
-    using System.Runtime.Serialization;
+	using System;
+	using System.Runtime.Serialization;
 
-    [Serializable]
-    public class TraverserNotImplementedException : Exception
-    {
-        public TraverserNotImplementedException() { }
-        public TraverserNotImplementedException(string message) : base(message) { }
-        public TraverserNotImplementedException(string message, Exception inner) : base(message, inner) { }
-        protected TraverserNotImplementedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-    }
+	[Serializable]
+	public class TraverserNotImplementedException : Exception
+	{
+		public TraverserNotImplementedException() { }
+		public TraverserNotImplementedException(string message) : base(message) { }
+		public TraverserNotImplementedException(string message, Exception inner) : base(message, inner) { }
+		protected TraverserNotImplementedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+	}
 }

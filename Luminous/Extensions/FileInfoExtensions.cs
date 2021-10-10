@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,36 +14,35 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace System.IO
 {
-    using System;
-    using System.Diagnostics.Contracts;
-    using System.IO;
-    using System.Threading;
+	using System;
+	using System.Diagnostics.Contracts;
+	using System.Threading;
 
-    /// <summary>Extension methods for the FileInfo class.</summary>
-    public static class FileInfoExtensions
-    {
-        public static FileStream TryOpen(this FileInfo fileInfo, FileAccess access = FileAccess.ReadWrite, FileShare share = FileShare.None)
-        {
-            Contract.Requires<ArgumentNullException>(fileInfo != null);
+	/// <summary>Extension methods for the FileInfo class.</summary>
+	public static class FileInfoExtensions
+	{
+		public static FileStream TryOpen(this FileInfo fileInfo, FileAccess access = FileAccess.ReadWrite, FileShare share = FileShare.None)
+		{
+			Contract.Requires<ArgumentNullException>(fileInfo != null);
 
-            return fileInfo.Open(FileMode.Open, access, share);
-        }
+			return fileInfo.Open(FileMode.Open, access, share);
+		}
 
-        public static FileStream WaitAndOpen(this FileInfo fileInfo, TimeSpan timeout, FileAccess access = FileAccess.ReadWrite, FileShare share = FileShare.None)
-        {
-            Contract.Requires<ArgumentNullException>(fileInfo != null);
+		public static FileStream WaitAndOpen(this FileInfo fileInfo, TimeSpan timeout, FileAccess access = FileAccess.ReadWrite, FileShare share = FileShare.None)
+		{
+			Contract.Requires<ArgumentNullException>(fileInfo != null);
 
-            DateTime dt = DateTime.UtcNow;
-            FileStream fs = null;
-            while ((fs = TryOpen(fileInfo, access, share)) == null && (DateTime.UtcNow - dt) < timeout)
-            {
-                Thread.Sleep(250); // who knows better way and wants a free cookie? ;)
-            }
-            return fs;
-        }
-    }
+			DateTime dt = DateTime.UtcNow;
+			FileStream fs = null;
+			while ((fs = TryOpen(fileInfo, access, share)) == null && (DateTime.UtcNow - dt) < timeout)
+			{
+				Thread.Sleep(250); // who knows better way and wants a free cookie? ;)
+			}
+			return fs;
+		}
+	}
 }

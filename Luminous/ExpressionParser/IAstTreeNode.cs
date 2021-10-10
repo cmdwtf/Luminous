@@ -1,6 +1,6 @@
 #region License
-// Copyright © 2014 £ukasz åwiπtkowski
-// http://www.lukesw.net/
+// Copyright ¬© 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright ¬© 2014 ≈Åukasz ≈öwiƒÖtkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,21 +14,20 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ExpressionParser
 {
-    using System;
-    using System.Collections.Generic;
+	using System.Collections.Generic;
 
-    public interface IAstTreeNode : IEvaluableElement
-    {
-        new string Name { get; }
-        IExpressionElement Value { get; set; }
-        IList<IAstTreeNode> Children { get; }
+	public interface IAstTreeNode : IEvaluableElement
+	{
+		new string Name { get; }
+		IExpressionElement Value { get; set; }
+		IList<IAstTreeNode> Children { get; }
 
-        /// <summary>Returns a <see cref="System.String"/> that represents this expression node.</summary>
-        /// <returns>A <see cref="System.String"/> that represents this expression node.</returns>
-        string ToString();
-    }
+		/// <summary>Returns a <see cref="string"/> that represents this expression node.</summary>
+		/// <returns>A <see cref="string"/> that represents this expression node.</returns>
+		string ToString();
+	}
 }

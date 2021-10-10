@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,23 +14,20 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ExpressionParser
 {
-    using System;
-    using System.Diagnostics;
+	using System;
+	using System.Diagnostics;
 
-    [DebuggerDisplay("{Name}({ParametersCount})")]
-    public abstract class StatementBase : IStatement
-    {
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public decimal Invoke(params decimal[] parameters)
-        {
-            throw new NotImplementedException();
-        }
-        public abstract decimal Invoke(params IEvaluableElement[] parameters);
-        public virtual int ParametersCount { get { return 1; } }
-        public abstract string Name { get; }
-    }
+	[DebuggerDisplay("{Name}({ParametersCount})")]
+	public abstract class StatementBase : IStatement
+	{
+		[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+		public decimal Invoke(params decimal[] parameters) => throw new NotImplementedException();
+		public abstract decimal Invoke(params IEvaluableElement[] parameters);
+		public virtual int ParametersCount => 1;
+		public abstract string Name { get; }
+	}
 }

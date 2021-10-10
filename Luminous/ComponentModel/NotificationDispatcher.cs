@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,194 +14,212 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ComponentModel
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics.Contracts;
-    using System.Linq;
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Diagnostics.Contracts;
+	using System.Linq;
 
-    public class NotificationDispatcher
-    {
-        #region Constructor & properties
+	public class NotificationDispatcher
+	{
+		#region Constructor & properties
 
-        private readonly Dictionary<string, PropertyChangingEventHandler> _changingHandlers;
-        private readonly Dictionary<string, PropertyChangedEventHandler> _changedHandlers;
+		private readonly Dictionary<string, PropertyChangingEventHandler> _changingHandlers;
+		private readonly Dictionary<string, PropertyChangedEventHandler> _changedHandlers;
 
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_changingHandlers != null);
-            Contract.Invariant(_changedHandlers != null);
-        }
+		[ContractInvariantMethod]
+		private void ObjectInvariant()
+		{
+			Contract.Invariant(_changingHandlers != null);
+			Contract.Invariant(_changedHandlers != null);
+		}
 
-        public NotificationDispatcher()
-        {
-            _changingHandlers = new Dictionary<string, PropertyChangingEventHandler>();
-            _changedHandlers = new Dictionary<string, PropertyChangedEventHandler>();
-        }
+		public NotificationDispatcher()
+		{
+			_changingHandlers = new Dictionary<string, PropertyChangingEventHandler>();
+			_changedHandlers = new Dictionary<string, PropertyChangedEventHandler>();
+		}
 
-        #endregion
+		#endregion
 
-        #region Methods
+		#region Methods
 
-        public void RegisterNotifyingObject(NotifyingObject obj)
-        {
-            Contract.Requires<ArgumentNullException>(obj != null);
+		public void RegisterNotifyingObject(NotifyingObject obj)
+		{
+			Contract.Requires<ArgumentNullException>(obj != null);
 
-            RegisterNotifyingObject((INotifyPropertyChanging)obj);
-            RegisterNotifyingObject((INotifyPropertyChanged)obj);
-        }
+			RegisterNotifyingObject((INotifyPropertyChanging)obj);
+			RegisterNotifyingObject((INotifyPropertyChanged)obj);
+		}
 
-        public void RegisterNotifyingObject(INotifyPropertyChanging obj)
-        {
-            Contract.Requires<ArgumentNullException>(obj != null);
+		public void RegisterNotifyingObject(INotifyPropertyChanging obj)
+		{
+			Contract.Requires<ArgumentNullException>(obj != null);
 
-            obj.PropertyChanging += (sender, e) => ProcessNotification(sender, e);
-        }
+			obj.PropertyChanging += (sender, e) => ProcessNotification(sender, e);
+		}
 
-        public void RegisterNotifyingObject(INotifyPropertyChanged obj)
-        {
-            Contract.Requires<ArgumentNullException>(obj != null);
+		public void RegisterNotifyingObject(INotifyPropertyChanged obj)
+		{
+			Contract.Requires<ArgumentNullException>(obj != null);
 
-            obj.PropertyChanged += (sender, e) => ProcessNotification(sender, e);
-        }
+			obj.PropertyChanged += (sender, e) => ProcessNotification(sender, e);
+		}
 
-        public void RegisterNotificationHandlingMethods(object handler)
-        {
-            Contract.Requires<ArgumentNullException>(handler != null);
+		public void RegisterNotificationHandlingMethods(object handler)
+		{
+			Contract.Requires<ArgumentNullException>(handler != null);
 
-            var methods = handler.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
-            foreach (var method in methods)
-            {
-                if (method.ContainsGenericParameters || method.IsGenericMethod) continue;
-                var parameters = method.GetParameters();
-                if (parameters.Length != 2) continue;
-                if (parameters[0].ParameterType != typeof(object)) continue;
-                if (parameters[1].ParameterType.IsAssignableFrom(typeof(PropertyChangingEventArgs)))
-                {
-                    var changingAttributes = method.GetCustomAttributes(typeof(PropertyChangingHandlerAttribute), false).OfType<PropertyChangingHandlerAttribute>().ToList();
-                    if (changingAttributes.Count > 0)
-                    {
-                        var handlerDelegate = (PropertyChangingEventHandler)Delegate.CreateDelegate(typeof(PropertyChangingEventHandler), handler, method);
-                        Contract.Assume(handlerDelegate != null);
-                        foreach (var attribute in changingAttributes)
-                        {
-                            RegisterNotificationHandler(attribute.PropertyName, handlerDelegate);
-                        }
-                    }
-                }
-                if (parameters[1].ParameterType.IsAssignableFrom(typeof(PropertyChangedEventArgs)))
-                {
-                    var changedAttributes = method.GetCustomAttributes(typeof(PropertyChangedHandlerAttribute), false).OfType<PropertyChangedHandlerAttribute>().ToList();
-                    if (changedAttributes.Count > 0)
-                    {
-                        var handlerDelegate = (PropertyChangedEventHandler)Delegate.CreateDelegate(typeof(PropertyChangedEventHandler), handler, method);
-                        Contract.Assume(handlerDelegate != null);
-                        foreach (var attribute in changedAttributes)
-                        {
-                            RegisterNotificationHandler(attribute.PropertyName, handlerDelegate);
-                        }
-                    }
-                }
-            }
-        }
+			System.Reflection.MethodInfo[] methods = handler.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+			foreach (System.Reflection.MethodInfo method in methods)
+			{
+				if (method.ContainsGenericParameters || method.IsGenericMethod)
+				{
+					continue;
+				}
 
-        public void RegisterNotificationHandler(string propertyName, PropertyChangingEventHandler handler)
-        {
-            Contract.Requires<ArgumentNullException>(handler != null);
+				System.Reflection.ParameterInfo[] parameters = method.GetParameters();
+				if (parameters.Length != 2)
+				{
+					continue;
+				}
 
-            if (!_changingHandlers.ContainsKey(propertyName))
-            {
-                _changingHandlers[propertyName] = handler;
-            }
-            else
-            {
-                _changingHandlers[propertyName] = _changingHandlers[propertyName] += handler;
-            }
-        }
+				if (parameters[0].ParameterType != typeof(object))
+				{
+					continue;
+				}
 
-        public void UnregisterNotificationHandler(string propertyName, PropertyChangingEventHandler handler)
-        {
-            Contract.Requires<ArgumentNullException>(handler != null);
+				if (parameters[1].ParameterType.IsAssignableFrom(typeof(PropertyChangingEventArgs)))
+				{
+					var changingAttributes = method.GetCustomAttributes(typeof(PropertyChangingHandlerAttribute), false).OfType<PropertyChangingHandlerAttribute>().ToList();
+					if (changingAttributes.Count > 0)
+					{
+						var handlerDelegate = (PropertyChangingEventHandler)Delegate.CreateDelegate(typeof(PropertyChangingEventHandler), handler, method);
+						Contract.Assume(handlerDelegate != null);
+						foreach (PropertyChangingHandlerAttribute attribute in changingAttributes)
+						{
+							RegisterNotificationHandler(attribute.PropertyName, handlerDelegate);
+						}
+					}
+				}
+				if (parameters[1].ParameterType.IsAssignableFrom(typeof(PropertyChangedEventArgs)))
+				{
+					var changedAttributes = method.GetCustomAttributes(typeof(PropertyChangedHandlerAttribute), false).OfType<PropertyChangedHandlerAttribute>().ToList();
+					if (changedAttributes.Count > 0)
+					{
+						var handlerDelegate = (PropertyChangedEventHandler)Delegate.CreateDelegate(typeof(PropertyChangedEventHandler), handler, method);
+						Contract.Assume(handlerDelegate != null);
+						foreach (PropertyChangedHandlerAttribute attribute in changedAttributes)
+						{
+							RegisterNotificationHandler(attribute.PropertyName, handlerDelegate);
+						}
+					}
+				}
+			}
+		}
 
-            if (_changingHandlers.ContainsKey(propertyName))
-            {
-                _changingHandlers[propertyName] = _changingHandlers[propertyName] -= handler;
-            }
-        }
+		public void RegisterNotificationHandler(string propertyName, PropertyChangingEventHandler handler)
+		{
+			Contract.Requires<ArgumentNullException>(handler != null);
 
-        public void RegisterNotificationHandler(string propertyName, PropertyChangedEventHandler handler)
-        {
-            Contract.Requires<ArgumentNullException>(handler != null);
+			if (!_changingHandlers.ContainsKey(propertyName))
+			{
+				_changingHandlers[propertyName] = handler;
+			}
+			else
+			{
+				_changingHandlers[propertyName] = _changingHandlers[propertyName] += handler;
+			}
+		}
 
-            if (!_changedHandlers.ContainsKey(propertyName))
-            {
-                _changedHandlers[propertyName] = handler;
-            }
-            else
-            {
-                _changedHandlers[propertyName] = _changedHandlers[propertyName] += handler;
-            }
-        }
+		public void UnregisterNotificationHandler(string propertyName, PropertyChangingEventHandler handler)
+		{
+			Contract.Requires<ArgumentNullException>(handler != null);
 
-        public void UnregisterNotificationHandler(string propertyName, PropertyChangedEventHandler handler)
-        {
-            Contract.Requires<ArgumentNullException>(handler != null);
+			if (_changingHandlers.ContainsKey(propertyName))
+			{
+				_changingHandlers[propertyName] = _changingHandlers[propertyName] -= handler;
+			}
+		}
 
-            if (_changedHandlers.ContainsKey(propertyName))
-            {
-                _changedHandlers[propertyName] = _changedHandlers[propertyName] -= handler;
-            }
-        }
+		public void RegisterNotificationHandler(string propertyName, PropertyChangedEventHandler handler)
+		{
+			Contract.Requires<ArgumentNullException>(handler != null);
 
-        public void UnregisterAllNotificationHandlers(string propertyName)
-        {
-            if (_changingHandlers.ContainsKey(propertyName))
-            {
-                _changingHandlers.Remove(propertyName);
-            }
-            if (_changedHandlers.ContainsKey(propertyName))
-            {
-                _changedHandlers.Remove(propertyName);
-            }
-        }
+			if (!_changedHandlers.ContainsKey(propertyName))
+			{
+				_changedHandlers[propertyName] = handler;
+			}
+			else
+			{
+				_changedHandlers[propertyName] = _changedHandlers[propertyName] += handler;
+			}
+		}
 
-        public void UnregisterAllNotificationHandlers()
-        {
-            _changingHandlers.Clear();
-            _changedHandlers.Clear();
-        }
+		public void UnregisterNotificationHandler(string propertyName, PropertyChangedEventHandler handler)
+		{
+			Contract.Requires<ArgumentNullException>(handler != null);
 
-        public void ProcessNotification(object sender, PropertyChangingEventArgs e)
-        {
-            if (_changingHandlers.ContainsKey(e.PropertyName))
-            {
-                var handler = _changingHandlers[e.PropertyName];
-                if (handler != null) handler(sender, e);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine(string.Format("No {0} property changing handler registered.", e.PropertyName));
-            }
-        }
+			if (_changedHandlers.ContainsKey(propertyName))
+			{
+				_changedHandlers[propertyName] = _changedHandlers[propertyName] -= handler;
+			}
+		}
 
-        public void ProcessNotification(object sender, PropertyChangedEventArgs e)
-        {
-            if (_changedHandlers.ContainsKey(e.PropertyName))
-            {
-                var handler = _changedHandlers[e.PropertyName];
-                if (handler != null) handler(sender, e);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine(string.Format("No {0} property changed handler registered.", e.PropertyName));
-            }
-        }
+		public void UnregisterAllNotificationHandlers(string propertyName)
+		{
+			if (_changingHandlers.ContainsKey(propertyName))
+			{
+				_changingHandlers.Remove(propertyName);
+			}
+			if (_changedHandlers.ContainsKey(propertyName))
+			{
+				_changedHandlers.Remove(propertyName);
+			}
+		}
 
-        #endregion
-    }
+		public void UnregisterAllNotificationHandlers()
+		{
+			_changingHandlers.Clear();
+			_changedHandlers.Clear();
+		}
+
+		public void ProcessNotification(object sender, PropertyChangingEventArgs e)
+		{
+			if (_changingHandlers.ContainsKey(e.PropertyName))
+			{
+				PropertyChangingEventHandler handler = _changingHandlers[e.PropertyName];
+				if (handler != null)
+				{
+					handler(sender, e);
+				}
+			}
+			else
+			{
+				System.Diagnostics.Debug.WriteLine(string.Format("No {0} property changing handler registered.", e.PropertyName));
+			}
+		}
+
+		public void ProcessNotification(object sender, PropertyChangedEventArgs e)
+		{
+			if (_changedHandlers.ContainsKey(e.PropertyName))
+			{
+				PropertyChangedEventHandler handler = _changedHandlers[e.PropertyName];
+				if (handler != null)
+				{
+					handler(sender, e);
+				}
+			}
+			else
+			{
+				System.Diagnostics.Debug.WriteLine(string.Format("No {0} property changed handler registered.", e.PropertyName));
+			}
+		}
+
+		#endregion
+	}
 }

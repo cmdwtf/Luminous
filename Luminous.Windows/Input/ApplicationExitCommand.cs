@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,53 +14,44 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.Windows.Input
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Windows;
-    using System.Windows.Input;
+	using System;
+	using System.Windows;
+	using System.Windows.Input;
 
-    public sealed class ApplicationExitCommand : ICommand
-    {
-        #region Static Members
+	public sealed class ApplicationExitCommand : ICommand
+	{
+		#region Static Members
 
-        public static ICommand Instance
-        {
-            get { return _instance; }
-        }
+		public static ICommand Instance => _instance;
 
-        private static ICommand _instance = new ApplicationExitCommand();
+		private static readonly ICommand _instance = new ApplicationExitCommand();
 
-        #endregion
+		#endregion
 
-        #region Instance Members
+		#region Instance Members
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+		public bool CanExecute(object parameter) => true;
 
-        public event EventHandler CanExecuteChanged;
+		public event EventHandler CanExecuteChanged;
 
-        public void Execute(object parameter)
-        {
-            int exitCode = parameter is int ? (int)parameter : 0;
+		public void Execute(object parameter)
+		{
+			int exitCode = parameter is int ? (int)parameter : 0;
 
-            if (Application.Current != null)
-            {
-                Application.Current.Shutdown(exitCode);
-            }
-            else
-            {
-                Environment.Exit(exitCode);
-            }
-        }
+			if (Application.Current != null)
+			{
+				Application.Current.Shutdown(exitCode);
+			}
+			else
+			{
+				Environment.Exit(exitCode);
+			}
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -1,6 +1,6 @@
-#region License
-// Copyright © 2014 £ukasz Œwi¹tkowski
-// http://www.lukesw.net/
+ï»¿#region License
+// Copyright Â© 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright Â© 2014 Åukasz ÅšwiÄ…tkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,19 +14,19 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ExpressionParser
 {
-    public enum VariableChecking
-    {
-        /// <summary>
-        /// Don’t validate variable usage.
-        /// </summary>
-        None,
-        /// <summary>
-        /// Validate initialized variables usage.
-        /// </summary>
-        Standard,
-    }
+	public enum VariableChecking
+	{
+		/// <summary>
+		/// Donâ€™t validate variable usage.
+		/// </summary>
+		None,
+		/// <summary>
+		/// Validate initialized variables usage.
+		/// </summary>
+		Standard,
+	}
 }

@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,220 +14,158 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ExpressionParser
 {
-    using System;
+	using System;
 
-    public sealed class AbsFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Math.Abs(parameters[0]);
-        }
+	public sealed class AbsFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Math.Abs(parameters[0]);
 
-        public override int ParametersCount
-        {
-            get { return 1; }
-        }
+		public override int ParametersCount => 1;
 
-        public override string Name
-        {
-            get { return "abs"; }
-        }
-    }
+		public override string Name => "abs";
+	}
 
-    public sealed class CeilingFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Math.Ceiling(parameters[0]);
-        }
+	public sealed class CeilingFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Math.Ceiling(parameters[0]);
 
-        public override int ParametersCount
-        {
-            get { return 1; }
-        }
+		public override int ParametersCount => 1;
 
-        public override string Name
-        {
-            get { return "ceiling"; }
-        }
-    }
+		public override string Name => "ceiling";
+	}
 
-    public sealed class FloorFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Math.Floor(parameters[0]);
-        }
+	public sealed class FloorFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Math.Floor(parameters[0]);
 
-        public override int ParametersCount
-        {
-            get { return 1; }
-        }
+		public override int ParametersCount => 1;
 
-        public override string Name
-        {
-            get { return "floor"; }
-        }
-    }
+		public override string Name => "floor";
+	}
 
-    public sealed class MaxFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Math.Max(parameters[0], parameters[1]);
-        }
+	public sealed class MaxFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Math.Max(parameters[0], parameters[1]);
 
-        public override int ParametersCount
-        {
-            get { return 2; }
-        }
+		public override int ParametersCount => 2;
 
-        public override string Name
-        {
-            get { return "max"; }
-        }
-    }
+		public override string Name => "max";
+	}
 
-    public sealed class MinFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Math.Min(parameters[0], parameters[1]);
-        }
+	public sealed class MinFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Math.Min(parameters[0], parameters[1]);
 
-        public override int ParametersCount
-        {
-            get { return 2; }
-        }
+		public override int ParametersCount => 2;
 
-        public override string Name
-        {
-            get { return "min"; }
-        }
-    }
+		public override string Name => "min";
+	}
 
-    public sealed class PowFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Power(parameters[0], parameters[1]);
-        }
+	public sealed class PowFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Power(parameters[0], parameters[1]);
 
-        public static decimal Power(decimal X, decimal N)
-        {
-            Func<decimal, decimal, decimal> Pow = null;
-            Pow = (a, b) =>
-            {
-                if (b == 0) return 0;
-                if (b < 0) return 1m / Pow(a, -b);
+		public static decimal Power(decimal X, decimal N)
+		{
+			Func<decimal, decimal, decimal> Pow = null;
+			Pow = (a, b) =>
+			{
+				if (b == 0)
+				{
+					return 0;
+				}
 
-                decimal result = a;
-                while (b-- > 1) result *= a;
-                return result;
-            };
+				if (b < 0)
+				{
+					return 1m / Pow(a, -b);
+				}
 
-            if (N == decimal.Truncate(N))
-            {
-                return Pow(X, N);
-            }
+				decimal result = a;
+				while (b-- > 1)
+				{
+					result *= a;
+				}
 
-            return (decimal)Math.Pow((double)X, (double)N);
-        }
+				return result;
+			};
 
-        public override int ParametersCount
-        {
-            get { return 2; }
-        }
+			if (N == decimal.Truncate(N))
+			{
+				return Pow(X, N);
+			}
 
-        public override string Name
-        {
-            get { return "pow"; }
-        }
-    }
+			return (decimal)Math.Pow((double)X, (double)N);
+		}
 
-    //public sealed class RandFunction : FunctionBaseElement
-    //{
-    //    private static Random R = new Random();
+		public override int ParametersCount => 2;
 
-    //    public override decimal Invoke(params decimal[] parameters)
-    //    {
-    //        return (decimal)R.NextDouble();
-    //    }
+		public override string Name => "pow";
+	}
 
-    //    public override int ParametersCount
-    //    {
-    //        get { return 0; }
-    //    }
+	//public sealed class RandFunction : FunctionBaseElement
+	//{
+	//    private static Random R = new Random();
 
-    //    public override string Name
-    //    {
-    //        get { return "rand"; }
-    //    }
-    //}
+	//    public override decimal Invoke(params decimal[] parameters)
+	//    {
+	//        return (decimal)R.NextDouble();
+	//    }
 
-    public sealed class RoundFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Round(parameters[0], parameters[1]);
-        }
+	//    public override int ParametersCount
+	//    {
+	//        get { return 0; }
+	//    }
 
-        public static decimal Round(decimal left, decimal right)
-        {
-            if (right < 0m) right = -right;
-            if (Math.Abs(left % right) >= right / 2m) left += right * Math.Sign(left % right);
-            decimal result = left - left % right;
-            return result;
-        }
+	//    public override string Name
+	//    {
+	//        get { return "rand"; }
+	//    }
+	//}
 
-        public override int ParametersCount
-        {
-            get { return 2; }
-        }
+	public sealed class RoundFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Round(parameters[0], parameters[1]);
 
-        public override string Name
-        {
-            get { return "round"; }
-        }
-    }
+		public static decimal Round(decimal left, decimal right)
+		{
+			if (right < 0m)
+			{
+				right = -right;
+			}
 
-    public sealed class SignFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Math.Sign(parameters[0]);
-        }
+			if (Math.Abs(left % right) >= right / 2m)
+			{
+				left += right * Math.Sign(left % right);
+			}
 
-        public override int ParametersCount
-        {
-            get { return 1; }
-        }
+			decimal result = left - left % right;
+			return result;
+		}
 
-        public override string Name
-        {
-            get { return "sign"; }
-        }
-    }
+		public override int ParametersCount => 2;
 
-    public sealed class TruncateFunction : FunctionBase
-    {
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return Math.Truncate(parameters[0]);
-        }
+		public override string Name => "round";
+	}
 
-        public override int ParametersCount
-        {
-            get { return 1; }
-        }
+	public sealed class SignFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Math.Sign(parameters[0]);
 
-        public override string Name
-        {
-            get { return "truncate"; }
-        }
-    }
+		public override int ParametersCount => 1;
+
+		public override string Name => "sign";
+	}
+
+	public sealed class TruncateFunction : FunctionBase
+	{
+		public override decimal Invoke(params decimal[] parameters) => Math.Truncate(parameters[0]);
+
+		public override int ParametersCount => 1;
+
+		public override string Name => "truncate";
+	}
 }

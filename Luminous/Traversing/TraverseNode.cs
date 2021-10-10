@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,35 +14,35 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.Traversing
 {
-    /// <summary>
-    /// Represents the traversed node.
-    /// </summary>
-    public class TraverseNode<T>
-    {
-        public readonly T Value;
-        public readonly string Name;
-        public readonly object ParentValue;
-        public object Result;
+	/// <summary>
+	/// Represents the traversed node.
+	/// </summary>
+	public class TraverseNode<T>
+	{
+		public readonly T Value;
+		public readonly string Name;
+		public readonly object ParentValue;
+		public object Result;
 
-        public TraverseNode(T value)
-        {
-            Value = value;
-        }
+		public TraverseNode(T value)
+		{
+			Value = value;
+		}
 
-        public TraverseNode(T value, string name)
-            : this(value)
-        {
-            Name = name;
-        }
+		public TraverseNode(T value, string name)
+			: this(value)
+		{
+			Name = name;
+		}
 
-        public TraverseNode(T value, string name, object parentValue)
-            : this(value, name)
-        {
-            ParentValue = parentValue;
-        }
-    }
+		public TraverseNode(T value, string name, object parentValue)
+			: this(value, name)
+		{
+			ParentValue = parentValue;
+		}
+	}
 }

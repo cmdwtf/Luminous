@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,34 +14,30 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace System.Windows.Forms
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
-    using System.Linq;
-    using System.Text;
-    using System.Windows.Forms;
+	using System;
+	using System.Diagnostics.Contracts;
 
-    using Luminous.Windows.Forms;
+	using Luminous.Windows.Forms;
 
-    /// <summary>Extension methods for the ListView class.</summary>
-    public static class ListViewExtensions
-    {
-        public static void EnableSimpleSelect(this ListView @this, bool enable)
-        {
-            Contract.Requires<ArgumentNullException>(@this != null);
+	/// <summary>Extension methods for the ListView class.</summary>
+	public static class ListViewExtensions
+	{
+		public static void EnableSimpleSelect(this ListView @this, bool enable)
+		{
+			Contract.Requires<ArgumentNullException>(@this != null);
 
-            Native.ListView.SetExtendedListViewStyle(@this, Native.ListView.ExtendedStyle.SimpleSelect, enable);
-        }
+			Native.ListView.SetExtendedListViewStyle(@this, Native.ListView.ExtendedStyle.SimpleSelect, enable);
+		}
 
-        public static void EnableDoubleBuffering(this ListView @this, bool enable = true)
-        {
-            Contract.Requires<ArgumentNullException>(@this != null);
+		public static void EnableDoubleBuffering(this ListView @this, bool enable = true)
+		{
+			Contract.Requires<ArgumentNullException>(@this != null);
 
-            Native.ListView.SetExtendedListViewStyle(@this, Native.ListView.ExtendedStyle.DoubleBuffer, enable);
-        }
-    }
+			Native.ListView.SetExtendedListViewStyle(@this, Native.ListView.ExtendedStyle.DoubleBuffer, enable);
+		}
+	}
 }

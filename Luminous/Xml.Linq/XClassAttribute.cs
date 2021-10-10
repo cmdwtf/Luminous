@@ -1,6 +1,6 @@
-#region License
-// Copyright © 2014 £ukasz åwiπtkowski
-// http://www.lukesw.net/
+Ôªø#region License
+// Copyright ¬© 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright ¬© 2014 ≈Åukasz ≈öwiƒÖtkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,111 +14,127 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.Xml.Linq
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Xml.Linq;
 
-    public class XClassAttribute : XAttribute
-    {
-        public XClassAttribute(params string[] classes)
-            : base("class", string.Join(" ", classes))
-        {
-            _classes = (classes ?? new string[0]).Distinct().ToList();
-        }
+	public class XClassAttribute : XAttribute
+	{
+		public XClassAttribute(params string[] classes)
+			: base("class", string.Join(" ", classes))
+		{
+			_classes = (classes ?? new string[0]).Distinct().ToList();
+		}
 
-        public void Add(string @class)
-        {
-            if (!_classes.Contains(@class))
-            {
-                _classes.Add(@class);
-            }
-            Value = ToString();
-        }
+		public void Add(string @class)
+		{
+			if (!_classes.Contains(@class))
+			{
+				_classes.Add(@class);
+			}
+			Value = ToString();
+		}
 
-        public void Remove(string @class)
-        {
-            _classes.Remove(@class);
-            Value = ToString();
-        }
+		public void Remove(string @class)
+		{
+			_classes.Remove(@class);
+			Value = ToString();
+		}
 
-        public IList<string> Classes()
-        {
-            return _classes.AsReadOnly();
-        }
+		public IList<string> Classes() => _classes.AsReadOnly();
 
-        private List<string> _classes;
+		private readonly List<string> _classes;
 
-        public override string ToString()
-        {
-            return string.Join(" ", _classes.ToArray());
-        }
-    }
+		public override string ToString() => string.Join(" ", _classes.ToArray());
+	}
 
-    public static class XClassExtensions
-    {
-        public static void AddClass(this XElement @this, string @class)
-        {
-            if (@this == null) throw new ArgumentNullException();
+	public static class XClassExtensions
+	{
+		public static void AddClass(this XElement @this, string @class)
+		{
+			if (@this == null)
+			{
+				throw new ArgumentNullException();
+			}
 
-            var c = @this.ClassAttribute();
-            if (c == null)
-            {
-                @this.Add(c = new XClassAttribute());
-            }
-            c.Add(@class);
-        }
+			XClassAttribute c = @this.ClassAttribute();
+			if (c == null)
+			{
+				@this.Add(c = new XClassAttribute());
+			}
+			c.Add(@class);
+		}
 
-        public static void RemoveClass(this XElement @this, string @class)
-        {
-            if (@this == null) throw new ArgumentNullException();
+		public static void RemoveClass(this XElement @this, string @class)
+		{
+			if (@this == null)
+			{
+				throw new ArgumentNullException();
+			}
 
-            var c = @this.ClassAttribute();
-            if (c != null)
-            {
-                c.Remove(@class);
-            }
-        }
+			XClassAttribute c = @this.ClassAttribute();
+			if (c != null)
+			{
+				c.Remove(@class);
+			}
+		}
 
-        public static bool HasClassAttribute(this XElement @this)
-        {
-            if (@this == null) throw new ArgumentNullException();
+		public static bool HasClassAttribute(this XElement @this)
+		{
+			if (@this == null)
+			{
+				throw new ArgumentNullException();
+			}
 
-            return @this.ClassAttribute() != null;
-        }
+			return @this.ClassAttribute() != null;
+		}
 
-        public static bool HasClass(this XElement @this, string @class)
-        {
-            if (@this == null) throw new ArgumentNullException();
+		public static bool HasClass(this XElement @this, string @class)
+		{
+			if (@this == null)
+			{
+				throw new ArgumentNullException();
+			}
 
-            var c = @this.ClassAttribute();
-            if (c == null) return false;
-            return c.Classes().Contains(@class);
-        }
+			XClassAttribute c = @this.ClassAttribute();
+			if (c == null)
+			{
+				return false;
+			}
 
-        public static void ToggleClass(this XElement @this, string @class)
-        {
-            if (@this == null) throw new ArgumentNullException();
+			return c.Classes().Contains(@class);
+		}
 
-            if (@this.HasClass(@class))
-            {
-                @this.RemoveClass(@class);
-            }
-            else
-            {
-                @this.AddClass(@class);
-            }
-        }
+		public static void ToggleClass(this XElement @this, string @class)
+		{
+			if (@this == null)
+			{
+				throw new ArgumentNullException();
+			}
 
-        public static XClassAttribute ClassAttribute(this XElement @this)
-        {
-            if (@this == null) throw new ArgumentNullException();
+			if (@this.HasClass(@class))
+			{
+				@this.RemoveClass(@class);
+			}
+			else
+			{
+				@this.AddClass(@class);
+			}
+		}
 
-            return @this.Attribute("class") as XClassAttribute;
-        }
-    }
+		public static XClassAttribute ClassAttribute(this XElement @this)
+		{
+			if (@this == null)
+			{
+				throw new ArgumentNullException();
+			}
+
+			return @this.Attribute("class") as XClassAttribute;
+		}
+	}
 }

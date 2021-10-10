@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,22 +14,21 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ExpressionParser
 {
-    using System;
-    using System.ComponentModel;
+	using System.ComponentModel;
 
-    public class UndefinedVariableFoundEventArgs : HandledEventArgs
-    {
-        public UndefinedVariableFoundEventArgs(string name)
-            : base(false)
-        {
-            this.Name = name;
-        }
+	public class UndefinedVariableFoundEventArgs : HandledEventArgs
+	{
+		public UndefinedVariableFoundEventArgs(string name)
+			: base(false)
+		{
+			Name = name;
+		}
 
-        public string Name { get; private set; }
-        public IVariable HandledVariable { get; set; }
-    }
+		public string Name { get; private set; }
+		public IVariable HandledVariable { get; set; }
+	}
 }

@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,32 +14,29 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ExpressionParser
 {
-    using System;
+	using System;
 
-    public sealed class Function : FunctionBase
-    {
-        public Function(string name, int parametersCount, Func<decimal[], decimal> evaluator)
-        {
-            this._name = name;
-            this._parametersCount = parametersCount;
-            this.GetValue = evaluator;
-        }
+	public sealed class Function : FunctionBase
+	{
+		public Function(string name, int parametersCount, Func<decimal[], decimal> evaluator)
+		{
+			_name = name;
+			_parametersCount = parametersCount;
+			GetValue = evaluator;
+		}
 
-        public override decimal Invoke(params decimal[] parameters)
-        {
-            return GetValue(parameters);
-        }
+		public override decimal Invoke(params decimal[] parameters) => GetValue(parameters);
 
-        private string _name;
-        public override string Name { get { return _name; } }
+		private readonly string _name;
+		public override string Name => _name;
 
-        private int _parametersCount;
-        public override int ParametersCount { get { return _parametersCount; } }
+		private readonly int _parametersCount;
+		public override int ParametersCount => _parametersCount;
 
-        public readonly Func<decimal[], decimal> GetValue;
-    }
+		public readonly Func<decimal[], decimal> GetValue;
+	}
 }

@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,65 +14,65 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous
 {
-    using System;
-    using System.Diagnostics.Contracts;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
+	using System;
+	using System.Diagnostics.Contracts;
+	using System.IO;
+	using System.Runtime.Serialization.Formatters.Binary;
 
-    /// <summary>
-    /// Provides methods for object serialization/deserialization.
-    /// </summary>
-    public static class Serializer
-    {
-        /// <summary>
-        /// Deserializes an object from the array of bytes.
-        /// </summary>
-        public static T Deserialize<T>(byte[] array)
-        {
-            Contract.Requires<ArgumentNullException>(array != null);
-            Contract.Requires<ArgumentException>(array.Length > 0);
+	/// <summary>
+	/// Provides methods for object serialization/deserialization.
+	/// </summary>
+	public static class Serializer
+	{
+		/// <summary>
+		/// Deserializes an object from the array of bytes.
+		/// </summary>
+		public static T Deserialize<T>(byte[] array)
+		{
+			Contract.Requires<ArgumentNullException>(array != null);
+			Contract.Requires<ArgumentException>(array.Length > 0);
 
-            using (MemoryStream ms = new MemoryStream(array))
-            {
-                Contract.Assume(ms.CanSeek);
-                Contract.Assume(ms.Length > 0);
+			using (var ms = new MemoryStream(array))
+			{
+				Contract.Assume(ms.CanSeek);
+				Contract.Assume(ms.Length > 0);
 
-                BinaryFormatter formatter = new BinaryFormatter();
-                return (T)formatter.Deserialize(ms);
-            }
-        }
+				var formatter = new BinaryFormatter();
+				return (T)formatter.Deserialize(ms);
+			}
+		}
 
-        /// <summary>
-        /// Serializes the object to the array of bytes.
-        /// </summary>
-        public static byte[] Serialize<T>(T obj)
-        {
-            Contract.Requires<ArgumentNullException>(obj != null);
-            Contract.Ensures(Contract.Result<byte[]>() != null);
-            Contract.Ensures(Contract.Result<byte[]>().Length > 0);
+		/// <summary>
+		/// Serializes the object to the array of bytes.
+		/// </summary>
+		public static byte[] Serialize<T>(T obj)
+		{
+			Contract.Requires<ArgumentNullException>(obj != null);
+			Contract.Ensures(Contract.Result<byte[]>() != null);
+			Contract.Ensures(Contract.Result<byte[]>().Length > 0);
 
-            using (MemoryStream ms = new MemoryStream())
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(ms, obj);
-                byte[] bytes = ms.ToArray();
-                Contract.Assume(bytes.Length > 0);
-                return bytes;
-            }
-        }
+			using (var ms = new MemoryStream())
+			{
+				var bf = new BinaryFormatter();
+				bf.Serialize(ms, obj);
+				byte[] bytes = ms.ToArray();
+				Contract.Assume(bytes.Length > 0);
+				return bytes;
+			}
+		}
 
-        /// <summary>
-        /// Returns a deep copy of the object using serialization.
-        /// </summary>
-        public static T CopyBySerialization<T>(this T obj)
-        {
-            Contract.Requires<ArgumentNullException>(obj != null);
+		/// <summary>
+		/// Returns a deep copy of the object using serialization.
+		/// </summary>
+		public static T CopyBySerialization<T>(this T obj)
+		{
+			Contract.Requires<ArgumentNullException>(obj != null);
 
-            return Deserialize<T>(Serialize<T>(obj));
-        }
-    }
+			return Deserialize<T>(Serialize<T>(obj));
+		}
+	}
 }

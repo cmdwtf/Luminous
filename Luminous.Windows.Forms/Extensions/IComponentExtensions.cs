@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,51 +14,50 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace System.ComponentModel
 {
-    using System;
-    using System.ComponentModel;
-    using System.Diagnostics.Contracts;
+	using System;
+	using System.Diagnostics.Contracts;
 
-    public static class IComponentExtensions
-    {
-        public static bool IsInDesignMode(this IComponent component)
-        {
-            Contract.Requires<ArgumentNullException>(component != null);
+	public static class IComponentExtensions
+	{
+		public static bool IsInDesignMode(this IComponent component)
+		{
+			Contract.Requires<ArgumentNullException>(component != null);
 
-            bool designMode = false;
-            ISite site = component.Site;
-            if (site != null)
-            {
-                designMode = site.DesignMode;
-            }
-            return designMode;
-        }
+			bool designMode = false;
+			ISite site = component.Site;
+			if (site != null)
+			{
+				designMode = site.DesignMode;
+			}
+			return designMode;
+		}
 
-        public static bool IsInRuntimeMode(this IComponent component)
-        {
-            Contract.Requires<ArgumentNullException>(component != null);
+		public static bool IsInRuntimeMode(this IComponent component)
+		{
+			Contract.Requires<ArgumentNullException>(component != null);
 
-            bool flag = true;
-            ISite site = component.Site;
-            if (site != null)
-            {
-                flag = !site.DesignMode;
-            }
-            return flag;
-        }
+			bool flag = true;
+			ISite site = component.Site;
+			if (site != null)
+			{
+				flag = !site.DesignMode;
+			}
+			return flag;
+		}
 
-        public static void DisposeAlso(this IComponent component, IDisposable disposable)
-        {
-            Contract.Requires<ArgumentNullException>(component != null);
-            Contract.Requires<ArgumentNullException>(disposable != null);
+		public static void DisposeAlso(this IComponent component, IDisposable disposable)
+		{
+			Contract.Requires<ArgumentNullException>(component != null);
+			Contract.Requires<ArgumentNullException>(disposable != null);
 
-            component.Disposed += (sender, e) =>
-            {
-                disposable.Dispose();
-            };
-        }
-    }
+			component.Disposed += (sender, e) =>
+			{
+				disposable.Dispose();
+			};
+		}
+	}
 }

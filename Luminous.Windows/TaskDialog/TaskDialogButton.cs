@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,43 +14,38 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.Windows
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+	/// <summary>
+	/// Structure containing information used to display a button in a task dialog.
+	/// </summary>
+	public struct TaskDialogButton
+	{
+		/// <summary>
+		/// Indicates the value to be returned when this button is selected.
+		/// </summary>
+		public TaskDialogResult Result { get; set; }
 
-    /// <summary>
-    /// Structure containing information used to display a button in a task dialog.
-    /// </summary>
-    public struct TaskDialogButton
-    {
-        /// <summary>
-        /// Indicates the value to be returned when this button is selected.
-        /// </summary>
-        public TaskDialogResult Result { get; set; }
+		/// <summary>
+		/// Gets or sets the text shown on the button.
+		/// </summary>
+		public string Text { get; set; }
 
-        /// <summary>
-        /// Gets or sets the text shown on the button.
-        /// </summary>
-        public string Text { get; set; }
+		/// <summary>
+		/// Gets or sets the note shown on the button.
+		/// </summary>
+		public string Note { get; set; }
 
-        /// <summary>
-        /// Gets or sets the note shown on the button.
-        /// </summary>
-        public string Note { get; set; }
+		/// <summary>
+		/// Determines whether to show the elevation icon (shield).
+		/// </summary>
+		public bool IsElevationRequired { get; set; }
 
-        /// <summary>
-        /// Determines whether to show the elevation icon (shield).
-        /// </summary>
-        public bool IsElevationRequired { get; set; }
-
-        /// <summary>
-        /// Gets or sets an arbitrary object value that can be used to store custom information about this element.
-        /// </summary>
-        public object Tag { get; set; }
-    }
+		/// <summary>
+		/// Gets or sets an arbitrary object value that can be used to store custom information about this element.
+		/// </summary>
+		public object Tag { get; set; }
+	}
 }

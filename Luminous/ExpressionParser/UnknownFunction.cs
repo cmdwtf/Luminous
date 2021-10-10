@@ -1,6 +1,6 @@
 ﻿#region License
-// Copyright © 2014 Łukasz Świątkowski
-// http://www.lukesw.net/
+// Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
+// Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
 // This library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,29 +14,26 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library.  If not, see <http://www.gnu.org/licenses/>.
-#endregion
+#endregion License
 
 namespace Luminous.ExpressionParser
 {
-    using System;
-    using System.Diagnostics;
+	using System;
+	using System.Diagnostics;
 
-    [DebuggerDisplay("?{Name}({ParametersCount})")]
-    internal sealed class UnknownFunction : IFunction
-    {
-        public UnknownFunction(string name)
-        {
-            Name = name;
-            ParametersCount = -1;
-        }
+	[DebuggerDisplay("?{Name}({ParametersCount})")]
+	internal sealed class UnknownFunction : IFunction
+	{
+		public UnknownFunction(string name)
+		{
+			Name = name;
+			ParametersCount = -1;
+		}
 
-        public decimal Invoke(params decimal[] parameters)
-        {
-            throw new InvalidOperationException("Invalid operation.");
-        }
+		public decimal Invoke(params decimal[] parameters) => throw new InvalidOperationException("Invalid operation.");
 
-        public string Name { get; private set; }
+		public string Name { get; private set; }
 
-        public int ParametersCount { get; internal set; }
-    }
+		public int ParametersCount { get; internal set; }
+	}
 }
