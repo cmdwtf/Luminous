@@ -1,7 +1,10 @@
-# cmdwtf.Luminous
+# 🔆 cmdwtf.Luminous
 A collection of .NET, WinForms, and WPF tools, controls, and other extensions, based on the work of Łukasz Świątkowski's original [CodePlex project](https://luminous.codeplex.com/).
 
-## Content
+## 🆕 What's New?
+Projects have been updated to [SDK-style projects](https://docs.microsoft.com/en-us/dotnet/core/project-sdk/overview), and have been set to multi-target `net5.0-windows`, `net48`, `net472`, `net471`, `net47`. 
+
+## 🎛 Content
  - WPF and WinForms TaskDialog (formerly [VDialog](http://lukesw.net/articles/VDialog.aspx), ([WayBack](https://web.archive.org/web/20201030155900/https://lukesw.net/articles/VDialog.aspx)))
  - Popup control ([original post](http://lukesw.net/articles/SimplePopup.aspx), ([WayBack](https://web.archive.org/web/20201030153959/https://lukesw.net/articles/SimplePopup.aspx)))
  - GlassButton ([original post](https://lukesw.net/articles/GlassButton.aspx), ([WayBack](https://web.archive.org/web/20201030163109/https://lukesw.net/articles/GlassButton.aspx)))
@@ -11,7 +14,7 @@ A collection of .NET, WinForms, and WPF tools, controls, and other extensions, b
  - Linq to CSS
  - Other various extension methods
  
-## License
+## 📃 License
 cmdwtf.Luminous is licensed under the LGPL-3.0. See [LICENSE](./LICENSE) for more details.
 
 Copyright © 2021 [Chris Marc Dailey](https://cmd.wtf)  
