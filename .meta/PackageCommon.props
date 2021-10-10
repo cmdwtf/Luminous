@@ -1,0 +1,39 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Chris Marc Dailey (nitz); Łukasz Świątkowski</Authors>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Company>cmd.wtf</Company>
+    <Copyright>Copyright © 2021 Chris Marc Dailey, Copyright © 2014 Łukasz Świątkowski</Copyright>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <!--<PackageIcon>none-yet</PackageIcon>-->
+    <!-- Icon by Freepik -->
+    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/cmdwtf/Luminous</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/cmdwtf/Luminous</RepositoryUrl>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>$(Product)</Title>
+  </PropertyGroup>
+  <PropertyGroup>
+    <cd>$(MSBuildThisFileDirectory)</cd>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content
+      Condition="'$(PackageIcon)'!=''"
+      Include="$(cd)$(PackageIcon)"
+      Visible="false"
+      >
+      <PackagePath>.\</PackagePath>
+    </Content>
+    <Content
+      Include="$(cd)..\LICENSE; $(cd)..\*.md; $(cd)\*.md"
+      Visible="false"
+      >
+      <PackagePath>.\</PackagePath>
+    </Content>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <RootNamespace>Luminous</RootNamespace>
+    <AssemblyName>cmdwtf.$(RootNamespace)</AssemblyName>
+    <AssemblyTitle>cmdwtf.$(RootNamespace)</AssemblyTitle>
+    <AssemblyOriginatorKeyFile>..\.meta\cmdwtf.Luminous.snk</AssemblyOriginatorKeyFile>
+    <Deterministic>true</Deterministic>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <LangVersion>preview</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Nullable>annotations</Nullable>
+    <SignAssembly>true</SignAssembly>
+    <UseWindowsForms>false</UseWindowsForms>
+    <UseWPF>false</UseWPF>
+
+    <!-- Documentation -->
+    <GenerateDocumentation>false</GenerateDocumentation>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <None Include="..\.meta\Project.licenseheader" Link="Project.licenseheader" Visible="false" />
+  </ItemGroup>
+</Project>

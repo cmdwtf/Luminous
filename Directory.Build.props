@@ -1,30 +1,9 @@
 <Project>
-  <PropertyGroup>
-    <!-- Build Settings -->
-    <TargetFrameworks>net5.0-windows;net48;net472;net471;net47</TargetFrameworks>
-    <Deterministic>true</Deterministic>
-    <LangVersion>preview</LangVersion>
-    <UseWindowsForms>false</UseWindowsForms>
-    <UseWPF>false</UseWPF>
-    <Nullable>annotations</Nullable>
-
-    <!-- Assembly Info -->
-    <AssemblyTitle>cmdwtf.Luminous</AssemblyTitle>
-    <AssemblyName>cmdwtf.Luminous</AssemblyName>
-    <RootNamespace>Luminous</RootNamespace>
-    <Company>cmd.wtf</Company>
-    <Copyright>Copyright © 2021 Chris Marc Dailey, Copyright © 2014 Łukasz Świątkowski</Copyright>
-    <AssemblyOriginatorKeyFile>..\.meta\cmdwtf.Luminous.snk</AssemblyOriginatorKeyFile>
-    <NeutralLanguage>en</NeutralLanguage>
-    <SignAssembly>true</SignAssembly>
-    <VersionPrefix>1.1.0</VersionPrefix>
-    <VersionSuffix>upgrading</VersionSuffix>
-
-    <!-- Documentation -->
-    <GenerateDocumentation>false</GenerateDocumentation>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="..\.meta\Project.licenseheader" Link="Project.licenseheader" Visible="false" />
-  </ItemGroup>
+  <Import Project=".meta\TargetFrameworks.props" />
+  <Import Project=".meta\BuildSettings.props" />
+  <Import Project=".meta\Version.props" />
+  <Import Project=".meta\References.props" />
+  <Import Project=".meta\PackageStrings.props" />
+  <Import Project=".meta\PackageCommon.props" />
+  <Import Project=".meta\IncludeCommon.props" />
 </Project>

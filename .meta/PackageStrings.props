@@ -1,0 +1,28 @@
+<Project>
+  <Choose>
+    <When Condition="'$(MSBuildProjectName)' == 'Luminous'">
+      <PropertyGroup>
+        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+        <Description>A collection of .NET utiliites and tools.</Description>
+        <PackageTags>win32;windows;dialogs;winforms;wpf;utilities;extensions;helpers</PackageTags>
+        <Product>cmd.wtf $(MSBuildProjectName)</Product>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(MSBuildProjectName)' == 'Luminous.Windows'">
+      <PropertyGroup>
+        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+        <Description>A collection of .NET (WPF) Windows controls and tools. TaskDialogs, CommandLinks, and more.</Description>
+        <PackageTags>win32;windows;dialogs;wpf;utilities;extensions;helpers</PackageTags>
+        <Product>cmd.wtf $(MSBuildProjectName)</Product>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(MSBuildProjectName)' == 'Luminous.Windows.Forms'">
+      <PropertyGroup>
+        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+        <Description>A collection of .NET (WinForms) Windows controls and tools. Popups, Buttons, TaskDialogs, and more.</Description>
+        <PackageTags>win32;windows;dialogs;winforms;utilities;extensions;helpers</PackageTags>
+        <Product>cmd.wtf $(MSBuildProjectName)</Product>
+      </PropertyGroup>
+    </When>
+  </Choose>
+</Project>

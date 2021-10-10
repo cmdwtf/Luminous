@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup Condition="$(TargetIsWindows)">
+    <cd>$(MSBuildThisFileDirectory)</cd>
+    <!-- enable windows forms for windows projects that haven't already set it. -->
+    <UseWindowsForms Condition="'$(UseWindowsForms)' == ''">true</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup Condition="$(TargetIsNonWindows)">
+    <!-- remove all cs, resx files for non-windows targets -->
+    <Compile Remove="**\*.cs" />
+    <None Include="**\*.cs">
+      <CustomToolNamespace>$(TargetFramework)</CustomToolNamespace>
+    </None>
+    <EmbeddedResource Remove="**\*.resx" />
+    <!-- but still show the files -->
+    <!--<None Include="*.cs" />-->
+    <!-- add the stub -->
+    <Compile Include="$(cd)..\Shared\Stub.cs" Visible="false" />
+  </ItemGroup>
+</Project>

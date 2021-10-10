@@ -3,11 +3,15 @@
     <AssemblyName>$(AssemblyName).Windows.Forms</AssemblyName>
     <AssemblyTitle>$(AssemblyName).Windows.Forms</AssemblyTitle>
     <RootNamespace>$(RootNamespace).Windows.Forms</RootNamespace>
+    <PackageId>$(PackageId).Windows.Forms</PackageId>
+
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <ProjectGuid>{D5761A90-93E9-4E30-9E57-855A408E170C}</ProjectGuid>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Luminous\Luminous.csproj" />
+    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\*.png" />
