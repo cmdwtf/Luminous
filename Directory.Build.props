@@ -1,0 +1,30 @@
+<Project>
+  <PropertyGroup>
+    <!-- Build Settings -->
+    <TargetFrameworks>net5.0-windows;net48;net472;net471;net47</TargetFrameworks>
+    <Deterministic>true</Deterministic>
+    <LangVersion>preview</LangVersion>
+    <UseWindowsForms>false</UseWindowsForms>
+    <UseWPF>false</UseWPF>
+
+    <!-- TBD -->
+    <Nullable>annotations</Nullable>
+    <GenerateDocumentation>false</GenerateDocumentation>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+    <!-- Assembly Info -->
+    <AssemblyTitle>Luminous</AssemblyTitle>
+    <Company>cmd.wtf</Company>
+    <Copyright>Copyright © 2021 Chris Marc Dailey, Copyright © 2014 Łukasz Świątkowski</Copyright>
+    <AssemblyOriginatorKeyFile>..\.meta\cmdwtf.Luminous.snk</AssemblyOriginatorKeyFile>
+
+
+    <SignAssembly>true</SignAssembly>
+    <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionSuffix>upgrading</VersionSuffix>
+
+    <!-- Project Defaults -->
+    <RootNamespace>Luminous</RootNamespace>
+    <AssemblyName>Luminous</AssemblyName>
+  </PropertyGroup>
+</Project>

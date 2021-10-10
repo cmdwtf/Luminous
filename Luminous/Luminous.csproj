@@ -1,30 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net5.0-windows;net48;net472;net471;net47</TargetFrameworks>
-    <UseWindowsForms>false</UseWindowsForms>
-
-    <!-- Build Settings -->
-    <Deterministic>true</Deterministic>
-    <LangVersion>preview</LangVersion>
-
-    <!-- TBD -->
-    <Nullable>annotations</Nullable>
-    <GenerateDocumentation>false</GenerateDocumentation>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-
-    <!-- Assembly information-->
-    <AssemblyTitle>Luminous</AssemblyTitle>
-    <Company>cmd.wtf</Company>
-    <Copyright>Copyright © 2021 Chris Marc Dailey, Copyright © 2014 Łukasz Świątkowski</Copyright>
-    <AssemblyOriginatorKeyFile>..\.meta\cmdwtf.Luminous.snk</AssemblyOriginatorKeyFile>
-
-    <RootNamespace>Luminous</RootNamespace>
-    <AssemblyName>Luminous</AssemblyName>
-
     <ProjectGuid>{2B793A9A-8B34-4D81-9907-C18707ACA440}</ProjectGuid>
-    <SignAssembly>true</SignAssembly>
-    <VersionPrefix>1.1.0</VersionPrefix>
-    <VersionSuffix>upgrading</VersionSuffix>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
     <PackageReference Include="System.Windows.Extensions" Version="5.0.0" />
