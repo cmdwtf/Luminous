@@ -192,11 +192,7 @@ namespace Luminous.ComponentModel
 		{
 			if (_changingHandlers.ContainsKey(e.PropertyName))
 			{
-				PropertyChangingEventHandler handler = _changingHandlers[e.PropertyName];
-				if (handler != null)
-				{
-					handler(sender, e);
-				}
+				_changingHandlers[e.PropertyName]?.Invoke(sender, e);
 			}
 			else
 			{
@@ -208,11 +204,7 @@ namespace Luminous.ComponentModel
 		{
 			if (_changedHandlers.ContainsKey(e.PropertyName))
 			{
-				PropertyChangedEventHandler handler = _changedHandlers[e.PropertyName];
-				if (handler != null)
-				{
-					handler(sender, e);
-				}
+				_changedHandlers[e.PropertyName]?.Invoke(sender, e);
 			}
 			else
 			{

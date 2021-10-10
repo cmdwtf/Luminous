@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -40,16 +40,16 @@ namespace Luminous.Windows.Controls
 		#region " Note Property "
 
 		/// <summary>
-		/// Identifies the <see cref="P:System.Windows.Controls.CommandLink.Note" /> dependency property. 
+		/// Identifies the <see cref="P:System.Windows.Controls.CommandLink.Note" /> dependency property.
 		/// </summary>
 		/// <returns>
 		/// The identifier for the <see cref="P:System.Windows.Controls.CommandLink.Note" /> dependency property.
 		/// </returns>
-		public static readonly DependencyProperty NoteProperty = DependencyProperty.Register("Note", typeof(object), typeof(CommandLink), new UIPropertyMetadata(null, _NoteChanged));
+		public static readonly DependencyProperty NoteProperty = DependencyProperty.Register("Note", typeof(object), typeof(CommandLink), new UIPropertyMetadata(null, NoteChangedInternal));
 		private static readonly DependencyPropertyKey HasNotePropertyKey = DependencyProperty.RegisterReadOnly("HasNote", typeof(bool), typeof(CommandLink), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.None));
 
 		/// <summary>
-		/// Identifies the <see cref="P:System.Windows.Controls.CommandLink.HasNote" /> dependency property. 
+		/// Identifies the <see cref="P:System.Windows.Controls.CommandLink.HasNote" /> dependency property.
 		/// </summary>
 		/// <returns>
 		/// The identifier for the <see cref="P:System.Windows.Controls.CommandLink.HasNote" /> dependency property.
@@ -69,7 +69,7 @@ namespace Luminous.Windows.Controls
 			set => SetValue(NoteProperty, value);
 		}
 
-		private static void _NoteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private static void NoteChangedInternal(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var cl = (CommandLink)d;
 			cl.SetValue(HasNotePropertyKey, e.NewValue != null);
@@ -77,7 +77,7 @@ namespace Luminous.Windows.Controls
 		}
 
 		/// <summary>
-		/// Identifies the <see cref="E:System.Windows.Controls.CommandLink.NoteChanged" /> routed event. 
+		/// Identifies the <see cref="E:System.Windows.Controls.CommandLink.NoteChanged" /> routed event.
 		/// </summary>
 		/// <returns>
 		/// The identifier for the <see cref="E:System.Windows.Controls.CommandLink.NoteChanged" /> routed event.
@@ -85,7 +85,7 @@ namespace Luminous.Windows.Controls
 		public static readonly RoutedEvent NoteChangedEvent = EventManager.RegisterRoutedEvent("NoteChanged", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<object>), typeof(CommandLink));
 
 		/// <summary>
-		/// Occurs when the note changes. 
+		/// Occurs when the note changes.
 		/// </summary>
 		[Category("Behavior")]
 		public event RoutedPropertyChangedEventHandler<object> NoteChanged
@@ -94,10 +94,10 @@ namespace Luminous.Windows.Controls
 			remove { RemoveHandler(NoteChangedEvent, value); }
 		}
 
-		private void RaiseNoteChangedEvent(object oldNote, object newNote) => RaiseEvent(new RoutedPropertyChangedEventArgs<object>(oldNote, newNote, CommandLink.NoteChangedEvent));
+		private void RaiseNoteChangedEvent(object oldNote, object newNote) => RaiseEvent(new RoutedPropertyChangedEventArgs<object>(oldNote, newNote, NoteChangedEvent));
 
 		/// <summary>
-		/// Raises the <see cref="E:System.Windows.Controls.CommandLink.NoteChanged" /> routed event. 
+		/// Raises the <see cref="E:System.Windows.Controls.CommandLink.NoteChanged" /> routed event.
 		/// </summary>
 		/// <param name="oldValue">
 		/// Old value of the <see cref="P:System.Windows.Controls.CommandLink.Note" /> property
@@ -113,19 +113,19 @@ namespace Luminous.Windows.Controls
 		/// <returns>true if the <see cref="P:System.Windows.Controls.CommandLink.Note" /> property should be persisted; otherwise, false.
 		/// </returns>
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public virtual bool ShouldSerializeNote() => (base.ReadLocalValue(NoteProperty) != DependencyProperty.UnsetValue);
+		public virtual bool ShouldSerializeNote() => (ReadLocalValue(NoteProperty) != DependencyProperty.UnsetValue);
 
 		#endregion
 
 		#region " Icon Property "
 
 		/// <summary>
-		/// Identifies the <see cref="P:System.Windows.Controls.CommandLink.Icon" /> dependency property. 
+		/// Identifies the <see cref="P:System.Windows.Controls.CommandLink.Icon" /> dependency property.
 		/// </summary>
 		/// <returns>
 		/// The identifier for the <see cref="P:System.Windows.Controls.CommandLink.Icon" /> dependency property.
 		/// </returns>
-		public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(CommandLinkIcon), typeof(CommandLink), new UIPropertyMetadata(CommandLinkIcon.Arrow, _IconChanged));
+		public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(CommandLinkIcon), typeof(CommandLink), new UIPropertyMetadata(CommandLinkIcon.Arrow, IconChangedInternal));
 
 		/// <summary>
 		/// Gets or sets the value indicating what icon to show on a CommandLink control. This is a dependency property.
@@ -140,14 +140,14 @@ namespace Luminous.Windows.Controls
 			set => SetValue(IconProperty, value);
 		}
 
-		private static void _IconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private static void IconChangedInternal(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var cl = (CommandLink)d;
 			cl.OnIconChanged((CommandLinkIcon)e.OldValue, (CommandLinkIcon)e.NewValue);
 		}
 
 		/// <summary>
-		/// Identifies the <see cref="E:System.Windows.Controls.CommandLink.IconChanged" /> routed event. 
+		/// Identifies the <see cref="E:System.Windows.Controls.CommandLink.IconChanged" /> routed event.
 		/// </summary>
 		/// <returns>
 		/// The identifier for the <see cref="E:System.Windows.Controls.CommandLink.IconChanged" /> routed event.
@@ -155,7 +155,7 @@ namespace Luminous.Windows.Controls
 		public static readonly RoutedEvent IconChangedEvent = EventManager.RegisterRoutedEvent("IconChanged", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<CommandLinkIcon>), typeof(CommandLink));
 
 		/// <summary>
-		/// Occurs when the Icon property changes. 
+		/// Occurs when the Icon property changes.
 		/// </summary>
 		[Category("Behavior")]
 		public event RoutedPropertyChangedEventHandler<CommandLinkIcon> IconChanged
@@ -164,10 +164,10 @@ namespace Luminous.Windows.Controls
 			remove { RemoveHandler(IconChangedEvent, value); }
 		}
 
-		private void RaiseIconChangedEvent(CommandLinkIcon oldIcon, CommandLinkIcon newIcon) => RaiseEvent(new RoutedPropertyChangedEventArgs<object>(oldIcon, newIcon, CommandLink.IconChangedEvent));
+		private void RaiseIconChangedEvent(CommandLinkIcon oldIcon, CommandLinkIcon newIcon) => RaiseEvent(new RoutedPropertyChangedEventArgs<object>(oldIcon, newIcon, IconChangedEvent));
 
 		/// <summary>
-		/// Raises the <see cref="E:System.Windows.Controls.CommandLink.IconChanged" /> routed event. 
+		/// Raises the <see cref="E:System.Windows.Controls.CommandLink.IconChanged" /> routed event.
 		/// </summary>
 		/// <param name="oldValue">
 		/// Old value of the <see cref="P:System.Windows.Controls.CommandLink.Icon" /> property

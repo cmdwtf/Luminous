@@ -90,8 +90,7 @@ namespace Luminous.Xml.Serialization
 
 			for (int i = x.ChildNodes.Count - 1; i >= 0; i--)
 			{
-				var c = x.ChildNodes[i] as XmlElement;
-				if (c != null)
+				if (x.ChildNodes[i] is XmlElement c)
 				{
 					ProcessElement(level + 1, c);
 				}

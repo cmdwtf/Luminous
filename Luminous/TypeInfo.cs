@@ -25,13 +25,11 @@ namespace System
 	{
 		public static FieldInfo GetField<TField>(Expression<Func<TField>> field)
 		{
-			var lambdaExpression = field as LambdaExpression;
-			if (lambdaExpression == null)
+			if (field is not LambdaExpression lambdaExpression)
 			{
 				throw new ArgumentNullException("field");
 			}
-			var memberExpression = lambdaExpression.Body as MemberExpression;
-			if (memberExpression == null)
+			if (lambdaExpression.Body is not MemberExpression memberExpression)
 			{
 				throw new ArgumentNullException("field");
 			}
@@ -44,13 +42,11 @@ namespace System
 
 		public static FieldInfo GetField<TType, TField>(Expression<Func<TType, TField>> field)
 		{
-			var lambdaExpression = field as LambdaExpression;
-			if (lambdaExpression == null)
+			if (field is not LambdaExpression lambdaExpression)
 			{
 				throw new ArgumentNullException("field");
 			}
-			var memberExpression = lambdaExpression.Body as MemberExpression;
-			if (memberExpression == null)
+			if (lambdaExpression.Body is not MemberExpression memberExpression)
 			{
 				throw new ArgumentNullException("field");
 			}
@@ -63,13 +59,11 @@ namespace System
 
 		public static PropertyInfo GetProperty<TProperty>(Expression<Func<TProperty>> property)
 		{
-			var lambdaExpression = property as LambdaExpression;
-			if (lambdaExpression == null)
+			if (property is not LambdaExpression lambdaExpression)
 			{
 				throw new ArgumentNullException("property");
 			}
-			var memberExpression = lambdaExpression.Body as MemberExpression;
-			if (memberExpression == null)
+			if (lambdaExpression.Body is not MemberExpression memberExpression)
 			{
 				throw new ArgumentNullException("property");
 			}
@@ -82,13 +76,11 @@ namespace System
 
 		public static PropertyInfo GetProperty<TType, TProperty>(Expression<Func<TType, TProperty>> property)
 		{
-			var lambdaExpression = property as LambdaExpression;
-			if (lambdaExpression == null)
+			if (property is not LambdaExpression lambdaExpression)
 			{
 				throw new ArgumentNullException("property");
 			}
-			var memberExpression = lambdaExpression.Body as MemberExpression;
-			if (memberExpression == null)
+			if (lambdaExpression.Body is not MemberExpression memberExpression)
 			{
 				throw new ArgumentNullException("property");
 			}
@@ -101,8 +93,7 @@ namespace System
 
 		private static MethodInfo GetMethodInfo(Expression method)
 		{
-			var lambda = method as LambdaExpression;
-			if (lambda == null)
+			if (method is not LambdaExpression lambda)
 			{
 				throw new ArgumentNullException("method");
 			}

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -27,11 +27,11 @@ namespace Luminous.Windows.Forms
 
 		public GripBounds(Rectangle clientRectangle)
 		{
-			this.clientRectangle = clientRectangle;
+			_clientRectangle = clientRectangle;
 		}
 
-		private Rectangle clientRectangle;
-		public Rectangle ClientRectangle => clientRectangle;
+		private Rectangle _clientRectangle;
+		public Rectangle ClientRectangle => _clientRectangle;
 
 		public Rectangle Bottom
 		{

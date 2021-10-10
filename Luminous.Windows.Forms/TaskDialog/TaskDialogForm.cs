@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -30,7 +30,7 @@ namespace Luminous.Windows.Forms
 	/// </summary>
 	internal partial class TaskDialogForm : Form
 	{
-		internal TaskDialog TaskDialog;
+		internal TaskDialog _taskDialog;
 
 		public TaskDialogForm()
 		{
@@ -120,7 +120,7 @@ namespace Luminous.Windows.Forms
 			get
 			{
 				CreateParams cp = base.CreateParams;
-				if (!CanCancel)
+				if (!_canCancel)
 				{
 					cp.ClassStyle |= 0x200; // CS_NOCLOSE
 				}
@@ -220,7 +220,7 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private bool CanCancel;
+		private bool _canCancel;
 
 		private TaskDialogButton[] _vButtons;
 		public TaskDialogButton[] VButtons
@@ -254,7 +254,7 @@ namespace Luminous.Windows.Forms
 					{
 						if (value[i].Result == TaskDialogResult.Cancel)
 						{
-							CanCancel = true;
+							_canCancel = true;
 							CancelButton = (IButtonControl)Buttons[i];
 						}
 						if (value[i].UseCustomText)
@@ -279,7 +279,7 @@ namespace Luminous.Windows.Forms
 				}
 				if (value.Length == 1)
 				{
-					CanCancel = true;
+					_canCancel = true;
 					CancelButton = (IButtonControl)Buttons[0];
 					AcceptButton = (IButtonControl)Buttons[0];
 				}
@@ -482,12 +482,7 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private TaskDialogDefaultButton _defaultButton;
-		public TaskDialogDefaultButton DefaultButton
-		{
-			get => _defaultButton;
-			set => _defaultButton = value;
-		}
+		public TaskDialogDefaultButton DefaultButton { get; set; }
 
 		private bool ShowCheckBox
 		{
@@ -550,12 +545,7 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private bool _expandFooterArea;
-		public bool ExpandFooterArea
-		{
-			get => _expandFooterArea;
-			set => _expandFooterArea = value;
-		}
+		public bool ExpandFooterArea { get; set; }
 
 		private bool _expanded;
 		public bool Expanded
@@ -709,7 +699,7 @@ namespace Luminous.Windows.Forms
 
 		private void TaskDialogForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			TaskDialog.OnFormClosed(this);
+			_taskDialog.OnFormClosed(this);
 			if (_control != null)
 			{
 				TableLayoutPanelContents.Controls.Remove(_control);
@@ -717,12 +707,12 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private void TaskDialogForm_Shown(object sender, EventArgs e) => TaskDialog.OnFormShown(this);
+		private void TaskDialogForm_Shown(object sender, EventArgs e) => _taskDialog.OnFormShown(this);
 
 		protected override void OnLoad(System.EventArgs e)
 		{
 			base.OnLoad(e);
-			borderSize = Size - ClientSize;
+			_borderSize = Size - ClientSize;
 
 			//'Tag = Nothing
 			//'Dim i As Integer = DirectCast(DefaultButton, Integer)
@@ -752,13 +742,13 @@ namespace Luminous.Windows.Forms
 			//'End If
 		}
 
-		private Size borderSize;
+		private Size _borderSize;
 
 		public override Size GetPreferredSize(Size proposedSize)
 		{
 			Size size = TableLayoutPanel.GetPreferredSize(proposedSize);
-			size.Width = Math.Max(size.Width, MinimumSize.Width) + borderSize.Width;
-			size.Height = Math.Max(size.Height, MinimumSize.Height) + borderSize.Height;
+			size.Width = Math.Max(size.Width, MinimumSize.Width) + _borderSize.Width;
+			size.Height = Math.Max(size.Height, MinimumSize.Height) + _borderSize.Height;
 			return size;
 		}
 
@@ -876,13 +866,7 @@ namespace Luminous.Windows.Forms
 			MakeCenter();
 		}
 
-		private void RaiseLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-		{
-			if (LinkClicked != null)
-			{
-				LinkClicked(sender, e);
-			}
-		}
+		private void RaiseLinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e) => LinkClicked?.Invoke(sender, e);
 
 		private void MakeCenter()
 		{

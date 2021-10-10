@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -43,7 +43,7 @@ namespace Luminous.Windows.Forms
 		private bool _isFocusedByKey;
 		private bool _isKeyDown;
 		private bool _isMouseDown;
-		private bool _isPressed => _isKeyDown || (_isMouseDown && _isHovered);
+		private bool IsPressed => _isKeyDown || (_isMouseDown && _isHovered);
 
 		private bool _expanded;
 		public bool Expanded
@@ -56,7 +56,7 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		public override bool Focused => false;
+		public override bool Focused => _isFocused || _isFocusedByKey;
 
 		#endregion
 
@@ -64,7 +64,7 @@ namespace Luminous.Windows.Forms
 
 		private void SetImage()
 		{
-			if (_isPressed)
+			if (IsPressed)
 			{
 				Image = _expanded
 						? Properties.Resources.ChevronLessPressed

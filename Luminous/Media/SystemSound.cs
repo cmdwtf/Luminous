@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -28,7 +28,7 @@ namespace Luminous.Media
 	/// <summary>Represents a system sound. This class cannot be inherited.</summary>
 	public sealed class SystemSound
 	{
-		private static readonly string _mediaPath = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\Media\");
+		private static readonly string MediaPath = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\Media\");
 		private readonly string _name;
 
 		/// <summary>Initializes a new instance of the <see cref="T:SystemSound" /> class.</summary>
@@ -44,9 +44,9 @@ namespace Luminous.Media
 			try
 			{
 				string soundPath = Registry.GetValue(@"HKEY_CURRENT_USER\AppEvents\Schemes\Apps\.Default\" + _name + @"\.Current", null, null) as string ?? string.Empty;
-				if (!File.Exists(soundPath) && File.Exists(Path.Combine(_mediaPath, soundPath)))
+				if (!File.Exists(soundPath) && File.Exists(Path.Combine(MediaPath, soundPath)))
 				{
-					soundPath = Path.Combine(_mediaPath, soundPath);
+					soundPath = Path.Combine(MediaPath, soundPath);
 				}
 				if (File.Exists(soundPath))
 				{

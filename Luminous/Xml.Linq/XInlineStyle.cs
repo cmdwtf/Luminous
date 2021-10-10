@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -33,14 +33,14 @@ namespace Luminous.Xml.Linq
 
 		public void Remove(string name)
 		{
-			XCssDeclaration d = Declarations.Find(_d => _d.Name == name);
-			if (d != null)
+			XCssDeclaration decl = Declarations.Find(d => d.Name == name);
+			if (decl != null)
 			{
-				Declarations.Remove(d);
+				Declarations.Remove(decl);
 			}
 		}
 
-		public void RemoveAll(string name) => Declarations.RemoveAll(_d => _d.Name == name);
+		public void RemoveAll(string name) => Declarations.RemoveAll(d => d.Name == name);
 
 		public List<XCssDeclaration> Declarations { get; private set; }
 

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -79,10 +79,10 @@ namespace Luminous.Windows.Forms
 		#region Fields and Properties
 
 		private Color _backColor;
-		/// <summary> 
-		/// Gets or sets the background color of the control. 
-		/// </summary> 
-		/// <returns>A <see cref="T:System.Drawing.Color" /> value representing the background color.</returns> 
+		/// <summary>
+		/// Gets or sets the background color of the control.
+		/// </summary>
+		/// <returns>A <see cref="T:System.Drawing.Color" /> value representing the background color.</returns>
 		[DefaultValue(typeof(Color), "Transparent")]
 		public new virtual Color BackColor
 		{
@@ -102,10 +102,10 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		/// <summary> 
-		/// Gets or sets the foreground color of the control. 
-		/// </summary> 
-		/// <returns>The foreground <see cref="T:System.Drawing.Color" /> of the control.</returns> 
+		/// <summary>
+		/// Gets or sets the foreground color of the control.
+		/// </summary>
+		/// <returns>The foreground <see cref="T:System.Drawing.Color" /> of the control.</returns>
 		[DefaultValue(typeof(Color), "21, 28, 85")]
 		public new virtual Color ForeColor
 		{
@@ -114,10 +114,10 @@ namespace Luminous.Windows.Forms
 		}
 
 		private Color _hotForeColor;
-		/// <summary> 
-		/// Gets or sets the hot foreground color of the control. 
-		/// </summary> 
-		/// <returns>The hot foreground <see cref="T:System.Drawing.Color" /> of the control.</returns> 
+		/// <summary>
+		/// Gets or sets the hot foreground color of the control.
+		/// </summary>
+		/// <returns>The hot foreground <see cref="T:System.Drawing.Color" /> of the control.</returns>
 		[DefaultValue(typeof(Color), "7, 74, 229"), Category("Appearance")]
 		public virtual Color HotForeColor
 		{
@@ -210,12 +210,12 @@ namespace Luminous.Windows.Forms
 		private bool _isFocusedByKey;
 		private bool _isKeyDown;
 		private bool _isMouseDown;
-		private bool _isPressed => _isKeyDown || (_isMouseDown && _isHovered);
+		private bool IsPressed => _isKeyDown || (_isMouseDown && _isHovered);
 
-		/// <summary> 
-		/// Gets the state of the button control. 
-		/// </summary> 
-		/// <value>The state of the button control.</value> 
+		/// <summary>
+		/// Gets the state of the button control.
+		/// </summary>
+		/// <value>The state of the button control.</value>
 		[Browsable(false)]
 		public PushButtonState State
 		{
@@ -225,7 +225,7 @@ namespace Luminous.Windows.Forms
 				{
 					return PushButtonState.Disabled;
 				}
-				if (_isPressed)
+				if (IsPressed)
 				{
 					return PushButtonState.Pressed;
 				}
@@ -244,113 +244,83 @@ namespace Luminous.Windows.Forms
 
 		#region Events
 
-		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.HotForeColor" /> property changes.</summary> 
+		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.HotForeColor" /> property changes.</summary>
 		[Description("Event raised when the value of the HotForeColor property is changed."), Category("Property Changed")]
 		public event EventHandler HotForeColorChanged;
 
-		/// <summary> 
-		/// Raises the <see cref="E:Glass.GlassButton.HotForeColorChanged" /> event. 
-		/// </summary> 
-		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param> 
-		protected virtual void OnHotForeColorChanged(EventArgs e)
-		{
-			if (HotForeColorChanged != null)
-			{
-				HotForeColorChanged(this, e);
-			}
-		}
+		/// <summary>
+		/// Raises the <see cref="E:Glass.GlassButton.HotForeColorChanged" /> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+		protected virtual void OnHotForeColorChanged(EventArgs e) => HotForeColorChanged?.Invoke(this, e);
 
-		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.InnerBorderColor" /> property changes.</summary> 
+		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.InnerBorderColor" /> property changes.</summary>
 		[Description("Event raised when the value of the InnerBorderColor property is changed."), Category("Property Changed")]
 		public event EventHandler InnerBorderColorChanged;
 
-		/// <summary> 
-		/// Raises the <see cref="E:Glass.GlassButton.InnerBorderColorChanged" /> event. 
-		/// </summary> 
-		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param> 
-		protected virtual void OnInnerBorderColorChanged(EventArgs e)
-		{
-			if (InnerBorderColorChanged != null)
-			{
-				InnerBorderColorChanged(this, e);
-			}
-		}
+		/// <summary>
+		/// Raises the <see cref="E:Glass.GlassButton.InnerBorderColorChanged" /> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+		protected virtual void OnInnerBorderColorChanged(EventArgs e) => InnerBorderColorChanged?.Invoke(this, e);
 
-		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.OuterBorderColor" /> property changes.</summary> 
+		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.OuterBorderColor" /> property changes.</summary>
 		[Description("Event raised when the value of the OuterBorderColor property is changed."), Category("Property Changed")]
 		public event EventHandler OuterBorderColorChanged;
 
-		/// <summary> 
-		/// Raises the <see cref="E:Glass.GlassButton.OuterBorderColorChanged" /> event. 
-		/// </summary> 
-		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param> 
-		protected virtual void OnOuterBorderColorChanged(EventArgs e)
-		{
-			if (OuterBorderColorChanged != null)
-			{
-				OuterBorderColorChanged(this, e);
-			}
-		}
+		/// <summary>
+		/// Raises the <see cref="E:Glass.GlassButton.OuterBorderColorChanged" /> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+		protected virtual void OnOuterBorderColorChanged(EventArgs e) => OuterBorderColorChanged?.Invoke(this, e);
 
-		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.ShineColor" /> property changes.</summary> 
+		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.ShineColor" /> property changes.</summary>
 		[Description("Event raised when the value of the ShineColor property is changed."), Category("Property Changed")]
 		public event EventHandler ShineColorChanged;
 
-		/// <summary> 
-		/// Raises the <see cref="E:Glass.GlassButton.ShineColorChanged" /> event. 
-		/// </summary> 
-		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param> 
-		protected virtual void OnShineColorChanged(EventArgs e)
-		{
-			if (ShineColorChanged != null)
-			{
-				ShineColorChanged(this, e);
-			}
-		}
+		/// <summary>
+		/// Raises the <see cref="E:Glass.GlassButton.ShineColorChanged" /> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+		protected virtual void OnShineColorChanged(EventArgs e) => ShineColorChanged?.Invoke(this, e);
 
-		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.GlowColor" /> property changes.</summary> 
+		/// <summary>Occurs when the value of the <see cref="P:Glass.GlassButton.GlowColor" /> property changes.</summary>
 		[Description("Event raised when the value of the GlowColor property is changed."), Category("Property Changed")]
 		public event EventHandler GlowColorChanged;
 
-		/// <summary> 
-		/// Raises the <see cref="E:Glass.GlassButton.GlowColorChanged" /> event. 
-		/// </summary> 
-		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param> 
-		protected virtual void OnGlowColorChanged(EventArgs e)
-		{
-			if (GlowColorChanged != null)
-			{
-				GlowColorChanged(this, e);
-			}
-		}
+		/// <summary>
+		/// Raises the <see cref="E:Glass.GlassButton.GlowColorChanged" /> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+		protected virtual void OnGlowColorChanged(EventArgs e) => GlowColorChanged?.Invoke(this, e);
 		#endregion
 
 		#region Overrided Methods
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.EnabledChanged" /> event. 
-		/// </summary> 
-		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.EnabledChanged" /> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
 		protected override void OnEnabledChanged(System.EventArgs e)
 		{
 			Fade();
 			base.OnEnabledChanged(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.SizeChanged" /> event. 
-		/// </summary> 
-		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.SizeChanged" /> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			CreateFrames();
 			base.OnSizeChanged(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.Click" /> event. 
-		/// </summary> 
-		/// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.Click" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
 		protected override void OnClick(EventArgs e)
 		{
 			_isKeyDown = false;
@@ -359,9 +329,9 @@ namespace Luminous.Windows.Forms
 			base.OnClick(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.GotFocus" /> event. 
-		/// </summary> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.GotFocus" /> event.
+		/// </summary>
 		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
 		protected override void OnEnter(System.EventArgs e)
 		{
@@ -371,10 +341,10 @@ namespace Luminous.Windows.Forms
 			base.OnEnter(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.Leave" /> event. 
-		/// </summary> 
-		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.Leave" /> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
 		protected override void OnLeave(System.EventArgs e)
 		{
 			base.OnLeave(e);
@@ -386,10 +356,10 @@ namespace Luminous.Windows.Forms
 			Invalidate();
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="M:System.Windows.Forms.ButtonBase.OnKeyUp(System.Windows.Forms.KeyEventArgs)" /> event. 
-		/// </summary> 
-		/// <param name="e">A <see cref="T:System.Windows.Forms.KeyEventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="M:System.Windows.Forms.ButtonBase.OnKeyUp(System.Windows.Forms.KeyEventArgs)" /> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.KeyEventArgs" /> that contains the event data.</param>
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Space)
@@ -401,10 +371,10 @@ namespace Luminous.Windows.Forms
 			base.OnKeyDown(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="M:System.Windows.Forms.ButtonBase.OnKeyUp(System.Windows.Forms.KeyEventArgs)" /> event. 
-		/// </summary> 
-		/// <param name="e">A <see cref="T:System.Windows.Forms.KeyEventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="M:System.Windows.Forms.ButtonBase.OnKeyUp(System.Windows.Forms.KeyEventArgs)" /> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.KeyEventArgs" /> that contains the event data.</param>
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
 			if (_isKeyDown && e.KeyCode == Keys.Space)
@@ -416,10 +386,10 @@ namespace Luminous.Windows.Forms
 			base.OnKeyUp(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseDown" /> event. 
-		/// </summary> 
-		/// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseDown" /> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs" /> that contains the event data.</param>
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			if (!_isMouseDown && e.Button == MouseButtons.Left)
@@ -432,10 +402,10 @@ namespace Luminous.Windows.Forms
 			base.OnMouseDown(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseUp" /> event. 
-		/// </summary> 
-		/// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseUp" /> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs" /> that contains the event data.</param>
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			if (_isMouseDown)
@@ -447,10 +417,10 @@ namespace Luminous.Windows.Forms
 			base.OnMouseUp(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="M:System.Windows.Forms.Control.OnMouseMove(System.Windows.Forms.MouseEventArgs)" /> event. 
-		/// </summary> 
-		/// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="M:System.Windows.Forms.Control.OnMouseMove(System.Windows.Forms.MouseEventArgs)" /> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs" /> that contains the event data.</param>
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
@@ -474,10 +444,10 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseEnter" /> event. 
-		/// </summary> 
-		/// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseEnter" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
 		protected override void OnMouseEnter(EventArgs e)
 		{
 			_isHovered = true;
@@ -486,10 +456,10 @@ namespace Luminous.Windows.Forms
 			base.OnMouseEnter(e);
 		}
 
-		/// <summary> 
-		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseLeave" /> event. 
-		/// </summary> 
-		/// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseLeave" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			_isHovered = false;
@@ -501,23 +471,20 @@ namespace Luminous.Windows.Forms
 
 		#region Painting
 
-		/// <summary> 
-		/// Raises the <see cref="M:System.Windows.Forms.ButtonBase.OnPaint(System.Windows.Forms.PaintEventArgs)" /> event. 
-		/// </summary> 
-		/// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs" /> that contains the event data.</param> 
+		/// <summary>
+		/// Raises the <see cref="M:System.Windows.Forms.ButtonBase.OnPaint(System.Windows.Forms.PaintEventArgs)" /> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs" /> that contains the event data.</param>
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			DrawButtonBackgroundFromBuffer(e.Graphics);
 			DrawButtonForeground(e.Graphics);
-			if (Paint != null)
-			{
-				Paint(this, e);
-			}
+			Paint?.Invoke(this, e);
 		}
 
-		/// <summary> 
-		/// Occurs when the control is redrawn. 
-		/// </summary> 
+		/// <summary>
+		/// Occurs when the control is redrawn.
+		/// </summary>
 		public new event PaintEventHandler Paint;
 
 		private void DrawButtonBackgroundFromBuffer(Graphics graphics)
@@ -526,7 +493,7 @@ namespace Luminous.Windows.Forms
 			{
 				CreateFrames();
 			}
-			if (_isAnimating)
+			if (IsAnimating)
 			{
 				using (var alphaImage = new Bitmap(ClientSize.Width, ClientSize.Height))
 				{
@@ -589,7 +556,7 @@ namespace Luminous.Windows.Forms
 
 			switch (frameType)
 			{
-				case CommandLink.FrameType.Disabled:
+				case FrameType.Disabled:
 					// TODO: gray elevated
 					if (_showElevationIcon)
 					{
@@ -602,7 +569,7 @@ namespace Luminous.Windows.Forms
 
 					break;
 
-				case CommandLink.FrameType.Pressed:
+				case FrameType.Pressed:
 					rect = rectangle;
 					rect.Width -= 1;
 					rect.Height -= 1;
@@ -629,7 +596,7 @@ namespace Luminous.Windows.Forms
 
 					break;
 
-				case CommandLink.FrameType.Normal:
+				case FrameType.Normal:
 					if (_showElevationIcon)
 					{
 						g.DrawImage(Properties.Resources.SmallSecurity, 10, 14);
@@ -641,7 +608,7 @@ namespace Luminous.Windows.Forms
 
 					break;
 
-				case CommandLink.FrameType.Hovered:
+				case FrameType.Hovered:
 					rect = rectangle;
 					rect.Width -= 1;
 					rect.Height -= 1;
@@ -703,7 +670,7 @@ namespace Luminous.Windows.Forms
 
 					break;
 
-				case CommandLink.FrameType.Active1:
+				case FrameType.Active1:
 					rect = rectangle;
 					rect.Width -= 3;
 					rect.X += 1;
@@ -730,7 +697,7 @@ namespace Luminous.Windows.Forms
 
 					break;
 
-				case CommandLink.FrameType.Active2:
+				case FrameType.Active2:
 					rect = rectangle;
 					rect.Width -= 3;
 					rect.X += 1;
@@ -862,21 +829,21 @@ namespace Luminous.Windows.Forms
 			int w = rectangle.Width;
 			int h = rectangle.Height;
 			int d = radius << 1;
-			// topleft 
+			// topleft
 			path.AddArc(l, t, d, d, 180, 90);
-			// top 
+			// top
 			path.AddLine(l + radius, t, l + w - radius, t);
-			// topright 
+			// topright
 			path.AddArc(l + w - d, t, d, d, 270, 90);
-			// right 
+			// right
 			path.AddLine(l + w, t + radius, l + w, t + h - radius);
-			// bottomright 
+			// bottomright
 			path.AddArc(l + w - d, t + h - d, d, d, 0, 90);
-			// bottom 
+			// bottom
 			path.AddLine(l + w - radius, t + h, l + radius, t + h);
-			// bottomleft 
+			// bottomleft
 			path.AddArc(l, t + h - d, d, d, 90, 90);
-			// left 
+			// left
 			path.AddLine(l, t + h - radius, l, t + radius);
 			path.CloseFigure();
 			return path;
@@ -886,13 +853,13 @@ namespace Luminous.Windows.Forms
 
 		#region Unused Properties & Events
 
-		/// <summary>This property is not relevant for this class.</summary> 
-		/// <returns>This property is not relevant for this class.</returns> 
+		/// <summary>This property is not relevant for this class.</summary>
+		/// <returns>This property is not relevant for this class.</returns>
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never)]
 		public new FlatButtonAppearance FlatAppearance => base.FlatAppearance;
 
-		/// <summary>This property is not relevant for this class.</summary> 
-		/// <returns>This property is not relevant for this class.</returns> 
+		/// <summary>This property is not relevant for this class.</summary>
+		/// <returns>This property is not relevant for this class.</returns>
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never)]
 		public new FlatStyle FlatStyle
 		{
@@ -900,8 +867,8 @@ namespace Luminous.Windows.Forms
 			set => base.FlatStyle = value;
 		}
 
-		/// <summary>This property is not relevant for this class.</summary> 
-		/// <returns>This property is not relevant for this class.</returns> 
+		/// <summary>This property is not relevant for this class.</summary>
+		/// <returns>This property is not relevant for this class.</returns>
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never)]
 		public new bool UseVisualStyleBackColor
 		{
@@ -963,7 +930,7 @@ namespace Luminous.Windows.Forms
 		private FrameType _animatingTo;
 		private int _animationDuration;
 
-		private bool _isAnimating => timer.Enabled;
+		private bool IsAnimating => timer.Enabled;
 
 		private void Fade()
 		{
@@ -971,7 +938,7 @@ namespace Luminous.Windows.Forms
 			{
 				FadeTo(FrameType.Disabled, 200);
 			}
-			else if (_isPressed)
+			else if (IsPressed)
 			{
 				FadeTo(FrameType.Pressed, 200);
 			}
@@ -1034,7 +1001,7 @@ namespace Luminous.Windows.Forms
 			timer.Enabled = true;
 		}
 
-		private void timer_Tick(object sender, EventArgs e)
+		private void Timer_Tick(object sender, EventArgs e)
 		{
 			if (!timer.Enabled)
 			{

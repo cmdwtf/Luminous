@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -36,7 +36,7 @@ namespace Luminous.Windows.Converters
 
 			foreach (object _v in values)
 			{
-				if (_v is Visibility && (Visibility)_v == Visibility.Visible)
+				if (_v is Visibility visibility && visibility == Visibility.Visible)
 				{
 					v = Visibility.Visible;
 				}

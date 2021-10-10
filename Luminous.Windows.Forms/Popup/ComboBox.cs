@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -40,7 +40,7 @@ namespace Luminous.Windows.Forms
 		}
 
 		private static Type _modalMenuFilter;
-		private static Type modalMenuFilter
+		private static Type ModalMenuFilter
 		{
 			get
 			{
@@ -58,13 +58,13 @@ namespace Luminous.Windows.Forms
 		}
 
 		private static MethodInfo _suspendMenuMode;
-		private static MethodInfo suspendMenuMode
+		private static MethodInfo SuspendMenuModeMethod
 		{
 			get
 			{
 				if (_suspendMenuMode == null)
 				{
-					Type t = modalMenuFilter;
+					Type t = ModalMenuFilter;
 					if (t != null)
 					{
 						_suspendMenuMode = t.GetMethod("SuspendMenuMode", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
@@ -74,23 +74,16 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private static void SuspendMenuMode()
-		{
-			MethodInfo suspendMenuMode = ComboBox.suspendMenuMode;
-			if (suspendMenuMode != null)
-			{
-				suspendMenuMode.Invoke(null, null);
-			}
-		}
+		private static void SuspendMenuMode() => SuspendMenuModeMethod?.Invoke(null, null);
 
 		private static MethodInfo _resumeMenuMode;
-		private static MethodInfo resumeMenuMode
+		private static MethodInfo ResumeMenuModeMethod
 		{
 			get
 			{
 				if (_resumeMenuMode == null)
 				{
-					Type t = modalMenuFilter;
+					Type t = ModalMenuFilter;
 					if (t != null)
 					{
 						_resumeMenuMode = t.GetMethod("ResumeMenuMode", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
@@ -100,14 +93,7 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private static void ResumeMenuMode()
-		{
-			MethodInfo resumeMenuMode = ComboBox.resumeMenuMode;
-			if (resumeMenuMode != null)
-			{
-				resumeMenuMode.Invoke(null, null);
-			}
-		}
+		private static void ResumeMenuMode() => ResumeMenuModeMethod?.Invoke(null, null);
 
 		/// <summary>
 		/// Raises the <see cref="E:System.Windows.Forms.ComboBox.DropDown" /> event.

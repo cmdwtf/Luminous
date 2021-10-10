@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -397,7 +397,7 @@ namespace System
 			return ss;
 		}
 
-		private static readonly byte[] salt = new byte[] { 0xfe, 0x71, 0x35, 0x20, 0x11, 0x12, 0x05, 0x09, 0x13, 0x7c, 0x3a, 0x52, 0xac };
+		private static readonly byte[] Salt = new byte[] { 0xfe, 0x71, 0x35, 0x20, 0x11, 0x12, 0x05, 0x09, 0x13, 0x7c, 0x3a, 0x52, 0xac };
 		public static string ToHash(SecureString @this)
 		{
 			byte[] ssBytes;
@@ -412,7 +412,7 @@ namespace System
 			{
 				Marshal.ZeroFreeBSTR(bstr);
 			}
-			var k = new Rfc2898DeriveBytes(ssBytes, salt, 1024);
+			var k = new Rfc2898DeriveBytes(ssBytes, Salt, 1024);
 			using (var sha = new SHA512Managed())
 			{
 				byte[] hashed = sha.ComputeHash(k.GetBytes(256));

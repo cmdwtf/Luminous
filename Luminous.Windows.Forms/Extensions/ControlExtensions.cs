@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -67,11 +67,9 @@ namespace System.Windows.Forms
 				{
 					throw new ObjectDisposedException("The control is currently disposing or already disposed.");
 				}
-				@this = @this.Parent != null
-							? @this.Parent
-							: @this is Form
+				@this = @this.Parent ?? (@this is Form
 								? (@this as Form).Owner
-								: null;
+								: null);
 				if (@this == null)
 				{
 					throw new InvalidOperationException("The control has no parent/owner with a created handle.");

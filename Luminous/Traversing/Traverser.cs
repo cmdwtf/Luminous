@@ -29,16 +29,14 @@ namespace Luminous.Traversing
 
 		protected object TraverseChild<T>(T child, string name, object parent)
 		{
-			var t = this as ITraverser<T>;
-			if (t != null)
+			if (this is ITraverser<T> t)
 			{
 				var node = new TraverseNode<T>(child, name, parent);
 				t.Traverse(node);
 				return node.Result;
 			}
 
-			var unknown = this as ITraverser;
-			if (unknown != null)
+			if (this is ITraverser unknown)
 			{
 				var node = new TraverseNode<object>(child, name, parent);
 				unknown.Traverse(node);

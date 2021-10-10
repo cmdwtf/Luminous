@@ -27,7 +27,6 @@ namespace Luminous.Collections
 		private readonly Dictionary<T, int> _keyIsObject;
 		private int _firstIndex;
 		private int _lastIndex;
-		private int _count;
 
 		public DictionaryList()
 		{
@@ -48,7 +47,7 @@ namespace Luminous.Collections
 		public void Insert(int index, T item)
 		{
 			// pierwszy
-			if (_count == 0)
+			if (Count == 0)
 			{
 				_keyIsIndex[0] = item;
 				_keyIsObject[item] = 0;
@@ -61,7 +60,7 @@ namespace Luminous.Collections
 				_keyIsObject[item] = _firstIndex;
 			}
 			// na koniec
-			else if (index == _count)
+			else if (index == Count)
 			{
 				_lastIndex++;
 				_keyIsIndex[_lastIndex] = item;
@@ -71,7 +70,7 @@ namespace Luminous.Collections
 			else
 			{
 				// przenumerowujemy początek
-				if (index < _count / 2)
+				if (index < Count / 2)
 				{
 					for (int i = _firstIndex; i <= _firstIndex + index; i++)
 					{
@@ -93,13 +92,13 @@ namespace Luminous.Collections
 				_keyIsIndex[_firstIndex + index] = item;
 				_keyIsObject[item] = _firstIndex + index;
 			}
-			_count++;
+			Count++;
 		}
 
 		public void RemoveAt(int index)
 		{
 			// ostatni
-			if (_count == 1)
+			if (Count == 1)
 			{
 				_keyIsIndex.Clear();
 				_keyIsObject.Clear();
@@ -113,7 +112,7 @@ namespace Luminous.Collections
 				_firstIndex++;
 			}
 			// z końca
-			else if (index == _count)
+			else if (index == Count)
 			{
 				_keyIsObject.Remove(_keyIsIndex[_lastIndex]);
 				_keyIsIndex.Remove(_lastIndex);
@@ -125,7 +124,7 @@ namespace Luminous.Collections
 				_keyIsObject.Remove(_keyIsIndex[_firstIndex + index]);
 				_keyIsIndex.Remove(_firstIndex + index);
 				// przenumerowujemy początek
-				if (index < _count / 2)
+				if (index < Count / 2)
 				{
 					for (int i = _firstIndex + index; i > _firstIndex; i--)
 					{
@@ -147,7 +146,7 @@ namespace Luminous.Collections
 					_lastIndex--;
 				}
 			}
-			_count--;
+			Count--;
 		}
 
 		public T this[int index]
@@ -162,11 +161,11 @@ namespace Luminous.Collections
 			}
 		}
 
-		public void Add(T item) => Insert(_count, item);
+		public void Add(T item) => Insert(Count, item);
 
 		public void Clear()
 		{
-			_firstIndex = _lastIndex = _count = 0;
+			_firstIndex = _lastIndex = Count = 0;
 			_keyIsIndex.Clear();
 			_keyIsObject.Clear();
 		}
@@ -175,7 +174,7 @@ namespace Luminous.Collections
 
 		public void CopyTo(T[] array, int arrayIndex) => _keyIsIndex.OrderBy(x => x.Key).Select(x => x.Value).ToList().CopyTo(array, arrayIndex);
 
-		public int Count => _count;
+		public int Count { get; private set; }
 
 		public bool IsReadOnly => false;
 
@@ -193,7 +192,7 @@ namespace Luminous.Collections
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			for (int i = 0; i < _count; i++)
+			for (int i = 0; i < Count; i++)
 			{
 				yield return _keyIsIndex[_firstIndex + i];
 			}

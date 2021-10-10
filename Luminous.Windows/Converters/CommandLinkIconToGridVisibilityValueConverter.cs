@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -30,12 +30,9 @@ namespace Luminous.Windows.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			CommandLinkIcon icon = CommandLinkIcon.None;
-			if (value is CommandLinkIcon)
-			{
-				icon = (CommandLinkIcon)value;
-			}
-			return (icon != CommandLinkIcon.None) ? Visibility.Visible : Visibility.Collapsed;
+			return value is CommandLinkIcon icon
+				? (icon != CommandLinkIcon.None) ? Visibility.Visible : Visibility.Collapsed
+				: (object)Visibility.Collapsed;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;

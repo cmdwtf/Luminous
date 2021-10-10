@@ -28,55 +28,30 @@ namespace Luminous.Windows.Forms
 	{
 		#region Fields and Properties
 
-		private bool _useCustomText;
 		/// <summary>
 		/// Determines whether the button should contain a custom text.
 		/// </summary>
-		public bool UseCustomText
-		{
-			get => _useCustomText;
-			set => _useCustomText = value;
-		}
+		public bool UseCustomText { get; set; }
 
-		private string _text;
 		/// <summary>
 		/// The custom text shown on the button.
 		/// </summary>
-		public string Text
-		{
-			get => _text;
-			set => _text = value;
-		}
+		public string Text { get; set; }
 
-		private TaskDialogResult _result;
 		/// <summary>
 		/// Determines the value returned to the parent form when the button is clicked.
 		/// </summary>
-		public TaskDialogResult Result
-		{
-			get => _result;
-			set => _result = value;
-		}
+		public TaskDialogResult Result { get; set; }
 
-		private bool _showElevationIcon;
 		/// <summary>
 		/// Determines whether to show the elevation icon (shield).
 		/// </summary>
-		public bool ShowElevationIcon
-		{
-			get => _showElevationIcon;
-			set => _showElevationIcon = value;
-		}
+		public bool ShowElevationIcon { get; set; }
 
-		private bool _isEnabled;
 		/// <summary>
 		/// Determines whether the button is enabled.
 		/// </summary>
-		public bool IsEnabled
-		{
-			get => _isEnabled;
-			set => _isEnabled = value;
-		}
+		public bool IsEnabled { get; set; }
 
 		#endregion
 
@@ -88,10 +63,7 @@ namespace Luminous.Windows.Forms
 		public event EventHandler Click;
 		internal void RaiseClickEvent(object sender, EventArgs e)
 		{
-			if (Click != null)
-			{
-				Click(sender, e);
-			}
+			Click?.Invoke(sender, e);
 		}
 		#endregion
 
@@ -103,8 +75,8 @@ namespace Luminous.Windows.Forms
 		/// <param name="result">Determines the value returned to the parent form when the button is clicked.</param>
 		public TaskDialogButton(TaskDialogResult result)
 		{
-			_result = result;
-			_isEnabled = true;
+			Result = result;
+			IsEnabled = true;
 		}
 
 		/// <summary>
@@ -114,9 +86,9 @@ namespace Luminous.Windows.Forms
 		/// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
 		public TaskDialogButton(TaskDialogResult result, bool showElevationIcon)
 		{
-			_result = result;
-			_showElevationIcon = showElevationIcon;
-			_isEnabled = true;
+			Result = result;
+			ShowElevationIcon = showElevationIcon;
+			IsEnabled = true;
 		}
 
 		/// <summary>
@@ -126,11 +98,11 @@ namespace Luminous.Windows.Forms
 		/// <param name="click">Occurs when the button is clicked, but before the TaskDialog form is closed.</param>
 		public TaskDialogButton(string text, EventHandler click)
 		{
-			_useCustomText = true;
-			_text = text;
-			_result = TaskDialogResult.None;
+			UseCustomText = true;
+			Text = text;
+			Result = TaskDialogResult.None;
 			Click += click;
-			_isEnabled = true;
+			IsEnabled = true;
 		}
 
 		/// <summary>
@@ -141,12 +113,12 @@ namespace Luminous.Windows.Forms
 		/// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
 		public TaskDialogButton(string text, EventHandler click, bool showElevationIcon)
 		{
-			_useCustomText = true;
-			_text = text;
-			_result = TaskDialogResult.None;
+			UseCustomText = true;
+			Text = text;
+			Result = TaskDialogResult.None;
 			Click += click;
-			_showElevationIcon = showElevationIcon;
-			_isEnabled = true;
+			ShowElevationIcon = showElevationIcon;
+			IsEnabled = true;
 		}
 
 		/// <summary>
@@ -156,10 +128,10 @@ namespace Luminous.Windows.Forms
 		/// <param name="text">The custom text shown on the button.</param>
 		public TaskDialogButton(TaskDialogResult taskDialogResult, string text)
 		{
-			_useCustomText = true;
-			_text = text;
-			_result = taskDialogResult;
-			_isEnabled = true;
+			UseCustomText = true;
+			Text = text;
+			Result = taskDialogResult;
+			IsEnabled = true;
 		}
 
 		/// <summary>
@@ -170,11 +142,11 @@ namespace Luminous.Windows.Forms
 		/// <param name="showElevationIcon">Determines whether to show the elevation icon (shield).</param>
 		public TaskDialogButton(TaskDialogResult tresult, string text, bool showElevationIcon)
 		{
-			_useCustomText = true;
-			_text = text;
-			_result = tresult;
-			_showElevationIcon = showElevationIcon;
-			_isEnabled = true;
+			UseCustomText = true;
+			Text = text;
+			Result = tresult;
+			ShowElevationIcon = showElevationIcon;
+			IsEnabled = true;
 		}
 		#endregion
 	}

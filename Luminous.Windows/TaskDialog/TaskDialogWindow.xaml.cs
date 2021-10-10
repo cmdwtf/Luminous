@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -47,7 +47,7 @@ namespace Luminous.Windows
 		public TaskDialogWindow(TaskDialog taskDialog, bool isTaskDialog)
 			: this()
 		{
-			_TaskDialog = taskDialog;
+			_taskDialog = taskDialog;
 			CustomScale.ScaleX = CustomScale.ScaleY = TaskDialog.CustomScale;
 			if (TaskDialog.CustomScale != 1f)
 			{
@@ -60,9 +60,9 @@ namespace Luminous.Windows
 				FontSize = 12;
 			}
 
-			_Sound = SoundScheme.Default;
+			Sound = SoundScheme.Default;
 			ImageMainIcon.Visibility = Visibility.Collapsed;
-			if (!(_IsTaskDialog = isTaskDialog))
+			if (!(IsTaskDialog = isTaskDialog))
 			{
 				LabelContent.Margin = new Thickness(24);
 				ImageMainIcon.Margin = new Thickness(24, 18, -12, 24);
@@ -113,15 +113,15 @@ namespace Luminous.Windows
 			}
 		}
 
-		private TaskDialogIcon _MainIcon;
+		private TaskDialogIcon _mainIcon;
 		public TaskDialogIcon MainIcon
 		{
-			get => _MainIcon;
+			get => _mainIcon;
 			set
 			{
 				if (MainIcon != value)
 				{
-					_MainIcon = value;
+					_mainIcon = value;
 					ImageMainIcon.BeginInit();
 					ImageMainIcon.Visibility = Visibility.Visible;
 					switch (value)
@@ -129,52 +129,52 @@ namespace Luminous.Windows
 						case TaskDialogIcon.Information:
 							//ImageMainIcon.Source = new BitmapImage(new Uri("pack://application:,,,/TaskDialog/Resources/Information.png"));
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Information.png", UriKind.Relative));
-							_Sound = SoundScheme.Information;
+							Sound = SoundScheme.Information;
 							break;
 						case TaskDialogIcon.Question:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Question.png", UriKind.Relative));
-							_Sound = SoundScheme.Question;
+							Sound = SoundScheme.Question;
 							break;
 						case TaskDialogIcon.Warning:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Warning.png", UriKind.Relative));
-							_Sound = SoundScheme.Warning;
+							Sound = SoundScheme.Warning;
 							break;
 						case TaskDialogIcon.Error:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Error.png", UriKind.Relative));
-							_Sound = SoundScheme.Error;
+							Sound = SoundScheme.Error;
 							break;
 						case TaskDialogIcon.SecuritySuccess:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/SecuritySuccess.png", UriKind.Relative));
-							_Sound = SoundScheme.Information;
+							Sound = SoundScheme.Information;
 							break;
 						case TaskDialogIcon.SecurityQuestion:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/SecurityQuestion.png", UriKind.Relative));
-							_Sound = SoundScheme.Question;
+							Sound = SoundScheme.Question;
 							break;
 						case TaskDialogIcon.SecurityWarning:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/SecurityWarning.png", UriKind.Relative));
-							_Sound = SoundScheme.Warning;
+							Sound = SoundScheme.Warning;
 							break;
 						case TaskDialogIcon.SecurityError:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/SecurityError.png", UriKind.Relative));
-							_Sound = SoundScheme.Error;
+							Sound = SoundScheme.Error;
 							break;
 						case TaskDialogIcon.SecurityShield:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Security.png", UriKind.Relative));
-							_Sound = SoundScheme.Security;
+							Sound = SoundScheme.Security;
 							break;
 						case TaskDialogIcon.SecurityShieldBlue:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Security.png", UriKind.Relative));
-							_Sound = SoundScheme.Security;
+							Sound = SoundScheme.Security;
 							break;
 						case TaskDialogIcon.SecurityShieldGray:
 							ImageMainIcon.Source = new BitmapImage(new Uri("Resources/Security.png", UriKind.Relative));
-							_Sound = SoundScheme.Security;
+							Sound = SoundScheme.Security;
 							break;
 						default:
 							ImageMainIcon.Source = null;
 							ImageMainIcon.Visibility = Visibility.Collapsed;
-							_Sound = SoundScheme.Default;
+							Sound = SoundScheme.Default;
 							break;
 					}
 					UpdateMainIconPosition();
@@ -199,7 +199,7 @@ namespace Luminous.Windows
 			}
 		}
 
-		private string _ContetTextWithoutHyperlinks { get; set; }
+		private string ContetTextWithoutHyperlinks { get; set; }
 		public string ContentText
 		{
 			get => LabelContent.Text;
@@ -207,191 +207,191 @@ namespace Luminous.Windows
 			{
 				if (ContentText != value)
 				{
-					_ContetTextWithoutHyperlinks = SetText(LabelContent, value);
+					ContetTextWithoutHyperlinks = SetText(LabelContent, value);
 					LabelContent.Visibility = string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible;
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private TaskDialogCommonButtons _CommonButtons;
+		private TaskDialogCommonButtons _commonButtons;
 		public TaskDialogCommonButtons CommonButtons
 		{
-			get => _CommonButtons;
+			get => _commonButtons;
 			set
 			{
 				if (CommonButtons != value)
 				{
-					_CommonButtons = value;
+					_commonButtons = value;
 					RecreateButtons();
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private IList<TaskDialogButton> _Buttons;
+		private IList<TaskDialogButton> _buttons;
 		public IList<TaskDialogButton> Buttons
 		{
-			get => _Buttons;
+			get => _buttons;
 			set
 			{
 				if (Buttons != value)
 				{
-					_Buttons = value;
+					_buttons = value;
 					RecreateButtons();
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private TaskDialogResult _DefaultButton;
+		private TaskDialogResult _defaultButton;
 		public TaskDialogResult DefaultButton
 		{
-			get => _DefaultButton;
+			get => _defaultButton;
 			set
 			{
 				if (DefaultButton != value)
 				{
-					_DefaultButton = value;
+					_defaultButton = value;
 					SetDefaultButton();
 				}
 			}
 		}
 
-		private bool _EnableHyperlinks;
+		private bool _enableHyperlinks;
 		public bool EnableHyperlinks
 		{
-			get => _EnableHyperlinks;
+			get => _enableHyperlinks;
 			set
 			{
 				if (EnableHyperlinks != value)
 				{
-					_EnableHyperlinks = value;
+					_enableHyperlinks = value;
 					RefreshTexts();
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private bool _AllowDialogCancellation;
+		private bool _allowDialogCancellation;
 		public bool AllowDialogCancellation
 		{
-			get => _AllowDialogCancellation;
+			get => _allowDialogCancellation;
 			set
 			{
 				if (AllowDialogCancellation != value)
 				{
-					_AllowDialogCancellation = value;
+					_allowDialogCancellation = value;
 					RecheckCancellation();
 				}
 			}
 		}
 
-		private bool _UseCommandLinks;
+		private bool _useCommandLinks;
 		public bool UseCommandLinks
 		{
-			get => _UseCommandLinks;
+			get => _useCommandLinks;
 			set
 			{
 				if (UseCommandLinks != value)
 				{
-					_UseCommandLinks = value;
+					_useCommandLinks = value;
 					RecreateButtons();
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private bool _UseCommandLinksNoIcon;
+		private bool _useCommandLinksNoIcon;
 		public bool UseCommandLinksNoIcon
 		{
-			get => _UseCommandLinksNoIcon;
+			get => _useCommandLinksNoIcon;
 			set
 			{
 				if (UseCommandLinksNoIcon != value)
 				{
-					_UseCommandLinksNoIcon = value;
+					_useCommandLinksNoIcon = value;
 					RecreateButtons();
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private bool _IsPositionRelativeToWindow;
+		private bool _isPositionRelativeToWindow;
 		public bool IsPositionRelativeToWindow
 		{
-			get => _IsPositionRelativeToWindow;
+			get => _isPositionRelativeToWindow;
 			set
 			{
 				if (IsPositionRelativeToWindow != value)
 				{
-					_IsPositionRelativeToWindow = value;
+					_isPositionRelativeToWindow = value;
 					UpdateStartupLocation();
 				}
 			}
 		}
 
-		private TaskDialogIcon _FooterIcon;
+		private TaskDialogIcon _footerIcon;
 		public TaskDialogIcon FooterIcon
 		{
-			get => _FooterIcon;
+			get => _footerIcon;
 			set
 			{
 				if (FooterIcon != value)
 				{
-					_FooterIcon = value;
+					_footerIcon = value;
 					ImageFooterIcon.BeginInit();
 					ImageFooterIcon.Visibility = Visibility.Visible;
 					switch (value)
 					{
 						case TaskDialogIcon.Information:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallInformation.png", UriKind.Relative));
-							_Sound = SoundScheme.Information;
+							Sound = SoundScheme.Information;
 							break;
 						case TaskDialogIcon.Question:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallQuestion.png", UriKind.Relative));
-							_Sound = SoundScheme.Question;
+							Sound = SoundScheme.Question;
 							break;
 						case TaskDialogIcon.Warning:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallWarning.png", UriKind.Relative));
-							_Sound = SoundScheme.Warning;
+							Sound = SoundScheme.Warning;
 							break;
 						case TaskDialogIcon.Error:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallError.png", UriKind.Relative));
-							_Sound = SoundScheme.Error;
+							Sound = SoundScheme.Error;
 							break;
 						case TaskDialogIcon.SecuritySuccess:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecuritySuccess.png", UriKind.Relative));
-							_Sound = SoundScheme.Information;
+							Sound = SoundScheme.Information;
 							break;
 						case TaskDialogIcon.SecurityQuestion:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurityQuestion.png", UriKind.Relative));
-							_Sound = SoundScheme.Question;
+							Sound = SoundScheme.Question;
 							break;
 						case TaskDialogIcon.SecurityWarning:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurityWarning.png", UriKind.Relative));
-							_Sound = SoundScheme.Warning;
+							Sound = SoundScheme.Warning;
 							break;
 						case TaskDialogIcon.SecurityError:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurityError.png", UriKind.Relative));
-							_Sound = SoundScheme.Error;
+							Sound = SoundScheme.Error;
 							break;
 						case TaskDialogIcon.SecurityShield:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurity.png", UriKind.Relative));
-							_Sound = SoundScheme.Security;
+							Sound = SoundScheme.Security;
 							break;
 						case TaskDialogIcon.SecurityShieldBlue:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurity.png", UriKind.Relative));
-							_Sound = SoundScheme.Security;
+							Sound = SoundScheme.Security;
 							break;
 						case TaskDialogIcon.SecurityShieldGray:
 							ImageFooterIcon.Source = new BitmapImage(new Uri("Resources/SmallSecurity.png", UriKind.Relative));
-							_Sound = SoundScheme.Security;
+							Sound = SoundScheme.Security;
 							break;
 						default:
 							ImageFooterIcon.Source = null;
 							ImageFooterIcon.Visibility = Visibility.Collapsed;
-							_Sound = SoundScheme.Default;
+							Sound = SoundScheme.Default;
 							break;
 					}
 					ImageFooterIcon.EndInit();
@@ -400,7 +400,7 @@ namespace Luminous.Windows
 			}
 		}
 
-		private string _FooterTextWithoutHyperlinks { get; set; }
+		private string FooterTextWithoutHyperlinks { get; set; }
 		public string FooterText
 		{
 			get => LabelFooter.Text;
@@ -408,7 +408,7 @@ namespace Luminous.Windows
 			{
 				if (FooterText != value)
 				{
-					_FooterTextWithoutHyperlinks = SetText(LabelFooter, value);
+					FooterTextWithoutHyperlinks = SetText(LabelFooter, value);
 					PanelFooter.Visibility = string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible;
 					RecalculateWidth();
 				}
@@ -429,21 +429,21 @@ namespace Luminous.Windows
 			}
 		}
 
-		private bool _ExpandFooterArea;
+		private bool _expandFooterArea;
 		public bool ExpandFooterArea
 		{
-			get => _ExpandFooterArea;
+			get => _expandFooterArea;
 			set
 			{
 				if (ExpandFooterArea != value)
 				{
-					_ExpandFooterArea = value;
+					_expandFooterArea = value;
 					UpdateExpander();
 				}
 			}
 		}
 
-		private string _ExpandedInformationWithoutHyperlinks { get; set; }
+		private string ExpandedInformationWithoutHyperlinks { get; set; }
 		public string ExpandedInformation
 		{
 			get => LabelExpandedInfo.Text;
@@ -451,7 +451,7 @@ namespace Luminous.Windows
 			{
 				if (ExpandedInformation != value)
 				{
-					_ExpandedInformationWithoutHyperlinks = SetText(LabelExpandedInfo, value);
+					ExpandedInformationWithoutHyperlinks = SetText(LabelExpandedInfo, value);
 					SetText(LabelExpandedFooterInfo, value);
 					UpdateExpander();
 					RecalculateWidth();
@@ -471,59 +471,59 @@ namespace Luminous.Windows
 			}
 		}
 
-		private IList<TaskDialogRadioButton> _RadioButtons;
+		private IList<TaskDialogRadioButton> _radioButtons;
 		public IList<TaskDialogRadioButton> RadioButtons
 		{
-			get => _RadioButtons;
+			get => _radioButtons;
 			set
 			{
 				if (RadioButtons != value)
 				{
-					_RadioButtons = value;
+					_radioButtons = value;
 					RecreateRadioButtons();
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private TaskDialogResult _DefaultRadioButton;
+		private TaskDialogResult _defaultRadioButton;
 		public TaskDialogResult DefaultRadioButton
 		{
-			get => _DefaultRadioButton;
+			get => _defaultRadioButton;
 			set
 			{
 				if (DefaultRadioButton != value)
 				{
-					_DefaultRadioButton = value;
+					_defaultRadioButton = value;
 					SetDefaultRadioButton();
 				}
 			}
 		}
 
-		private string _VerificationText;
+		private string _verificationText;
 		public string VerificationText
 		{
-			get => _VerificationText;
+			get => _verificationText;
 			set
 			{
 				if (VerificationText != value)
 				{
-					CheckBoxVerification.Content = _VerificationText = value;
+					CheckBoxVerification.Content = _verificationText = value;
 					CheckBoxVerification.Visibility = string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible;
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private int _ClientWidth;
+		private int _clientWidth;
 		public int ClientWidth
 		{
-			get => _ClientWidth;
+			get => _clientWidth;
 			set
 			{
-				if (_ClientWidth != value)
+				if (_clientWidth != value)
 				{
-					_ClientWidth = value;
+					_clientWidth = value;
 					if (value == 0)
 					{
 						ProgressBar.MinWidth = 355;
@@ -538,30 +538,30 @@ namespace Luminous.Windows
 			}
 		}
 
-		private string _ExpandedControlText;
+		private string _expandedControlText;
 		public string ExpandedControlText
 		{
-			get => string.IsNullOrEmpty(_ExpandedControlText) ? Properties.Resources.ExpandedText : _ExpandedControlText;
+			get => string.IsNullOrEmpty(_expandedControlText) ? Properties.Resources.ExpandedText : _expandedControlText;
 			set
 			{
-				if (_ExpandedControlText != value)
+				if (_expandedControlText != value)
 				{
-					_ExpandedControlText = value;
+					_expandedControlText = value;
 					UpdateExpander();
 					RecalculateWidth();
 				}
 			}
 		}
 
-		private string _CollapsedControlText;
+		private string _collapsedControlText;
 		public string CollapsedControlText
 		{
-			get => string.IsNullOrEmpty(_CollapsedControlText) ? Properties.Resources.CollapsedText : _CollapsedControlText;
+			get => string.IsNullOrEmpty(_collapsedControlText) ? Properties.Resources.CollapsedText : _collapsedControlText;
 			set
 			{
-				if (_CollapsedControlText != value)
+				if (_collapsedControlText != value)
 				{
-					_CollapsedControlText = value;
+					_collapsedControlText = value;
 					UpdateExpander();
 					RecalculateWidth();
 				}
@@ -592,15 +592,15 @@ namespace Luminous.Windows
 			}
 		}
 
-		private TaskDialogProgressBarState _ProgressBarState;
+		private TaskDialogProgressBarState _progressBarState;
 		public TaskDialogProgressBarState ProgressBarState
 		{
-			get => _ProgressBarState;
+			get => _progressBarState;
 			set
 			{
 				if (ProgressBarState != value)
 				{
-					_ProgressBarState = value;
+					_progressBarState = value;
 					switch (value)
 					{
 						case TaskDialogProgressBarState.Pause:
@@ -610,22 +610,22 @@ namespace Luminous.Windows
 							ProgressBar.Foreground = Resources["ProgressBarError"] as Brush;
 							break;
 						default:
-							ProgressBar.SetValue(ProgressBar.ForegroundProperty, DependencyProperty.UnsetValue);
+							ProgressBar.SetValue(ForegroundProperty, DependencyProperty.UnsetValue);
 							break;
 					}
 				}
 			}
 		}
 
-		private bool _UseCallBackTimer;
+		private bool _useCallBackTimer;
 		public bool UseCallBackTimer
 		{
-			get => _UseCallBackTimer;
+			get => _useCallBackTimer;
 			set
 			{
 				if (UseCallBackTimer != value)
 				{
-					_UseCallBackTimer = value;
+					_useCallBackTimer = value;
 					if (value)
 					{
 						CreateTimer();
@@ -654,15 +654,15 @@ namespace Luminous.Windows
 			}
 		}
 
-		private bool _CanBeMinimized;
+		private bool _canBeMinimized;
 		public bool CanBeMinimized
 		{
-			get => _CanBeMinimized;
+			get => _canBeMinimized;
 			set
 			{
 				if (CanBeMinimized != value)
 				{
-					_CanBeMinimized = true;
+					_canBeMinimized = true;
 					ResizeMode = value ? ResizeMode.CanMinimize : ResizeMode.NoResize;
 				}
 			}
@@ -716,16 +716,16 @@ namespace Luminous.Windows
 
 		#region " Private Properties "
 
-		internal readonly bool _IsTaskDialog;
-		private readonly List<Hyperlink> _Hyperlinks = new List<Hyperlink>();
-		private SystemSound _Sound { get; set; }
-		private bool _IsCancellable { get; set; }
-		private System.Windows.Interop.HwndSource _HwndSource;
-		private bool? _IsOnlyOK { get; set; }
-		private Timer _Timer;
-		private DateTime? _LastTick;
-		private readonly TaskDialog _TaskDialog;
-		private Button _DefaultButtonToFocus;
+		internal readonly bool IsTaskDialog;
+		private readonly List<Hyperlink> _hyperlinks = new();
+		private SystemSound Sound { get; set; }
+		private bool IsCancellable { get; set; }
+		private System.Windows.Interop.HwndSource _hwndSource;
+		private bool? IsOnlyOK { get; set; }
+		private Timer _timer;
+		private DateTime? _lastTick;
+		private readonly TaskDialog _taskDialog;
+		private Button _defaultButtonToFocus;
 
 		#endregion
 
@@ -738,7 +738,7 @@ namespace Luminous.Windows
 				try
 				{
 					SoundScheme.Default.Play();
-					Clipboard.SetText(_IsTaskDialog ? TaskDialogHelpers.TaskDialogToString(this) : TaskDialogHelpers.MessageBoxToString(this));
+					Clipboard.SetText(IsTaskDialog ? TaskDialogHelpers.TaskDialogToString(this) : TaskDialogHelpers.MessageBoxToString(this));
 				}
 				catch { }
 			}
@@ -748,7 +748,7 @@ namespace Luminous.Windows
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);
-			if (!_IsCancellable)
+			if (!IsCancellable)
 			{
 				DisableCloseButton();
 			}
@@ -763,7 +763,7 @@ namespace Luminous.Windows
 		{
 			if (Tag == null)
 			{
-				if (_IsOnlyOK == true)
+				if (IsOnlyOK == true)
 				{
 					Tag = TaskDialogResult.OK;
 				}
@@ -790,11 +790,11 @@ namespace Luminous.Windows
 		protected override void OnClosed(EventArgs e)
 		{
 			base.OnClosed(e);
-			foreach (Hyperlink h in _Hyperlinks)
+			foreach (Hyperlink h in _hyperlinks)
 			{
 				h.Click -= Hyperlink_Click;
 			}
-			_Hyperlinks.Clear();
+			_hyperlinks.Clear();
 			DeleteButtons();
 			DeleteRadioButtons();
 		}
@@ -805,13 +805,13 @@ namespace Luminous.Windows
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			if (_DefaultButtonToFocus != null)
+			if (_defaultButtonToFocus != null)
 			{
-				_DefaultButtonToFocus.Focus();
+				_defaultButtonToFocus.Focus();
 			}
-			if (_Sound != null)
+			if (Sound != null)
 			{
-				_Sound.Play();
+				Sound.Play();
 			}
 			StartTimer();
 		}
@@ -820,14 +820,9 @@ namespace Luminous.Windows
 		{
 			EnableCloseButton();
 			object tag = (sender as Button).Tag;
-			if (tag is TaskDialogButton)
-			{
-				Tag = ((TaskDialogButton)tag).Result;
-			}
-			else
-			{
-				Tag = TaskDialogHelpers.TaskDialogCommonButtonsToTaskDialogResult((TaskDialogCommonButtons)tag);
-			}
+			Tag = tag is TaskDialogButton button
+				? button.Result
+				: (object)TaskDialogHelpers.TaskDialogCommonButtonsToTaskDialogResult((TaskDialogCommonButtons)tag);
 			Close();
 		}
 
@@ -841,17 +836,17 @@ namespace Luminous.Windows
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			if (_LastTick == null)
+			if (_lastTick == null)
 			{
-				_LastTick = DateTime.Now;
+				_lastTick = DateTime.Now;
 			}
 			if (Tick != null)
 			{
 				TaskDialogTimerEventArgs ea;
-				Tick(_TaskDialog, ea = new TaskDialogTimerEventArgs { Interval = DateTime.Now - _LastTick.Value });
+				Tick(_taskDialog, ea = new TaskDialogTimerEventArgs { Interval = DateTime.Now - _lastTick.Value });
 				if (ea.Reset)
 				{
-					_LastTick = DateTime.Now;
+					_lastTick = DateTime.Now;
 				}
 			}
 		}
@@ -862,36 +857,36 @@ namespace Luminous.Windows
 
 		private void DeleteTimer()
 		{
-			if (_Timer != null)
+			if (_timer != null)
 			{
-				_Timer.Stop();
-				_Timer.Dispose();
-				_Timer = null;
+				_timer.Stop();
+				_timer.Dispose();
+				_timer = null;
 			}
 		}
 
 		private void StartTimer()
 		{
-			if (_Timer != null)
+			if (_timer != null)
 			{
-				_Timer.Start();
-				_LastTick = DateTime.Now;
+				_timer.Start();
+				_lastTick = DateTime.Now;
 			}
 		}
 
 		private void StopTimer()
 		{
-			if (_Timer != null)
+			if (_timer != null)
 			{
-				_Timer.Stop();
+				_timer.Stop();
 			}
 		}
 
 		private void CreateTimer()
 		{
 			DeleteTimer();
-			_Timer = new Timer(200);
-			_Timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
+			_timer = new Timer(200);
+			_timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
 		}
 
 		private void RecalculateWidth()
@@ -902,7 +897,7 @@ namespace Luminous.Windows
 				w = 640;
 			}
 
-			if (_IsTaskDialog && w > 800)
+			if (IsTaskDialog && w > 800)
 			{
 				w = 800;
 			}
@@ -917,7 +912,7 @@ namespace Luminous.Windows
 		{
 			TextBlockExpanderCollapsed.Visibility = IsExpanded ? Visibility.Hidden : Visibility.Visible;
 			TextBlockExpanderExpanded.Visibility = IsExpanded ? Visibility.Visible : Visibility.Hidden;
-			if (string.IsNullOrEmpty(_ExpandedInformationWithoutHyperlinks))
+			if (string.IsNullOrEmpty(ExpandedInformationWithoutHyperlinks))
 			{
 				Expander.Visibility = LabelExpandedInfo.Visibility = PanelFooterExpandedInfo.Visibility = Visibility.Collapsed;
 			}
@@ -936,7 +931,7 @@ namespace Luminous.Windows
 			}
 		}
 
-		private void UpdateStartupLocation() => WindowStartupLocation = (Owner == null || (_IsTaskDialog && !IsPositionRelativeToWindow)) ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
+		private void UpdateStartupLocation() => WindowStartupLocation = (Owner == null || (IsTaskDialog && !IsPositionRelativeToWindow)) ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
 
 		private void EnableCloseButton()
 		{
@@ -953,36 +948,36 @@ namespace Luminous.Windows
 
 		private void AddHook()
 		{
-			_HwndSource = PresentationSource.FromVisual(this) as System.Windows.Interop.HwndSource;
-			if (_HwndSource != null)
+			_hwndSource = PresentationSource.FromVisual(this) as System.Windows.Interop.HwndSource;
+			if (_hwndSource != null)
 			{
-				_HwndSource.AddHook(TaskDialogHelpers.CloseButtonHook);
+				_hwndSource.AddHook(TaskDialogHelpers.CloseButtonHook);
 			}
 		}
 
 		private void RemoveHook()
 		{
-			if (_HwndSource != null)
+			if (_hwndSource != null)
 			{
-				_HwndSource.RemoveHook(TaskDialogHelpers.CloseButtonHook);
-				_HwndSource = null;
+				_hwndSource.RemoveHook(TaskDialogHelpers.CloseButtonHook);
+				_hwndSource = null;
 			}
 		}
 
 		private string SetText(TextBlock label, string text)
 		{
-			foreach (Hyperlink h in _Hyperlinks)
+			foreach (Hyperlink h in _hyperlinks)
 			{
 				if (label.Inlines.Contains(h))
 				{
 					h.Click -= Hyperlink_Click;
 				}
 			}
-			for (int i = _Hyperlinks.Count - 1; i >= 0; i--)
+			for (int i = _hyperlinks.Count - 1; i >= 0; i--)
 			{
-				if (label.Inlines.Contains(_Hyperlinks[i]))
+				if (label.Inlines.Contains(_hyperlinks[i]))
 				{
-					_Hyperlinks.RemoveAt(i);
+					_hyperlinks.RemoveAt(i);
 				}
 			}
 			string ret = label.Text = text;
@@ -1043,20 +1038,14 @@ namespace Luminous.Windows
 			return ret;
 		}
 
-		private void Hyperlink_Click(object sender, RoutedEventArgs e)
-		{
-			if (HyperlinkClick != null)
-			{
-				HyperlinkClick(_TaskDialog, new TaskDialogHyperlinkClickEventArgs { Href = (sender as Hyperlink).Tag as string });
-			}
-		}
+		private void Hyperlink_Click(object sender, RoutedEventArgs e) => HyperlinkClick?.Invoke(_taskDialog, new TaskDialogHyperlinkClickEventArgs { Href = (sender as Hyperlink).Tag as string });
 
 		private void RecheckCancellation()
 		{
 			bool cancel = ((CommonButtons & TaskDialogCommonButtons.Cancel) != TaskDialogCommonButtons.None) ||
 				(Buttons != null && Buttons.Any(b => b.Result == TaskDialogResult.Cancel));
-			_IsCancellable = cancel || (_IsOnlyOK == true) || AllowDialogCancellation;
-			if (!_IsCancellable)
+			IsCancellable = cancel || (IsOnlyOK == true) || AllowDialogCancellation;
+			if (!IsCancellable)
 			{
 				DisableCloseButton();
 			}
@@ -1100,7 +1089,7 @@ namespace Luminous.Windows
 		private void RecreateButtons()
 		{
 			DeleteButtons();
-			_IsOnlyOK = null;
+			IsOnlyOK = null;
 			bool areButtons = Buttons != null && Buttons.Count > 0;
 			PanelCommandLinks.Visibility = PanelRightButtons.Visibility = Visibility.Collapsed;
 			if (areButtons)
@@ -1130,13 +1119,13 @@ namespace Luminous.Windows
 					{
 						btn.IsCancel = true;
 					}
-					if (b.Result == TaskDialogResult.OK && _IsOnlyOK == null)
+					if (b.Result == TaskDialogResult.OK && IsOnlyOK == null)
 					{
-						_IsOnlyOK = true;
+						IsOnlyOK = true;
 					}
 					else
 					{
-						_IsOnlyOK = false;
+						IsOnlyOK = false;
 					}
 					(UseCommandLinks ? PanelCommandLinks : (Panel)PanelRightButtons).Children.Add(btn);
 				}
@@ -1164,13 +1153,13 @@ namespace Luminous.Windows
 						{
 							btn.IsCancel = true;
 						}
-						if (cb == TaskDialogCommonButtons.OK && _IsOnlyOK == null)
+						if (cb == TaskDialogCommonButtons.OK && IsOnlyOK == null)
 						{
-							_IsOnlyOK = true;
+							IsOnlyOK = true;
 						}
 						else
 						{
-							_IsOnlyOK = false;
+							IsOnlyOK = false;
 						}
 						PanelRightButtons.Children.Add(btn);
 					}
@@ -1178,7 +1167,7 @@ namespace Luminous.Windows
 			}
 			foreach (Button b in PanelRightButtons.Children)
 			{
-				if (!_IsTaskDialog)
+				if (!IsTaskDialog)
 				{
 					b.MinWidth = TaskDialogHelpers.IsSegoeUIInstalled ? 88.0 : 75.0;
 				}
@@ -1188,7 +1177,7 @@ namespace Luminous.Windows
 					//if (d < 68.0) d = 68.0;
 					b.MinWidth = /*Math.Ceiling((d - 68.0) / 20.0) * 20.0 +*/ 68.0;
 				}
-				if (!_IsTaskDialog)
+				if (!IsTaskDialog)
 				{
 					b.MinHeight = TaskDialogHelpers.IsSegoeUIInstalled ? 26.0 : 23.0;
 				}
@@ -1205,13 +1194,13 @@ namespace Luminous.Windows
 		{
 			foreach (Button b in PanelCommandLinks.Children.OfType<CommandLink>().Cast<Button>().Concat(PanelRightButtons.Children.OfType<Button>()))
 			{
-				if ((b.Tag is TaskDialogButton && ((TaskDialogButton)b.Tag).Result == DefaultButton) ||
-					(b.Tag is TaskDialogCommonButtons && TaskDialogHelpers.TaskDialogCommonButtonsToTaskDialogResult((TaskDialogCommonButtons)b.Tag) == DefaultButton))
+				if ((b.Tag is TaskDialogButton button && button.Result == DefaultButton) ||
+					(b.Tag is TaskDialogCommonButtons buttons && TaskDialogHelpers.TaskDialogCommonButtonsToTaskDialogResult(buttons) == DefaultButton))
 				{
-					_DefaultButtonToFocus = b;
+					_defaultButtonToFocus = b;
 					b.Focus();
 					b.IsDefault = true;
-					if (_IsOnlyOK == true)
+					if (IsOnlyOK == true)
 					{
 						b.IsCancel = true;
 					}

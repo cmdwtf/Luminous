@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -30,8 +30,8 @@ namespace Luminous.ExpressionParser
 
 		public string Name { get; private set; }
 
-		public static readonly Symbol LeftParenthesis = new Symbol("(");
-		public static readonly Symbol RightParenthesis = new Symbol(")");
-		public static readonly Symbol FunctionArgumentSeparator = new Symbol(",");
+		public static readonly Symbol LeftParenthesis = new("(");
+		public static readonly Symbol RightParenthesis = new(")");
+		public static readonly Symbol FunctionArgumentSeparator = new(",");
 	}
 }

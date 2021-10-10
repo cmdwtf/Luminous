@@ -37,10 +37,10 @@ namespace Luminous.Windows.Forms
                 {
                     components.Dispose();
                 }
-                if (dropDown != null)
+                if (_dropDown != null)
                 {
-                    dropDown.Closed -= dropDown_Closed;
-                    dropDown.Dispose();
+                    _dropDown.Closed -= DropDown_Closed;
+                    _dropDown.Dispose();
                 }
             }
             base.Dispose(disposing);

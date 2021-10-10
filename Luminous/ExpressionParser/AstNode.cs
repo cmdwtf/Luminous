@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -63,8 +63,7 @@ namespace Luminous.ExpressionParser
 
 					if (Value is AssignmentOperator)
 					{
-						var var = Children[0].Value as IVariable;
-						if (var == null)
+						if (Children[0].Value is not IVariable var)
 						{
 							throw new InvalidOperationException("The left-hand side of an assignment must be a variable.");
 						}
@@ -203,8 +202,7 @@ namespace Luminous.ExpressionParser
 			{
 				string text = childNode.ToString();
 
-				var child = childNode.Value as IBinaryOperator;
-				if (child == null || parent.Precedence < child.Precedence)
+				if (childNode.Value is not IBinaryOperator child || parent.Precedence < child.Precedence)
 				{
 					return text;
 				}
@@ -228,10 +226,10 @@ namespace Luminous.ExpressionParser
 				return string.Format("({0})", text);
 			}
 
-			private static readonly string[] reservedWords = new NumericExpression().Statements.Select((s) => s.Name).Union(new NumericExpression().Functions.Select((f) => f.Name)).Distinct().ToArray();
+			private static readonly string[] ReservedWords = new NumericExpression().Statements.Select((s) => s.Name).Union(new NumericExpression().Functions.Select((f) => f.Name)).Distinct().ToArray();
 			private static string RenameToSafeName(string variableName)
 			{
-				if (Array.IndexOf(reservedWords, variableName) >= 0)
+				if (Array.IndexOf(ReservedWords, variableName) >= 0)
 				{
 					variableName = "@" + variableName;
 				}

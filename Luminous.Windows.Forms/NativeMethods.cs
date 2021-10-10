@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -23,7 +23,6 @@ namespace Luminous.Windows.Forms
 	using System.Drawing;
 	using System.Runtime.InteropServices;
 	using System.Security;
-	using System.Security.Permissions;
 	using System.Windows.Forms;
 
 	internal static class NativeMethods
@@ -50,7 +49,7 @@ namespace Luminous.Windows.Forms
 						   CBN_DROPDOWN = 7,
 						   WM_GETMINMAXINFO = 0x0024;
 
-		private static readonly HandleRef HWND_TOPMOST = new HandleRef(null, new IntPtr(-1));
+		private static readonly HandleRef HWND_TOPMOST = new(null, new IntPtr(-1));
 
 		[Flags]
 		internal enum AnimationFlags : int
@@ -78,8 +77,6 @@ namespace Luminous.Windows.Forms
 
 			try
 			{
-				var sp = new SecurityPermission(SecurityPermissionFlag.UnmanagedCode);
-				sp.Demand();
 				AnimateWindow(new HandleRef(control, control.Handle), time, flags);
 			}
 			catch (SecurityException) { }
@@ -95,8 +92,6 @@ namespace Luminous.Windows.Forms
 
 			try
 			{
-				var sp = new SecurityPermission(SecurityPermissionFlag.UnmanagedCode);
-				sp.Demand();
 				SetWindowPos(new HandleRef(control, control.Handle), HWND_TOPMOST, 0, 0, 0, 0, 0x13);
 			}
 			catch (SecurityException) { }
@@ -113,11 +108,11 @@ namespace Luminous.Windows.Forms
 		[StructLayout(LayoutKind.Sequential)]
 		internal struct MINMAXINFO
 		{
-			public Point reserved;
-			public Size maxSize;
-			public Point maxPosition;
-			public Size minTrackSize;
-			public Size maxTrackSize;
+			public Point Reserved;
+			public Size MaxSize;
+			public Point MaxPosition;
+			public Size MinTrackSize;
+			public Size MaxTrackSize;
 		}
 
 		private static bool? _isRunningOnMono;

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -24,7 +24,6 @@ namespace Luminous.Windows.Forms
 	using System.Drawing;
 	using System.Drawing.Drawing2D;
 	using System.Runtime.InteropServices;
-	using System.Security.Permissions;
 	using System.Windows.Forms;
 
 	using VS = System.Windows.Forms.VisualStyles;
@@ -129,7 +128,6 @@ namespace Luminous.Windows.Forms
 		/// <returns>An object of type <see cref="T:System.Windows.Forms.CreateParams" /> used when creating a new window.</returns>
 		protected override CreateParams CreateParams
 		{
-			[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 			get
 			{
 				CreateParams cp = base.CreateParams;
@@ -281,7 +279,6 @@ namespace Luminous.Windows.Forms
 		/// <returns>
 		/// true if the key was processed by the control; otherwise, false.
 		/// </returns>
-		[UIPermission(SecurityAction.LinkDemand, Window = UIPermissionWindow.AllWindows)]
 		protected override bool ProcessDialogKey(Keys keyData)
 		{
 			if (AcceptAlt && ((keyData & Keys.KeyCode) == Keys.Alt))
@@ -515,7 +512,6 @@ namespace Luminous.Windows.Forms
 		/// Processes Windows messages.
 		/// </summary>
 		/// <param name="m">The Windows <see cref="T:System.Windows.Forms.Message" /> to process.</param>
-		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		protected override void WndProc(ref Message m)
 		{
 			//if (m.Msg == NativeMethods.WM_PRINT && !Visible)
@@ -534,10 +530,8 @@ namespace Luminous.Windows.Forms
 		/// </summary>
 		/// <param name="m">The message.</param>
 		/// <returns>true, if the WndProc method from the base class shouldn't be invoked.</returns>
-		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		public bool ProcessResizing(ref Message m) => InternalProcessResizing(ref m, true);
 
-		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		private bool InternalProcessResizing(ref Message m, bool contentControl)
 		{
 			if (m.Msg == NativeMethods.WM_NCACTIVATE && m.WParam != IntPtr.Zero && _childPopup != null && _childPopup.Visible)
@@ -559,15 +553,14 @@ namespace Luminous.Windows.Forms
 			return false;
 		}
 
-		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		private bool OnGetMinMaxInfo(ref Message m)
 		{
 			var minmax = (NativeMethods.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.MINMAXINFO));
 			if (!MaximumSize.IsEmpty)
 			{
-				minmax.maxTrackSize = MaximumSize;
+				minmax.MaxTrackSize = MaximumSize;
 			}
-			minmax.minTrackSize = MinimumSize;
+			minmax.MinTrackSize = MinimumSize;
 			Marshal.StructureToPtr(minmax, m.LParam, false);
 			return true;
 		}

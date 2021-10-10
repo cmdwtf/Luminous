@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -59,7 +59,7 @@ namespace System
 					throw new InvalidCastException();
 				}
 
-				return default(T); // null
+				return default; // null
 			}
 			return (T)result;
 		}

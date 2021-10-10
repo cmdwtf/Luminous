@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -91,8 +91,7 @@ namespace Luminous.Windows
 
 		public static void EnableCloseButton(Window window, bool enable)
 		{
-			var source = PresentationSource.FromVisual(window) as HwndSource;
-			if (source != null)
+			if (PresentationSource.FromVisual(window) is HwndSource source)
 			{
 				if (enable)
 				{
@@ -132,8 +131,7 @@ namespace Luminous.Windows
 
 		public static void RemoveWindowIcon(Window window)
 		{
-			var hwndSource = PresentationSource.FromVisual(window) as HwndSource;
-			if (hwndSource == null)
+			if (PresentationSource.FromVisual(window) is not HwndSource hwndSource)
 			{
 				return;
 			}
@@ -222,8 +220,7 @@ namespace Luminous.Windows
 		{
 			get
 			{
-				var p = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false).FirstOrDefault() as AssemblyProductAttribute;
-				if (p == null)
+				if (Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false).FirstOrDefault() is not AssemblyProductAttribute p)
 				{
 					return "Application";
 				}
@@ -288,12 +285,12 @@ namespace Luminous.Windows
 
 		public static readonly TaskDialogCommonButtons[] CommonButtonsOrder = new TaskDialogCommonButtons[] { TaskDialogCommonButtons.OK, TaskDialogCommonButtons.Yes, TaskDialogCommonButtons.No, TaskDialogCommonButtons.Abort, TaskDialogCommonButtons.Retry, TaskDialogCommonButtons.Ignore, TaskDialogCommonButtons.Cancel, TaskDialogCommonButtons.Close };
 
-		public static string ButtonsToText(IList<TaskDialogButton> Buttons, TaskDialogCommonButtons CommonButtons)
+		public static string ButtonsToText(IList<TaskDialogButton> buttons, TaskDialogCommonButtons commonButtons)
 		{
 			string s = string.Empty;
-			if (Buttons != null)
+			if (buttons != null)
 			{
-				foreach (TaskDialogButton b in Buttons)
+				foreach (TaskDialogButton b in buttons)
 				{
 					if (!string.IsNullOrEmpty(s))
 					{
@@ -304,7 +301,7 @@ namespace Luminous.Windows
 			}
 			foreach (TaskDialogCommonButtons b in CommonButtonsOrder)
 			{
-				if ((b & CommonButtons) != TaskDialogCommonButtons.None)
+				if ((b & commonButtons) != TaskDialogCommonButtons.None)
 				{
 					if (!string.IsNullOrEmpty(s))
 					{
@@ -316,36 +313,36 @@ namespace Luminous.Windows
 			return s;
 		}
 
-		private const string _Sep = "---------------------------";
+		private const string Sep = "---------------------------";
 
 		public static string MessageBoxToString(TaskDialogWindow w)
 		{
-			return _Sep + Environment.NewLine + w.WindowTitle + Environment.NewLine +
-				   _Sep + Environment.NewLine + w.ContentText + Environment.NewLine +
-				   _Sep + Environment.NewLine + ButtonsToText(w.Buttons, w.CommonButtons) + Environment.NewLine + _Sep;
+			return Sep + Environment.NewLine + w.WindowTitle + Environment.NewLine +
+				   Sep + Environment.NewLine + w.ContentText + Environment.NewLine +
+				   Sep + Environment.NewLine + ButtonsToText(w.Buttons, w.CommonButtons) + Environment.NewLine + Sep;
 		}
 
 		public static string TaskDialogToString(TaskDialogWindow w)
 		{
-			return _Sep + Environment.NewLine + w.WindowTitle + Environment.NewLine +
-				  (!string.IsNullOrEmpty(w.MainInstruction) ? _Sep + Environment.NewLine + w.MainInstruction + Environment.NewLine : string.Empty) +
-				  (!string.IsNullOrEmpty(w.ContentText) ? _Sep + Environment.NewLine + w.ContentText + Environment.NewLine : string.Empty) +
-				  (!string.IsNullOrEmpty(w.ExpandedInformation) && !w.ExpandFooterArea && w.IsExpanded ? _Sep + Environment.NewLine + w.ExpandedInformation + Environment.NewLine : string.Empty) +
-				  (w.RadioButtons != null && w.RadioButtons.Count > 0 ? _Sep + Environment.NewLine + RadioButtonsToText(w.RadioButtons) + Environment.NewLine : string.Empty) +
-				  (w.Buttons != null && w.Buttons.Count > 0 ? _Sep + Environment.NewLine + ButtonsToText(w.Buttons) + Environment.NewLine : string.Empty) +
-				  (w.CommonButtons != TaskDialogCommonButtons.None ? _Sep + Environment.NewLine + ButtonsToText(w.CommonButtons) + Environment.NewLine : string.Empty) +
-				  (!string.IsNullOrEmpty(w.FooterText) ? _Sep + Environment.NewLine + w.FooterText + Environment.NewLine : string.Empty) +
-				  (!string.IsNullOrEmpty(w.ExpandedInformation) && w.ExpandFooterArea && w.IsExpanded ? _Sep + Environment.NewLine + w.ExpandedInformation + Environment.NewLine : string.Empty);
+			return Sep + Environment.NewLine + w.WindowTitle + Environment.NewLine +
+				  (!string.IsNullOrEmpty(w.MainInstruction) ? Sep + Environment.NewLine + w.MainInstruction + Environment.NewLine : string.Empty) +
+				  (!string.IsNullOrEmpty(w.ContentText) ? Sep + Environment.NewLine + w.ContentText + Environment.NewLine : string.Empty) +
+				  (!string.IsNullOrEmpty(w.ExpandedInformation) && !w.ExpandFooterArea && w.IsExpanded ? Sep + Environment.NewLine + w.ExpandedInformation + Environment.NewLine : string.Empty) +
+				  (w.RadioButtons != null && w.RadioButtons.Count > 0 ? Sep + Environment.NewLine + RadioButtonsToText(w.RadioButtons) + Environment.NewLine : string.Empty) +
+				  (w.Buttons != null && w.Buttons.Count > 0 ? Sep + Environment.NewLine + ButtonsToText(w.Buttons) + Environment.NewLine : string.Empty) +
+				  (w.CommonButtons != TaskDialogCommonButtons.None ? Sep + Environment.NewLine + ButtonsToText(w.CommonButtons) + Environment.NewLine : string.Empty) +
+				  (!string.IsNullOrEmpty(w.FooterText) ? Sep + Environment.NewLine + w.FooterText + Environment.NewLine : string.Empty) +
+				  (!string.IsNullOrEmpty(w.ExpandedInformation) && w.ExpandFooterArea && w.IsExpanded ? Sep + Environment.NewLine + w.ExpandedInformation + Environment.NewLine : string.Empty);
 		}
 
-		private static string ButtonsToText(TaskDialogCommonButtons CommonButtons) => ButtonsToText(null, CommonButtons);
+		private static string ButtonsToText(TaskDialogCommonButtons commonButtons) => ButtonsToText(null, commonButtons);
 
-		private static string ButtonsToText(IList<TaskDialogButton> Buttons)
+		private static string ButtonsToText(IList<TaskDialogButton> buttons)
 		{
 			string s = string.Empty;
-			if (Buttons != null)
+			if (buttons != null)
 			{
-				foreach (TaskDialogButton b in Buttons)
+				foreach (TaskDialogButton b in buttons)
 				{
 					if (!string.IsNullOrEmpty(s))
 					{
@@ -357,12 +354,12 @@ namespace Luminous.Windows
 			return s;
 		}
 
-		private static string RadioButtonsToText(IList<TaskDialogRadioButton> RadioButtons)
+		private static string RadioButtonsToText(IList<TaskDialogRadioButton> radioButtons)
 		{
 			string s = string.Empty;
-			if (RadioButtons != null)
+			if (radioButtons != null)
 			{
-				foreach (TaskDialogRadioButton b in RadioButtons)
+				foreach (TaskDialogRadioButton b in radioButtons)
 				{
 					if (!string.IsNullOrEmpty(s))
 					{

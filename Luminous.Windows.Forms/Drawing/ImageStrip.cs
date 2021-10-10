@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -27,25 +27,21 @@ namespace Luminous.Drawing
 	{
 		#region Fields & Properties
 
-		private Bitmap imageStripBitmap;
 		/// <summary>Gets the bitmap which contains sub-images of this image strip.</summary>
-		public Bitmap ImageStripBitmap => imageStripBitmap;
+		public Bitmap ImageStripBitmap { get; private set; }
 
-		private readonly ImageStripOrientation orientation;
 		/// <summary>Gets the orientation of the image strip.</summary>
-		public ImageStripOrientation Orientation => orientation;
+		public ImageStripOrientation Orientation { get; }
 
-		private int subImagesCount;
 		/// <summary>Gets the number of sub-images in the image strip.</summary>
-		public int SubImagesCount => subImagesCount;
+		public int SubImagesCount { get; private set; }
 
-		private Size subImageSize;
+		private Size _subImageSize;
 		/// <summary>Gets the size of each sub-image in the image strip.</summary>
-		public Size SubImageSize => subImageSize;
+		public Size SubImageSize => _subImageSize;
 
-		private int defaultBorderThickness;
 		/// <summary>Gets the default border thickness of each sub-image in the image strip.</summary>
-		public int DefaultBorderThickness => defaultBorderThickness;
+		public int DefaultBorderThickness { get; private set; }
 
 		private struct DrawingParameters
 		{
@@ -60,9 +56,9 @@ namespace Luminous.Drawing
 			public Bitmap Bitmap;
 		}
 
-		private const int bitmapListMaximumSize = 8;
-		private readonly List<Pair> bitmapList;
-		private readonly Dictionary<DrawingParameters, Bitmap> bitmapDictionary;
+		private const int BitmapListMaximumSize = 8;
+		private readonly List<Pair> _bitmapList;
+		private readonly Dictionary<DrawingParameters, Bitmap> _bitmapDictionary;
 
 		#endregion
 
@@ -109,16 +105,16 @@ namespace Luminous.Drawing
 			{
 				throw new ArgumentOutOfRangeException();
 			}
-			imageStripBitmap = new Bitmap(imageStrip);
-			this.orientation = orientation;
-			this.subImagesCount = subImagesCount;
-			subImageSize = orientation == ImageStripOrientation.Horizontal ?
+			ImageStripBitmap = new Bitmap(imageStrip);
+			Orientation = orientation;
+			SubImagesCount = subImagesCount;
+			_subImageSize = orientation == ImageStripOrientation.Horizontal ?
 				new Size(imageStrip.Width / subImagesCount, imageStrip.Height) :
 				new Size(imageStrip.Width, imageStrip.Height / subImagesCount);
-			defaultBorderThickness = subImageBorderThickness;
+			DefaultBorderThickness = subImageBorderThickness;
 
-			bitmapList = new List<Pair>();
-			bitmapDictionary = new Dictionary<DrawingParameters, Bitmap>();
+			_bitmapList = new List<Pair>();
+			_bitmapDictionary = new Dictionary<DrawingParameters, Bitmap>();
 		}
 
 		#endregion
@@ -146,7 +142,7 @@ namespace Luminous.Drawing
 		/// <exception cref="T:System.ObjectDisposedException">Thrown when image strip is disposed.</exception>
 		public void DrawSubImage(Graphics g, int subImageNumber, Rectangle destinationRectangle, int borderThickness)
 		{
-			if (disposed)
+			if (_disposed)
 			{
 				throw new ObjectDisposedException(GetType().FullName);
 			}
@@ -170,7 +166,7 @@ namespace Luminous.Drawing
 				SubImage = subImageNumber
 			};
 
-			if (!bitmapDictionary.ContainsKey(dp))
+			if (!_bitmapDictionary.ContainsKey(dp))
 			{
 				var b = new Bitmap(destinationRectangle.Width, destinationRectangle.Height);
 				using (var gb = Graphics.FromImage(b))
@@ -193,18 +189,18 @@ namespace Luminous.Drawing
 					Bitmap = b
 				};
 
-				bitmapList.Add(pair);
-				bitmapDictionary[dp] = b;
+				_bitmapList.Add(pair);
+				_bitmapDictionary[dp] = b;
 
-				if (bitmapList.Count > bitmapListMaximumSize)
+				if (_bitmapList.Count > BitmapListMaximumSize)
 				{
-					Pair pairToDel = bitmapList[0];
-					bitmapList.RemoveAt(0);
-					bitmapDictionary.Remove(pairToDel.DrawingParameters);
+					Pair pairToDel = _bitmapList[0];
+					_bitmapList.RemoveAt(0);
+					_bitmapDictionary.Remove(pairToDel.DrawingParameters);
 				}
 			}
 
-			g.DrawImage(bitmapDictionary[dp], destinationRectangle);
+			g.DrawImage(_bitmapDictionary[dp], destinationRectangle);
 		}
 
 		/// <summary>Draws the specified sub-image of image.</summary>
@@ -290,30 +286,30 @@ namespace Luminous.Drawing
 		/// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
 		public void Dispose() => Dispose(true);
 
-		private bool disposed;
+		private bool _disposed;
 		/// <summary>Clean up any resources being used.</summary>
 		/// <param name="disposing"><c>true</c> if managed resources should be disposed; otherwise, <c>false</c>.</param>
 		protected virtual void Dispose(bool disposing)
 		{
-			if (!disposed)
+			if (!_disposed)
 			{
-				disposed = true;
+				_disposed = true;
 				if (disposing)
 				{
-					if (imageStripBitmap != null)
+					if (ImageStripBitmap != null)
 					{
-						imageStripBitmap.Dispose();
-						imageStripBitmap = null;
-						subImagesCount = 0;
-						subImageSize = Size.Empty;
-						defaultBorderThickness = 0;
+						ImageStripBitmap.Dispose();
+						ImageStripBitmap = null;
+						SubImagesCount = 0;
+						_subImageSize = Size.Empty;
+						DefaultBorderThickness = 0;
 
-						bitmapDictionary.Clear();
-						foreach (Pair item in bitmapList)
+						_bitmapDictionary.Clear();
+						foreach (Pair item in _bitmapList)
 						{
 							item.Bitmap.Dispose();
 						}
-						bitmapList.Clear();
+						_bitmapList.Clear();
 					}
 				}
 			}

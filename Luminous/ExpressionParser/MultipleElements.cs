@@ -29,7 +29,7 @@ namespace Luminous.ExpressionParser
 			Elements.AddRange(elements);
 		}
 
-		public readonly List<IExpressionElement> Elements = new List<IExpressionElement>();
+		public readonly List<IExpressionElement> Elements = new();
 
 		public string Name => Elements.Count == 0 ? "?" : Elements[0].Name;
 	}

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -28,12 +28,12 @@ namespace Luminous.ComponentModel
 		#region Constructor & properties
 
 		private readonly int _id;
-		private static readonly object _lock = new object();
+		private static readonly object Lock = new();
 		private static int _maxId;
 
 		public NotifyingObject()
 		{
-			lock (_lock)
+			lock (Lock)
 			{
 				_id = ++_maxId;
 			}
@@ -50,26 +50,14 @@ namespace Luminous.ComponentModel
 		/// <summary>
 		/// Triggers the PropertyChanging event.
 		/// </summary>
-		protected virtual void OnPropertyChanging(PropertyChangingEventArgs ea)
-		{
-			if (PropertyChanging != null)
-			{
-				PropertyChanging(this, ea);
-			}
-		}
+		protected virtual void OnPropertyChanging(PropertyChangingEventArgs ea) => PropertyChanging?.Invoke(this, ea);
 		#endregion
 
 		#region OnPropertyChanged
 		/// <summary>
 		/// Triggers the PropertyChanged event.
 		/// </summary>
-		protected virtual void OnPropertyChanged(PropertyChangedEventArgs ea)
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, ea);
-			}
-		}
+		protected virtual void OnPropertyChanged(PropertyChangedEventArgs ea) => PropertyChanged?.Invoke(this, ea);
 		#endregion
 
 		#endregion
@@ -78,7 +66,7 @@ namespace Luminous.ComponentModel
 
 		private static class PropertyStore<T>
 		{
-			public static Dictionary<string, T> Store = new Dictionary<string, T>();
+			public static Dictionary<string, T> Store = new();
 		}
 
 		#endregion

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -26,9 +26,7 @@ namespace Luminous.Windows.Input
 	{
 		#region Static Members
 
-		public static ICommand Instance => _instance;
-
-		private static readonly ICommand _instance = new ApplicationExitCommand();
+		public static ICommand Instance { get; } = new ApplicationExitCommand();
 
 		#endregion
 
@@ -36,11 +34,15 @@ namespace Luminous.Windows.Input
 
 		public bool CanExecute(object parameter) => true;
 
+#pragma warning disable 67
 		public event EventHandler CanExecuteChanged;
+#pragma warning restore 67
 
 		public void Execute(object parameter)
 		{
-			int exitCode = parameter is int ? (int)parameter : 0;
+			int exitCode = parameter is int ec
+				? ec
+				: 0;
 
 			if (Application.Current != null)
 			{

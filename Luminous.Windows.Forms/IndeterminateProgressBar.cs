@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -72,7 +72,7 @@ namespace Luminous.Windows.Forms
 
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public bool CausesValidation
+		public new bool CausesValidation
 		{
 			get => base.CausesValidation;
 			set => base.CausesValidation = value;
@@ -88,7 +88,7 @@ namespace Luminous.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
-		public ImeMode ImeMode
+		public new ImeMode ImeMode
 		{
 			get => base.ImeMode;
 			set => base.ImeMode = value;
@@ -96,7 +96,7 @@ namespace Luminous.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
-		public bool TabStop
+		public new bool TabStop
 		{
 			get => base.TabStop;
 			set => base.TabStop = value;
@@ -119,12 +119,12 @@ namespace Luminous.Windows.Forms
 			timer.Enabled = Enabled;
 		}
 
-		private double currentFrame = -1;
+		private double _currentFrame = -1;
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			base.OnPaint(pe);
-			if (!timer.Enabled || currentFrame < 0)
+			if (!timer.Enabled || _currentFrame < 0)
 			{
 				return;
 			}
@@ -139,12 +139,12 @@ namespace Luminous.Windows.Forms
 
 		private void DrawDot(PaintEventArgs pe, Brush b, int index)
 		{
-			double frame = currentFrame + index / 50.0;
+			double frame = _currentFrame + index / 50.0;
 			/*const double min = -8;
-            const double max = 8;
-            double arg = 2 * 2 * (frame - .5);
-            double tan = arg * arg * arg * arg * arg;
-            double val = (tan - min) / (max - min);*/
+			const double max = 8;
+			double arg = 2 * 2 * (frame - .5);
+			double tan = arg * arg * arg * arg * arg;
+			double val = (tan - min) / (max - min);*/
 			float val = (float)(Math.Pow(4 * frame - 2, 5) + 8) / 16;
 			float x = (float)(val * Width + /*index bias*/index * 16 + /*frame bias*/ 2 * (frame * 100 - 50));
 			if (RightToLeft == RightToLeft.Yes)
@@ -154,23 +154,23 @@ namespace Luminous.Windows.Forms
 			pe.Graphics.FillRectangle(b, x, Height / 2 - 2, 4, 4);
 		}
 
-		private void timer_Tick(object sender, EventArgs e)
+		private void Timer_Tick(object sender, EventArgs e)
 		{
 			if (!IsHandleCreated || !timer.Enabled)
 			{
 				return;
 			}
-			if (currentFrame < 0)
+			if (_currentFrame < 0)
 			{
-				currentFrame = 0;
+				_currentFrame = 0;
 			}
 			else
 			{
-				currentFrame += .01;
+				_currentFrame += .01;
 			}
-			if (currentFrame > 1.0)
+			if (_currentFrame > 1.0)
 			{
-				currentFrame = 0;
+				_currentFrame = 0;
 			}
 			Invalidate();
 		}

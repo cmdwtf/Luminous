@@ -27,86 +27,47 @@ namespace Luminous.Windows.Forms
 	{
 		public static string GetButtonName(TaskDialogResult button)
 		{
-			switch (button)
+			return button switch
 			{
-				case TaskDialogResult.Abort:
-					return Properties.Resources.AbortText;
-
-				case TaskDialogResult.Cancel:
-					return Properties.Resources.CancelText;
-
-				case TaskDialogResult.Close:
-					return Properties.Resources.CloseText;
-
-				case TaskDialogResult.Continue:
-					return Properties.Resources.ContinueText;
-
-				case TaskDialogResult.Ignore:
-					return Properties.Resources.IgnoreText;
-
-				case TaskDialogResult.No:
-					return Properties.Resources.NoText;
-
-				case TaskDialogResult.NoToAll:
-					return Properties.Resources.NoToAllText;
-
-				case TaskDialogResult.OK:
-					return Properties.Resources.OKText;
-
-				case TaskDialogResult.Retry:
-					return Properties.Resources.RetryText;
-
-				case TaskDialogResult.Yes:
-					return Properties.Resources.YesText;
-
-				case TaskDialogResult.YesToAll:
-					return Properties.Resources.YesToAllText;
-
-				default:
-					return Properties.Resources.NoneText;
-			}
+				TaskDialogResult.Abort => Properties.Resources.AbortText,
+				TaskDialogResult.Cancel => Properties.Resources.CancelText,
+				TaskDialogResult.Close => Properties.Resources.CloseText,
+				TaskDialogResult.Continue => Properties.Resources.ContinueText,
+				TaskDialogResult.Ignore => Properties.Resources.IgnoreText,
+				TaskDialogResult.No => Properties.Resources.NoText,
+				TaskDialogResult.NoToAll => Properties.Resources.NoToAllText,
+				TaskDialogResult.OK => Properties.Resources.OKText,
+				TaskDialogResult.Retry => Properties.Resources.RetryText,
+				TaskDialogResult.Yes => Properties.Resources.YesText,
+				TaskDialogResult.YesToAll => Properties.Resources.YesToAllText,
+				_ => Properties.Resources.NoneText,
+			};
 		}
 
-		public static DialogResult MakeDialogResult(TaskDialogResult Result)
+		public static DialogResult MakeDialogResult(TaskDialogResult result)
 		{
-			switch (Result)
+			return result switch
 			{
-				case TaskDialogResult.Abort:
-					return DialogResult.Abort;
-				case TaskDialogResult.Cancel:
-				case TaskDialogResult.Close:
-					return DialogResult.Cancel;
-				case TaskDialogResult.Ignore:
-					return DialogResult.Ignore;
-				case TaskDialogResult.No:
-				case TaskDialogResult.NoToAll:
-					return DialogResult.No;
-				case TaskDialogResult.OK:
-				case TaskDialogResult.Continue:
-					return DialogResult.OK;
-				case TaskDialogResult.Retry:
-					return DialogResult.Retry;
-				case TaskDialogResult.Yes:
-				case TaskDialogResult.YesToAll:
-					return DialogResult.Yes;
-				default:
-					return DialogResult.None;
-			}
+				TaskDialogResult.Abort => DialogResult.Abort,
+				TaskDialogResult.Cancel or TaskDialogResult.Close => DialogResult.Cancel,
+				TaskDialogResult.Ignore => DialogResult.Ignore,
+				TaskDialogResult.No or TaskDialogResult.NoToAll => DialogResult.No,
+				TaskDialogResult.OK or TaskDialogResult.Continue => DialogResult.OK,
+				TaskDialogResult.Retry => DialogResult.Retry,
+				TaskDialogResult.Yes or TaskDialogResult.YesToAll => DialogResult.Yes,
+				_ => DialogResult.None,
+			};
 		}
 
-		public static TaskDialogDefaultButton MakeTaskDialogDefaultButton(MessageBoxDefaultButton DefaultButton)
+		public static TaskDialogDefaultButton MakeTaskDialogDefaultButton(MessageBoxDefaultButton defaultButton)
 		{
-			switch (DefaultButton)
+			return defaultButton switch
 			{
-				case MessageBoxDefaultButton.Button1:
-					return TaskDialogDefaultButton.Button1;
-				case MessageBoxDefaultButton.Button2:
-					return TaskDialogDefaultButton.Button2;
-				case MessageBoxDefaultButton.Button3:
-					return TaskDialogDefaultButton.Button3;
-				default:
-					return TaskDialogDefaultButton.None;
-			}
+				MessageBoxDefaultButton.Button1 => TaskDialogDefaultButton.Button1,
+				MessageBoxDefaultButton.Button2 => TaskDialogDefaultButton.Button2,
+				MessageBoxDefaultButton.Button3 => TaskDialogDefaultButton.Button3,
+				_ => TaskDialogDefaultButton.None,
+			};
 		}
 	}
 }

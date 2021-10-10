@@ -34,7 +34,7 @@ namespace Luminous.ExpressionParser
 		public decimal Value { get; private set; }
 		public string Name { get; private set; }
 
-		public static readonly Constant PI = new Constant("PI", (decimal)Math.PI);
-		public static readonly Constant E = new Constant("E", (decimal)Math.E);
+		public static readonly Constant PI = new("PI", (decimal)Math.PI);
+		public static readonly Constant E = new("E", (decimal)Math.E);
 	}
 }

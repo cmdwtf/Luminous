@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -42,14 +42,14 @@ namespace Luminous.Xml.Linq
 
 		public void Remove(string selector)
 		{
-			XCssRule r = Rules.Find(_r => _r.Selector == selector);
-			if (r != null)
+			XCssRule rule = Rules.Find(r => r.Selector == selector);
+			if (rule != null)
 			{
-				Rules.Remove(r);
+				Rules.Remove(rule);
 			}
 		}
 
-		public void RemoveAll(string selector) => Rules.RemoveAll(_r => _r.Selector == selector);
+		public void RemoveAll(string selector) => Rules.RemoveAll(r => r.Selector == selector);
 
 		public List<XCssRule> Rules { get; private set; }
 
@@ -86,11 +86,11 @@ namespace Luminous.Xml.Linq
 			{
 				foreach (XCssDeclaration declaration in rule.Declarations)
 				{
-					if (!d.Keys.Any(_d => _d.ToString() == declaration.ToString()))
+					if (!d.Keys.Any(d => d.ToString() == declaration.ToString()))
 					{
 						d[declaration] = new List<string>();
 					}
-					List<string> l = d[d.Keys.First(_d => _d.ToString() == declaration.ToString())];
+					List<string> l = d[d.Keys.First(d => d.ToString() == declaration.ToString())];
 					if (!l.Contains(rule.Selector))
 					{
 						l.Add(rule.Selector);

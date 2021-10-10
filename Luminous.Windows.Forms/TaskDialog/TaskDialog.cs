@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -53,8 +53,7 @@ namespace Luminous.Windows.Forms
 		public static DialogResult Show(IWin32Window owner, string text)
 		{
 			string caption = "Application";
-			var p = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false).FirstOrDefault() as AssemblyProductAttribute;
-			if (p != null)
+			if (Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false).FirstOrDefault() is AssemblyProductAttribute p)
 			{
 				caption = p.Product;
 			}
@@ -226,34 +225,29 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private TaskDialogResult ShowInternal(IWin32Window Owner)
+		private TaskDialogResult ShowInternal(IWin32Window owner)
 		{
-			using (var tdf = new TaskDialogForm { TaskDialog = this })
+			using (var tdf = new TaskDialogForm { _taskDialog = this })
 			{
 				_tdf = tdf;
-				tdf.LinkClicked += tdf_LinkClicked;
-				tdf.Load += tdf_Load;
+				tdf.LinkClicked += Tdf_LinkClicked;
+				tdf.Load += Tdf_Load;
 				tdf.RightToLeft = RightToLeft;
 				tdf.RightToLeftLayout = RightToLeftLayout;
-				SetStartPosition(tdf, Owner);
-				tdf.ShowDialog(Owner);
+				SetStartPosition(tdf, owner);
+				tdf.ShowDialog(owner);
 				_tdf = null;
 				VerificationFlagChecked = tdf.CheckBoxState;
-				Result = tdf.Tag is TaskDialogButton ? ((TaskDialogButton)tdf.Tag).Result
-													 : (TaskDialogResult)(-1); // TaskDialog force-closed by exiting app
+				Result = tdf.Tag is TaskDialogButton button
+					? button.Result
+					: (TaskDialogResult)(-1); // TaskDialog force-closed by exiting app
 				return Result;
 			}
 		}
 
-		private void tdf_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			if (LinkClicked != null)
-			{
-				LinkClicked(sender, e);
-			}
-		}
+		private void Tdf_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => LinkClicked?.Invoke(sender, e);
 
-		private void tdf_Load(object sender, EventArgs e)
+		private void Tdf_Load(object sender, EventArgs e)
 		{
 			_tdf.SuspendLayouts();
 			OnFormLoad(_tdf);
@@ -351,7 +345,7 @@ namespace Luminous.Windows.Forms
 
 		#region Fields and Properties
 
-		public static float _customScale = 1f;
+		private static float _customScale = 1f;
 		public static float CustomScale
 		{
 			get => _customScale;
@@ -371,7 +365,7 @@ namespace Luminous.Windows.Forms
 		{
 			get
 			{
-				if (_lockSystem && _sound == null)
+				if (LockSystem && _sound == null)
 				{
 					return SoundScheme.WindowsUAC;
 				}
@@ -380,25 +374,15 @@ namespace Luminous.Windows.Forms
 			set => _sound = value;
 		}
 
-		private IWin32Window _owner;
 		/// <summary>
 		/// Gets or sets an implementation of IWin32Window that will own the modal task dialog.
 		/// </summary>
-		public IWin32Window Owner
-		{
-			get => _owner;
-			set => _owner = value;
-		}
+		public IWin32Window Owner { get; set; }
 
-		private string _content;
 		/// <summary>
 		/// Gets or sets the text to display in the Vista-like task dialog.
 		/// </summary>
-		public string Content
-		{
-			get => _content;
-			set => _content = value;
-		}
+		public string Content { get; set; }
 
 		private LinkLabel _contentLink;
 		/// <summary>
@@ -423,85 +407,45 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private string _windowTitle;
 		/// <summary>
 		/// Gets or sets the text to display in the title bar of the Vista-like task dialog.
 		/// </summary>
-		public string WindowTitle
-		{
-			get => _windowTitle;
-			set => _windowTitle = value;
-		}
+		public string WindowTitle { get; set; }
 
-		private string _mainInstruction;
 		/// <summary>
 		/// Gets or sets the text to be used for the main instruction of the Vista-like task dialog.
 		/// </summary>
-		public string MainInstruction
-		{
-			get => _mainInstruction;
-			set => _mainInstruction = value;
-		}
+		public string MainInstruction { get; set; }
 
-		private TaskDialogButton[] _vButtons;
 		/// <summary>
 		/// Gets or sets the array of the TaskDialogButtons that specifies which buttons to display in the Vista-like task dialog.
 		/// </summary>
-		public TaskDialogButton[] Buttons
-		{
-			get => _vButtons;
-			set => _vButtons = value;
-		}
+		public TaskDialogButton[] Buttons { get; set; }
 
-		private TaskDialogIcon _mainIcon;
 		/// <summary>
 		/// Gets or sets the one of the TaskDialogIcon values that specifies which icon on what background to display in the Vista-like task dialog.
 		/// </summary>
-		public TaskDialogIcon MainIcon
-		{
-			get => _mainIcon;
-			set => _mainIcon = value;
-		}
+		public TaskDialogIcon MainIcon { get; set; }
 
-		private Image _customMainIcon;
 		/// <summary>
 		/// Gets or sets the custom image to display in the Vista-like task dialog.
 		/// </summary>
-		public Image CustomMainIcon
-		{
-			get => _customMainIcon;
-			set => _customMainIcon = value;
-		}
+		public Image CustomMainIcon { get; set; }
 
-		private TaskDialogIcon _footerIcon;
 		/// <summary>
 		/// Gets or sets the one of the TaskDialogIcon values that specifies which icon to display in the footer of the Vista-like task dialog.
 		/// </summary>
-		public TaskDialogIcon FooterIcon
-		{
-			get => _footerIcon;
-			set => _footerIcon = value;
-		}
+		public TaskDialogIcon FooterIcon { get; set; }
 
-		private Image _customFooterIcon;
 		/// <summary>
 		/// Gets or sets the custom image to display in the footer of the Vista-like task dialog.
 		/// </summary>
-		public Image CustomFooterIcon
-		{
-			get => _customFooterIcon;
-			set => _customFooterIcon = value;
-		}
+		public Image CustomFooterIcon { get; set; }
 
-		private string _footerText;
 		/// <summary>
 		/// Gets or sets the text to display in the footer of the Vista-like task dialog.
 		/// </summary>
-		public string FooterText
-		{
-			get => _footerText;
-			set => _footerText = value;
-		}
+		public string FooterText { get; set; }
 
 		private LinkLabel _footer;
 		/// <summary>
@@ -526,115 +470,60 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private TaskDialogDefaultButton _defaultButton = TaskDialogDefaultButton.Button1;
 		/// <summary>
 		/// Gets or sets one of the TaskDialogDefaultButton values that specifies the default button for the Vista-like task dialog.
 		/// </summary>
-		public TaskDialogDefaultButton DefaultButton
-		{
-			get => _defaultButton;
-			set => _defaultButton = value;
-		}
+		public TaskDialogDefaultButton DefaultButton { get; set; } = TaskDialogDefaultButton.Button1;
 
-		private RightToLeft _rightToLeft;
 		/// <summary>
 		/// Gets or sets a value indicating whether the text appears from right to left, such as when using Hebrew or Arabic fonts.
 		/// </summary>
-		public RightToLeft RightToLeft
-		{
-			get => _rightToLeft;
-			set => _rightToLeft = value;
-		}
+		public RightToLeft RightToLeft { get; set; }
 
-		private bool _rightToLeftLayout;
 		/// <summary>
 		/// Gets or sets a value indicating whether right-to-left mirror placement is turned on.
 		/// </summary>
-		public bool RightToLeftLayout
-		{
-			get => _rightToLeftLayout;
-			set => _rightToLeftLayout = value;
-		}
+		public bool RightToLeftLayout { get; set; }
 
-		private TaskDialogResult _result;
 		/// <summary>
 		/// Gets or sets the dialog result for the TaskDialog form.
 		/// </summary>
-		public TaskDialogResult Result
-		{
-			get => _result;
-			set => _result = value;
-		}
+		public TaskDialogResult Result { get; set; }
 
-		private bool _lockSystem;
 		/// <summary>
 		/// Determines whether to lock system while showing the Vista-like task dialog.
 		/// </summary>
-		public bool LockSystem
-		{
-			get => _lockSystem;
-			set => _lockSystem = value;
-		}
+		public bool LockSystem { get; set; }
 
-		private Control _control;
 		/// <summary>
 		/// Gets or sets the custom control to display in the Vista-like task dialog.
 		/// </summary>
-		public Control CustomControl
-		{
-			get => _control;
-			set => _control = value;
-		}
+		public Control CustomControl { get; set; }
 
-		private CheckState _verificationFlagChecked;
 		/// <summary>
 		/// Gets or sets a value indicating whether the verification checkbox in the dialog should be checked when the dialog is initially displayed.
 		/// </summary>
-		public CheckState VerificationFlagChecked
-		{
-			get => _verificationFlagChecked;
-			set => _verificationFlagChecked = value;
-		}
+		public CheckState VerificationFlagChecked { get; set; }
 
-		private string _verificationText;
 		/// <summary>
 		/// Gets or sets the string to be used to label the verification checkbox. If this parameter is Nothing (null), the verification checkbox is not displayed in the Vista-like task dialog.
 		/// </summary>
-		public string VerificationText
-		{
-			get => _verificationText;
-			set => _verificationText = value;
-		}
+		public string VerificationText { get; set; }
 
-		private bool _expandFooterArea;
 		/// <summary>
 		/// Gets or sets a value indicating whether the the string specified by the ExpandedInformation property should be displayed at the bottom of the Vista-like task dialog's footer area instead of immediately after the Vista-like task dialog's content.
 		/// </summary>
-		public bool ExpandFooterArea
-		{
-			get => _expandFooterArea;
-			set => _expandFooterArea = value;
-		}
+		public bool ExpandFooterArea { get; set; }
 
-		private bool _expandedByDefault;
 		/// <summary>
 		/// Gets or sets a value indicating whether the string specified by the ExpandedInformation property should be displayed when the Vista-like task dialog is initially displayed.
 		/// </summary>
-		public bool ExpandedByDefault
-		{
-			get => _expandedByDefault;
-			set => _expandedByDefault = value;
-		}
+		public bool ExpandedByDefault { get; set; }
 
-		private string _expandedInformation;
 		/// <summary>
 		/// Gets or sets the string to be used for displaying additional information. The additional information is displayed either immediately below the content or below the footer text depending on whether the ExpandFooterArea property is set.
 		/// </summary>
-		public string ExpandedInformation
-		{
-			get => _expandedInformation;
-			set => _expandedInformation = value;
-		}
+		public string ExpandedInformation { get; set; }
 
 		private LinkLabel _expanded;
 		/// <summary>
@@ -661,25 +550,15 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private string _expandedControlText;
 		/// <summary>
 		/// Gets or sets the string to be used to label the button for collapsing the expandable information.
 		/// </summary>
-		public string ExpandedControlText
-		{
-			get => _expandedControlText;
-			set => _expandedControlText = value;
-		}
+		public string ExpandedControlText { get; set; }
 
-		private string _collapsedControlText;
 		/// <summary>
 		/// Gets or sets the string to be used to label the button for expanding the expandable information.
 		/// </summary>
-		public string CollapsedControlText
-		{
-			get => _collapsedControlText;
-			set => _collapsedControlText = value;
-		}
+		public string CollapsedControlText { get; set; }
 
 		#endregion
 
@@ -772,7 +651,7 @@ namespace Luminous.Windows.Forms
 
 		#region Custom Theming
 
-		public static Func<IButtonControlWithImage> ButtonFactory = new Func<IButtonControlWithImage>(() => new Button() { AutoSizeMode = AutoSizeMode.GrowAndShrink, TextImageRelation = TextImageRelation.ImageBeforeText });
+		public static Func<IButtonControlWithImage> ButtonFactory = new(() => new Button() { AutoSizeMode = AutoSizeMode.GrowAndShrink, TextImageRelation = TextImageRelation.ImageBeforeText });
 
 		internal static void OnFormConstructed(Form form) => FormConstructed(form, EventArgs.Empty);
 

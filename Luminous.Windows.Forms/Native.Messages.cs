@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -26,7 +26,7 @@ namespace Luminous.Windows.Forms
 		public static class Messages
 		{
 			[DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "SendMessage")]
-			public static extern IntPtr Send(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+			public static extern IntPtr Send(HandleRef hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 			public enum ListView : uint
 			{

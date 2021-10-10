@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -201,13 +201,13 @@ namespace Luminous.Windows
 		/// </summary>
 		public TaskDialog()
 		{
-			_TaskDialogWindow = new TaskDialogWindow(this, true);
+			_taskDialogWindow = new TaskDialogWindow(this, true);
 			try
 			{
-				_TaskDialogWindow.Owner = TaskDialog.DefaultOwnerWindow;
+				_taskDialogWindow.Owner = DefaultOwnerWindow;
 			}
 			catch { }
-			_TaskDialogWindow.WindowTitle = TaskDialogHelpers.ProductName;
+			_taskDialogWindow.WindowTitle = TaskDialogHelpers.ProductName;
 		}
 
 		#endregion
@@ -220,8 +220,8 @@ namespace Luminous.Windows
 		/// <returns>One of the TaskDialogResult values</returns>
 		public TaskDialogResult Show()
 		{
-			_TaskDialogWindow.ShowDialog();
-			return (TaskDialogResult)_TaskDialogWindow.Tag;
+			_taskDialogWindow.ShowDialog();
+			return (TaskDialogResult)_taskDialogWindow.Tag;
 		}
 
 		#endregion
@@ -229,7 +229,7 @@ namespace Luminous.Windows
 		#region " Properties "
 
 
-		public static float _customScale = 1f;
+		private static float _customScale = 1f;
 		public static float CustomScale
 		{
 			get => _customScale;
@@ -241,7 +241,7 @@ namespace Luminous.Windows
 			}
 		}
 
-		private readonly TaskDialogWindow _TaskDialogWindow;
+		private readonly TaskDialogWindow _taskDialogWindow;
 
 		/// <summary>
 		/// Gets or sets the window that will own the modal dialog box.
@@ -249,8 +249,8 @@ namespace Luminous.Windows
 		/// <value>The window that will own the modal dialog box.</value>
 		public Window Owner
 		{
-			get => _TaskDialogWindow.Owner;
-			set => _TaskDialogWindow.Owner = value;
+			get => _taskDialogWindow.Owner;
+			set => _taskDialogWindow.Owner = value;
 		}
 
 		/// <summary>
@@ -259,8 +259,8 @@ namespace Luminous.Windows
 		/// <value>The text to display in the title bar of the task dialog.</value>
 		public string WindowTitle
 		{
-			get => _TaskDialogWindow.WindowTitle;
-			set => _TaskDialogWindow.WindowTitle = value;
+			get => _taskDialogWindow.WindowTitle;
+			set => _taskDialogWindow.WindowTitle = value;
 		}
 
 		/// <summary>
@@ -269,8 +269,8 @@ namespace Luminous.Windows
 		/// <value>One of the TaskDialogIcon values that specifies which icon to display in the task dialog.</value>
 		public TaskDialogIcon MainIcon
 		{
-			get => _TaskDialogWindow.MainIcon;
-			set => _TaskDialogWindow.MainIcon = value;
+			get => _taskDialogWindow.MainIcon;
+			set => _taskDialogWindow.MainIcon = value;
 		}
 
 		/// <summary>
@@ -279,8 +279,8 @@ namespace Luminous.Windows
 		/// <value>The instruction to display in the task dialog.</value>
 		public string MainInstruction
 		{
-			get => _TaskDialogWindow.MainInstruction;
-			set => _TaskDialogWindow.MainInstruction = value;
+			get => _taskDialogWindow.MainInstruction;
+			set => _taskDialogWindow.MainInstruction = value;
 		}
 
 		/// <summary>
@@ -289,184 +289,184 @@ namespace Luminous.Windows
 		/// <value>The text to display in the task dialog.</value>
 		public string ContentText
 		{
-			get => _TaskDialogWindow.ContentText;
-			set => _TaskDialogWindow.ContentText = value;
+			get => _taskDialogWindow.ContentText;
+			set => _taskDialogWindow.ContentText = value;
 		}
 
-		public Grid GetCustomContentPanel() => _TaskDialogWindow.PanelCustomContent;
+		public Grid GetCustomContentPanel() => _taskDialogWindow.PanelCustomContent;
 
 		public TaskDialogCommonButtons CommonButtons
 		{
-			get => _TaskDialogWindow.CommonButtons;
-			set => _TaskDialogWindow.CommonButtons = value;
+			get => _taskDialogWindow.CommonButtons;
+			set => _taskDialogWindow.CommonButtons = value;
 		}
 
 		public IList<TaskDialogButton> Buttons
 		{
-			get => _TaskDialogWindow.Buttons;
-			set => _TaskDialogWindow.Buttons = value;
+			get => _taskDialogWindow.Buttons;
+			set => _taskDialogWindow.Buttons = value;
 		}
 
 		public TaskDialogResult DefaultButton
 		{
-			get => _TaskDialogWindow.DefaultButton;
-			set => _TaskDialogWindow.DefaultButton = value;
+			get => _taskDialogWindow.DefaultButton;
+			set => _taskDialogWindow.DefaultButton = value;
 		}
 
 		public bool EnableHyperlinks
 		{
-			get => _TaskDialogWindow.EnableHyperlinks;
-			set => _TaskDialogWindow.EnableHyperlinks = value;
+			get => _taskDialogWindow.EnableHyperlinks;
+			set => _taskDialogWindow.EnableHyperlinks = value;
 		}
 
 		public bool AllowDialogCancellation
 		{
-			get => _TaskDialogWindow.AllowDialogCancellation;
-			set => _TaskDialogWindow.AllowDialogCancellation = value;
+			get => _taskDialogWindow.AllowDialogCancellation;
+			set => _taskDialogWindow.AllowDialogCancellation = value;
 		}
 
 		public bool UseCommandLinks
 		{
-			get => _TaskDialogWindow.UseCommandLinks;
-			set => _TaskDialogWindow.UseCommandLinks = value;
+			get => _taskDialogWindow.UseCommandLinks;
+			set => _taskDialogWindow.UseCommandLinks = value;
 		}
 
 		public bool UseCommandLinksNoIcon
 		{
-			get => _TaskDialogWindow.UseCommandLinksNoIcon;
-			set => _TaskDialogWindow.UseCommandLinksNoIcon = value;
+			get => _taskDialogWindow.UseCommandLinksNoIcon;
+			set => _taskDialogWindow.UseCommandLinksNoIcon = value;
 		}
 
 		public bool IsPositionRelativeToWindow
 		{
-			get => _TaskDialogWindow.IsPositionRelativeToWindow;
-			set => _TaskDialogWindow.IsPositionRelativeToWindow = value;
+			get => _taskDialogWindow.IsPositionRelativeToWindow;
+			set => _taskDialogWindow.IsPositionRelativeToWindow = value;
 		}
 
 		public TaskDialogIcon FooterIcon
 		{
-			get => _TaskDialogWindow.FooterIcon;
-			set => _TaskDialogWindow.FooterIcon = value;
+			get => _taskDialogWindow.FooterIcon;
+			set => _taskDialogWindow.FooterIcon = value;
 		}
 
 		public string FooterText
 		{
-			get => _TaskDialogWindow.FooterText;
-			set => _TaskDialogWindow.FooterText = value;
+			get => _taskDialogWindow.FooterText;
+			set => _taskDialogWindow.FooterText = value;
 		}
 
 		public bool IsExpandedByDefault
 		{
-			get => _TaskDialogWindow.IsExpanded;
-			set => _TaskDialogWindow.IsExpanded = value;
+			get => _taskDialogWindow.IsExpanded;
+			set => _taskDialogWindow.IsExpanded = value;
 		}
 
 		public bool ExpandFooterArea
 		{
-			get => _TaskDialogWindow.ExpandFooterArea;
-			set => _TaskDialogWindow.ExpandFooterArea = value;
+			get => _taskDialogWindow.ExpandFooterArea;
+			set => _taskDialogWindow.ExpandFooterArea = value;
 		}
 
 		public string ExpandedInformation
 		{
-			get => _TaskDialogWindow.ExpandedInformation;
-			set => _TaskDialogWindow.ExpandedInformation = value;
+			get => _taskDialogWindow.ExpandedInformation;
+			set => _taskDialogWindow.ExpandedInformation = value;
 		}
 
 		public bool? IsVerificationFlagChecked
 		{
-			get => _TaskDialogWindow.IsVerificationFlagChecked;
-			set => _TaskDialogWindow.IsVerificationFlagChecked = value;
+			get => _taskDialogWindow.IsVerificationFlagChecked;
+			set => _taskDialogWindow.IsVerificationFlagChecked = value;
 		}
 
 		public IList<TaskDialogRadioButton> RadioButtons
 		{
-			get => _TaskDialogWindow.RadioButtons;
-			set => _TaskDialogWindow.RadioButtons = value;
+			get => _taskDialogWindow.RadioButtons;
+			set => _taskDialogWindow.RadioButtons = value;
 		}
 
 		public TaskDialogResult DefaultRadioButton
 		{
-			get => _TaskDialogWindow.DefaultRadioButton;
-			set => _TaskDialogWindow.DefaultRadioButton = value;
+			get => _taskDialogWindow.DefaultRadioButton;
+			set => _taskDialogWindow.DefaultRadioButton = value;
 		}
 
 		public string VerificationText
 		{
-			get => _TaskDialogWindow.VerificationText;
-			set => _TaskDialogWindow.VerificationText = value;
+			get => _taskDialogWindow.VerificationText;
+			set => _taskDialogWindow.VerificationText = value;
 		}
 
 		public int Width
 		{
-			get => _TaskDialogWindow.ClientWidth;
-			set => _TaskDialogWindow.ClientWidth = value;
+			get => _taskDialogWindow.ClientWidth;
+			set => _taskDialogWindow.ClientWidth = value;
 		}
 
 		public string ExpandedControlText
 		{
-			get => _TaskDialogWindow.ExpandedControlText;
-			set => _TaskDialogWindow.ExpandedControlText = value;
+			get => _taskDialogWindow.ExpandedControlText;
+			set => _taskDialogWindow.ExpandedControlText = value;
 		}
 
 		public string CollapsedControlText
 		{
-			get => _TaskDialogWindow.CollapsedControlText;
-			set => _TaskDialogWindow.CollapsedControlText = value;
+			get => _taskDialogWindow.CollapsedControlText;
+			set => _taskDialogWindow.CollapsedControlText = value;
 		}
 
 		public bool ShowProgressBar
 		{
-			get => _TaskDialogWindow.ShowProgressBar;
-			set => _TaskDialogWindow.ShowProgressBar = value;
+			get => _taskDialogWindow.ShowProgressBar;
+			set => _taskDialogWindow.ShowProgressBar = value;
 		}
 
 		public bool ShowMarqueeProgressBar
 		{
-			get => _TaskDialogWindow.ShowMarqueeProgressBar;
-			set => _TaskDialogWindow.ShowMarqueeProgressBar = value;
+			get => _taskDialogWindow.ShowMarqueeProgressBar;
+			set => _taskDialogWindow.ShowMarqueeProgressBar = value;
 		}
 
 		public TaskDialogProgressBarState ProgressBarState
 		{
-			get => _TaskDialogWindow.ProgressBarState;
-			set => _TaskDialogWindow.ProgressBarState = value;
+			get => _taskDialogWindow.ProgressBarState;
+			set => _taskDialogWindow.ProgressBarState = value;
 		}
 
 		public bool UseCallBackTimer
 		{
-			get => _TaskDialogWindow.UseCallBackTimer;
-			set => _TaskDialogWindow.UseCallBackTimer = value;
+			get => _taskDialogWindow.UseCallBackTimer;
+			set => _taskDialogWindow.UseCallBackTimer = value;
 		}
 
 		public bool RtlLayout
 		{
-			get => _TaskDialogWindow.RtlLayout;
-			set => _TaskDialogWindow.RtlLayout = value;
+			get => _taskDialogWindow.RtlLayout;
+			set => _taskDialogWindow.RtlLayout = value;
 		}
 
 		public bool CanBeMinimized
 		{
-			get => _TaskDialogWindow.CanBeMinimized;
-			set => _TaskDialogWindow.CanBeMinimized = value;
+			get => _taskDialogWindow.CanBeMinimized;
+			set => _taskDialogWindow.CanBeMinimized = value;
 		}
 
 		public double ProgressBarMinimum
 		{
-			get => _TaskDialogWindow.ProgressBarMinimum;
-			set => _TaskDialogWindow.ProgressBarMinimum = value;
+			get => _taskDialogWindow.ProgressBarMinimum;
+			set => _taskDialogWindow.ProgressBarMinimum = value;
 		}
 
 		public double ProgressBarMaximum
 		{
-			get => _TaskDialogWindow.ProgressBarMaximum;
-			set => _TaskDialogWindow.ProgressBarMaximum = value;
+			get => _taskDialogWindow.ProgressBarMaximum;
+			set => _taskDialogWindow.ProgressBarMaximum = value;
 		}
 
 		public double ProgressBarValue
 		{
-			get => _TaskDialogWindow.ProgressBarValue;
-			set => _TaskDialogWindow.ProgressBarValue = value;
+			get => _taskDialogWindow.ProgressBarValue;
+			set => _taskDialogWindow.ProgressBarValue = value;
 		}
 
 		#endregion
@@ -477,11 +477,11 @@ namespace Luminous.Windows
 		{
 			add
 			{
-				_TaskDialogWindow.CanClose += value;
+				_taskDialogWindow.CanClose += value;
 			}
 			remove
 			{
-				_TaskDialogWindow.CanClose -= value;
+				_taskDialogWindow.CanClose -= value;
 			}
 		}
 
@@ -489,11 +489,11 @@ namespace Luminous.Windows
 		{
 			add
 			{
-				_TaskDialogWindow.Tick += value;
+				_taskDialogWindow.Tick += value;
 			}
 			remove
 			{
-				_TaskDialogWindow.Tick -= value;
+				_taskDialogWindow.Tick -= value;
 			}
 		}
 
@@ -501,11 +501,11 @@ namespace Luminous.Windows
 		{
 			add
 			{
-				_TaskDialogWindow.HyperlinkClick += value;
+				_taskDialogWindow.HyperlinkClick += value;
 			}
 			remove
 			{
-				_TaskDialogWindow.HyperlinkClick -= value;
+				_taskDialogWindow.HyperlinkClick -= value;
 			}
 		}
 

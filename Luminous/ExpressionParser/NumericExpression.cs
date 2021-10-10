@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -26,11 +26,11 @@ namespace Luminous.ExpressionParser
 
 	public class NumericExpression
 	{
-		public readonly List<IConstant> Constants = new List<IConstant>();
-		public readonly List<IVariable> Variables = new List<IVariable>();
-		public readonly List<IOperator> Operators = new List<IOperator>();
-		public readonly List<IFunction> Functions = new List<IFunction>();
-		public readonly List<IStatement> Statements = new List<IStatement>();
+		public readonly List<IConstant> Constants = new();
+		public readonly List<IVariable> Variables = new();
+		public readonly List<IOperator> Operators = new();
+		public readonly List<IFunction> Functions = new();
+		public readonly List<IStatement> Statements = new();
 		private const string NumberChars = "0123456789.";
 		private string NonoperatorChars => "0123456789()," + AdditionalVariableChars;
 		protected string AdditionalVariableChars { get; set; }
@@ -298,10 +298,7 @@ namespace Luminous.ExpressionParser
 								if ((elem as IFunction).ParametersCount != arguments)
 								{
 									var args = new UndefinedFunctionFoundEventArgs(elem.Name, arguments);
-									if (UndefinedFunctionFound != null)
-									{
-										UndefinedFunctionFound(this, args);
-									}
+									UndefinedFunctionFound?.Invoke(this, args);
 									if (!args.Handled)
 									{
 										throw new ArgumentException(string.Format("There is no function ‘{0}’ with {1} parameters defined.", elem.Name, arguments));
@@ -324,10 +321,7 @@ namespace Luminous.ExpressionParser
 								if (func == null)
 								{
 									var args = new UndefinedFunctionFoundEventArgs((elem as MultipleElements).Elements[0].Name, arguments);
-									if (UndefinedFunctionFound != null)
-									{
-										UndefinedFunctionFound(this, args);
-									}
+									UndefinedFunctionFound?.Invoke(this, args);
 									if (!args.Handled)
 									{
 										throw new ArgumentException(string.Format("There is no function ‘{0}’ with {1} parameters defined.", args.Name, arguments));
@@ -412,8 +406,7 @@ namespace Luminous.ExpressionParser
 						var felement = element as IFunction;
 						foreach (IExpressionElement eelem in dict[name])
 						{
-							var felem = eelem as IFunction;
-							if (felem != null && felem.Name == felement.Name && felem.ParametersCount == felement.ParametersCount)
+							if (eelem is IFunction felem && felem.Name == felement.Name && felem.ParametersCount == felement.ParametersCount)
 							{
 								throw new ArgumentException("There cannot be two identical functions.");
 							}
@@ -502,10 +495,7 @@ namespace Luminous.ExpressionParser
 						else
 						{
 							var args = new UndefinedVariableFoundEventArgs(strtoken);
-							if (UndefinedVariableFound != null)
-							{
-								UndefinedVariableFound(this, args);
-							}
+							UndefinedVariableFound?.Invoke(this, args);
 							if (!args.Handled)
 							{
 								throw new ArgumentException(string.Format("There is no variable ‘{0}’ defined.", args.Name));

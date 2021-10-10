@@ -53,7 +53,7 @@ namespace Luminous.Windows.Forms
 			// Timer
 			// 
 			this.timer.Interval = 50;
-			this.timer.Tick += new System.EventHandler(this.timer_Tick);
+			this.timer.Tick += new System.EventHandler(this.Timer_Tick);
 			this.ResumeLayout(false);
 
 		}

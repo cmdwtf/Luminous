@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -69,7 +69,7 @@ namespace Luminous.ExpressionParser
 	{
 		public override decimal Invoke(params decimal[] parameters) => Power(parameters[0], parameters[1]);
 
-		public static decimal Power(decimal X, decimal N)
+		public static decimal Power(decimal x, decimal n)
 		{
 			Func<decimal, decimal, decimal> Pow = null;
 			Pow = (a, b) =>
@@ -93,12 +93,12 @@ namespace Luminous.ExpressionParser
 				return result;
 			};
 
-			if (N == decimal.Truncate(N))
+			if (n == decimal.Truncate(n))
 			{
-				return Pow(X, N);
+				return Pow(x, n);
 			}
 
-			return (decimal)Math.Pow((double)X, (double)N);
+			return (decimal)Math.Pow((double)x, (double)n);
 		}
 
 		public override int ParametersCount => 2;
