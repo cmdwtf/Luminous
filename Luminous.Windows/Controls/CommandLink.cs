@@ -113,7 +113,7 @@ namespace Luminous.Windows.Controls
 		/// <returns>true if the <see cref="P:System.Windows.Controls.CommandLink.Note" /> property should be persisted; otherwise, false.
 		/// </returns>
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public virtual bool ShouldSerializeNote() => (ReadLocalValue(NoteProperty) != DependencyProperty.UnsetValue);
+		public virtual bool ShouldSerializeNote() => ReadLocalValue(NoteProperty) != DependencyProperty.UnsetValue;
 
 		#endregion
 

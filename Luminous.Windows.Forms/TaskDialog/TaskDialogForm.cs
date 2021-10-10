@@ -146,14 +146,7 @@ namespace Luminous.Windows.Forms
 		private SystemSound _sound;
 		public SystemSound Sound
 		{
-			get
-			{
-				if (_sound != null)
-				{
-					return _sound;
-				}
-				return SoundScheme.Default;
-			}
+			get => _sound ?? SoundScheme.Default;
 			set => _sound = value;
 		}
 
@@ -230,7 +223,7 @@ namespace Luminous.Windows.Forms
 			{
 				if (value == null)
 				{
-					value = new TaskDialogButton[] { };
+					value = Array.Empty<TaskDialogButton>();
 				}
 				_vButtons = value;
 				if (value.Length == 0)
@@ -257,22 +250,8 @@ namespace Luminous.Windows.Forms
 							_canCancel = true;
 							CancelButton = (IButtonControl)Buttons[i];
 						}
-						if (value[i].UseCustomText)
-						{
-							button.Text = value[i].Text;
-						}
-						else
-						{
-							button.Text = TaskDialogHelpers.GetButtonName(value[i].Result);
-						}
-						if (value[i].ShowElevationIcon)
-						{
-							((IButtonControlWithImage)button).Image = Properties.Resources.SmallSecurity;
-						}
-						else
-						{
-							((IButtonControlWithImage)button).Image = null;
-						}
+						button.Text = value[i].UseCustomText ? value[i].Text : TaskDialogHelpers.GetButtonName(value[i].Result);
+						((IButtonControlWithImage)button).Image = value[i].ShowElevationIcon ? Properties.Resources.SmallSecurity : null;
 						button.Enabled = value[i].IsEnabled;
 						button.Tag = value[i];
 					}
@@ -440,45 +419,21 @@ namespace Luminous.Windows.Forms
 			set
 			{
 				_footerIcon = value;
-				switch (_footerIcon)
+				FooterImage = _footerIcon switch
 				{
-					case TaskDialogIcon.Information:
-						FooterImage = TaskDialogSmallIcon.Information;
-						break;
-					case TaskDialogIcon.Question:
-						FooterImage = TaskDialogSmallIcon.Question;
-						break;
-					case TaskDialogIcon.Warning:
-						FooterImage = TaskDialogSmallIcon.Warning;
-						break;
-					case TaskDialogIcon.Error:
-						FooterImage = TaskDialogSmallIcon.Error;
-						break;
-					case TaskDialogIcon.SecuritySuccess:
-						FooterImage = TaskDialogSmallIcon.SecuritySuccess;
-						break;
-					case TaskDialogIcon.SecurityQuestion:
-						FooterImage = TaskDialogSmallIcon.SecurityQuestion;
-						break;
-					case TaskDialogIcon.SecurityWarning:
-						FooterImage = TaskDialogSmallIcon.SecurityWarning;
-						break;
-					case TaskDialogIcon.SecurityError:
-						FooterImage = TaskDialogSmallIcon.SecurityError;
-						break;
-					case TaskDialogIcon.SecurityShield:
-						FooterImage = TaskDialogSmallIcon.Security;
-						break;
-					case TaskDialogIcon.SecurityShieldBlue:
-						FooterImage = TaskDialogSmallIcon.Security;
-						break;
-					case TaskDialogIcon.SecurityShieldGray:
-						FooterImage = TaskDialogSmallIcon.Security;
-						break;
-					default:
-						FooterImage = null;
-						break;
-				}
+					TaskDialogIcon.Information => TaskDialogSmallIcon.Information,
+					TaskDialogIcon.Question => TaskDialogSmallIcon.Question,
+					TaskDialogIcon.Warning => TaskDialogSmallIcon.Warning,
+					TaskDialogIcon.Error => TaskDialogSmallIcon.Error,
+					TaskDialogIcon.SecuritySuccess => TaskDialogSmallIcon.SecuritySuccess,
+					TaskDialogIcon.SecurityQuestion => TaskDialogSmallIcon.SecurityQuestion,
+					TaskDialogIcon.SecurityWarning => TaskDialogSmallIcon.SecurityWarning,
+					TaskDialogIcon.SecurityError => TaskDialogSmallIcon.SecurityError,
+					TaskDialogIcon.SecurityShield => TaskDialogSmallIcon.Security,
+					TaskDialogIcon.SecurityShieldBlue => TaskDialogSmallIcon.Security,
+					TaskDialogIcon.SecurityShieldGray => TaskDialogSmallIcon.Security,
+					_ => null,
+				};
 			}
 		}
 
@@ -590,30 +545,12 @@ namespace Luminous.Windows.Forms
 			}
 		}
 
-		private void SetExpanderText()
-		{
-			if (Expanded)
-			{
-				ButtonExpander.Text = ExpandedControlText;
-			}
-			else
-			{
-				ButtonExpander.Text = CollapsedControlText;
-			}
-		}
+		private void SetExpanderText() => ButtonExpander.Text = Expanded ? ExpandedControlText : CollapsedControlText;
 
 		private string _expandedControlText;
 		public string ExpandedControlText
 		{
-			get
-			{
-				if (string.IsNullOrEmpty(_expandedControlText))
-				{
-					return Properties.Resources.ExpandedText;
-				}
-
-				return _expandedControlText;
-			}
+			get => string.IsNullOrEmpty(_expandedControlText) ? Properties.Resources.ExpandedText : _expandedControlText;
 			set
 			{
 				_expandedControlText = value;
@@ -624,15 +561,7 @@ namespace Luminous.Windows.Forms
 		private string _collapsedControlText;
 		public string CollapsedControlText
 		{
-			get
-			{
-				if (string.IsNullOrEmpty(_collapsedControlText))
-				{
-					return Properties.Resources.CollapsedText;
-				}
-
-				return _collapsedControlText;
-			}
+			get => string.IsNullOrEmpty(_collapsedControlText) ? Properties.Resources.CollapsedText : _collapsedControlText;
 			set
 			{
 				_collapsedControlText = value;
@@ -686,14 +615,9 @@ namespace Luminous.Windows.Forms
 			//Visible = False
 			if (Tag == null)
 			{
-				if (CancelButton == null || !(CancelButton is Button) || (CancelButton as Button).Tag == null)
-				{
-					Tag = new TaskDialogButton(TaskDialogResult.Cancel);
-				}
-				else
-				{
-					Tag = (TaskDialogButton)(CancelButton as Button).Tag;
-				}
+				Tag = CancelButton == null || !(CancelButton is Button) || (CancelButton as Button).Tag == null
+					? new TaskDialogButton(TaskDialogResult.Cancel)
+					: (CancelButton as Button).Tag;
 			}
 		}
 
@@ -839,10 +763,8 @@ namespace Luminous.Windows.Forms
 			if (_drawGradient && e.Row == 0 && e.Column == 1)
 			{
 				var bounds = new Rectangle(0, 0, TableLayoutPanel.Width, e.CellBounds.Height);
-				using (var b = new LinearGradientBrush(bounds, _gradientBegin, _gradientEnd, LinearGradientMode.Horizontal))
-				{
-					e.Graphics.FillRectangle(b, bounds);
-				}
+				using var b = new LinearGradientBrush(bounds, _gradientBegin, _gradientEnd, LinearGradientMode.Horizontal);
+				e.Graphics.FillRectangle(b, bounds);
 			}
 		}
 

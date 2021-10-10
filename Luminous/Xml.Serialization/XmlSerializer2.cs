@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -32,30 +32,28 @@ namespace Luminous.Xml.Serialization
 		public static string SerializeWithoutXmlDeclaration<T>(T obj)
 			where T : new()
 		{
-			using (var ms = new MemoryStream())
+			using var ms = new MemoryStream();
+			new XmlSerializer(typeof(T)).Serialize(XmlWriter.Create(ms, new XmlWriterSettings
 			{
-				new XmlSerializer(typeof(T)).Serialize(XmlWriter.Create(ms, new XmlWriterSettings
-				{
-					CheckCharacters = false,
-					Encoding = Encoding.UTF8,
-					//Indent = true,
-					//IndentChars = "  ", 
-					NewLineHandling = NewLineHandling.Replace,
-					NewLineChars = Environment.NewLine,
-					OmitXmlDeclaration = true,
-				}), obj);
+				CheckCharacters = false,
+				Encoding = Encoding.UTF8,
+				//Indent = true,
+				//IndentChars = "  ",
+				NewLineHandling = NewLineHandling.Replace,
+				NewLineChars = Environment.NewLine,
+				OmitXmlDeclaration = true,
+			}), obj);
 
-				string xml = Encoding.UTF8.GetString(ms.ToArray());
+			string xml = Encoding.UTF8.GetString(ms.ToArray());
 
-				if (xml.StartsWith("\ufeff"))
-				{
-					xml = xml.Substring(1);
-				}
-
-				xml = ProcessXml(xml);
-
-				return xml;
+			if (xml.StartsWith("\ufeff"))
+			{
+				xml = xml.Substring(1);
 			}
+
+			xml = ProcessXml(xml);
+
+			return xml;
 		}
 
 		public static string ProcessXml(string xml)
@@ -96,7 +94,7 @@ namespace Luminous.Xml.Serialization
 				}
 				else
 				{
-					x.InsertBefore(x.OwnerDocument.CreateSignificantWhitespace(Environment.NewLine + new string(' ', 2 + 2 * level)), x.ChildNodes[i]);
+					x.InsertBefore(x.OwnerDocument.CreateSignificantWhitespace(Environment.NewLine + new string(' ', 2 + (2 * level))), x.ChildNodes[i]);
 				}
 			}
 
@@ -105,11 +103,9 @@ namespace Luminous.Xml.Serialization
 
 		public static object Deserialize(string xml, Type type)
 		{
-			using (var sr = new StringReader(xml))
-			{
-				var xs = new XmlSerializer(type);
-				return xs.Deserialize(new SignificantWhitespaceToTextXmlTextReader(sr));
-			}
+			using var sr = new StringReader(xml);
+			var xs = new XmlSerializer(type);
+			return xs.Deserialize(new SignificantWhitespaceToTextXmlTextReader(sr));
 		}
 
 		public static T Deserialize<T>(string xml)

@@ -29,12 +29,7 @@ namespace System.Collections.Generic
 		{
 			Contract.Requires<ArgumentNullException>(dictionary != null);
 
-			if (dictionary.TryGetValue(key, out TValue value))
-			{
-				return value;
-			}
-
-			return defaultValue;
+			return dictionary.TryGetValue(key, out TValue value) ? value : defaultValue;
 		}
 
 		[Pure]
@@ -43,12 +38,7 @@ namespace System.Collections.Generic
 			Contract.Requires<ArgumentNullException>(dictionary != null);
 			Contract.Requires<ArgumentNullException>(defaultValue != null);
 
-			if (dictionary.TryGetValue(key, out TValue value) && value != null)
-			{
-				return value;
-			}
-
-			return defaultValue;
+			return dictionary.TryGetValue(key, out TValue value) && value != null ? value : defaultValue;
 		}
 
 		[Pure]
@@ -58,12 +48,7 @@ namespace System.Collections.Generic
 			Contract.Requires<ArgumentNullException>(defaultValue != null);
 			Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(defaultValue.ToString()));
 
-			if (dictionary.TryGetValue(key, out TValue value) && value != null && value.ToString().Length > 0)
-			{
-				return value;
-			}
-
-			return defaultValue;
+			return dictionary.TryGetValue(key, out TValue value) && value != null && value.ToString().Length > 0 ? value : defaultValue;
 		}
 	}
 }

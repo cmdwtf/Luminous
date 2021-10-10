@@ -38,7 +38,7 @@ namespace Luminous.ExpressionParser
 				{
 					stack.Pop();
 					KeyValuePair<int, IExpressionElement> var = stack.Pop();
-					if (!(var.Value is IVariable))
+					if (var.Value is not IVariable)
 					{
 						throw new InvalidOperationException("The left-hand side of an assignment must be a variable.");
 					}
@@ -124,7 +124,7 @@ namespace Luminous.ExpressionParser
 					_hasUndefinedElements = false;
 					foreach (IExpressionElement element in Elements)
 					{
-						if ((element is UnknownFunction) || (element is UnknownVariable))
+						if (element is UnknownFunction or UnknownVariable)
 						{
 							_hasUndefinedElements = true;
 							break;

@@ -96,51 +96,19 @@ namespace System
 
 		[Pure]
 		public static string ToStringOrNull<T>(this T @this)
-			where T : class
-		{
-			if (@this == null)
-			{
-				return null;
-			}
-
-			return @this.ToString();
-		}
+			where T : class => @this?.ToString();
 
 		[Pure]
 		public static string ToStringOrNull<T>(this T @this, string format, IFormatProvider formatProvider = null)
-			where T : class, IFormattable
-		{
-			if (@this == null)
-			{
-				return null;
-			}
-
-			return @this.ToString(format, formatProvider);
-		}
+			where T : class, IFormattable => @this?.ToString(format, formatProvider);
 
 		[Pure]
 		public static string ToStringOrNull<T>(this T? @this)
-			where T : struct
-		{
-			if (!@this.HasValue)
-			{
-				return null;
-			}
-
-			return @this.Value.ToString();
-		}
+			where T : struct => !@this.HasValue ? null : @this.Value.ToString();
 
 		[Pure]
 		public static string ToStringOrNull<T>(this T? @this, string format, IFormatProvider formatProvider = null)
-			where T : struct, IFormattable
-		{
-			if (!@this.HasValue)
-			{
-				return null;
-			}
-
-			return @this.Value.ToString(format, formatProvider);
-		}
+			where T : struct, IFormattable => !@this.HasValue ? null : @this.Value.ToString(format, formatProvider);
 
 		#endregion
 
@@ -192,20 +160,15 @@ namespace System
 			Contract.Requires<ArgumentNullException>(@this != null);
 			Contract.Ensures(Contract.Result<string>() != null);
 
-			using (var xw = XmlReader.Create(new StringReader(string.Format("<_>{0}</_>", @this)), new XmlReaderSettings
+			using var xw = XmlReader.Create(new StringReader(string.Format("<_>{0}</_>", @this)), new XmlReaderSettings
 			{
 				CheckCharacters = false,
-			}))
-			{
-				var xd = XDocument.Load(xw);
-				XElement el = null;
-				if (xd == null || (el = xd.Element("_")) == null)
-				{
-					throw new ArgumentException("The specified string is not a valid XML encoded string.");
-				}
-
-				return el.Value;
-			}
+			});
+			var xd = XDocument.Load(xw);
+			XElement el = null;
+			return xd == null || (el = xd.Element("_")) == null
+				? throw new ArgumentException("The specified string is not a valid XML encoded string.")
+				: el.Value;
 		}
 
 		public static string Indent(this string @this, int width = 4, char indentChar = ' ')
@@ -315,7 +278,7 @@ namespace System
 
 			if (args == null)
 			{
-				throw new ArgumentNullException("args");
+				throw new ArgumentNullException(nameof(args));
 			}
 
 			if (args.Length == 0)
@@ -334,26 +297,14 @@ namespace System
 					if (i == -1)
 					{
 						i = int.Parse(formatToken, NumberFormatInfo.InvariantInfo);
-						if (i < args.Length)
-						{
-							parts[index] = args[i].ToStringOrNull();
-						}
-						else
-						{
-							parts[index] = new FormatToken((i - args.Length).ToString());
-						}
+						parts[index] = i < args.Length ? args[i].ToStringOrNull() : new FormatToken((i - args.Length).ToString());
 					}
 					else
 					{
 						int j = int.Parse(formatToken.Substring(0, i), NumberFormatInfo.InvariantInfo);
-						if (j < args.Length)
-						{
-							parts[index] = string.Format("{0" + formatToken.Substring(i) + "}", args[j]);
-						}
-						else
-						{
-							parts[index] = new FormatToken((j - args.Length) + formatToken.Substring(i));
-						}
+						parts[index] = j < args.Length
+							? string.Format("{0" + formatToken.Substring(i) + "}", args[j])
+							: new FormatToken(j - args.Length + formatToken.Substring(i));
 					}
 				}
 			}
@@ -405,7 +356,7 @@ namespace System
 			try
 			{
 				ssBytes = new byte[@this.Length * 2];
-				Marshal.Copy((bstr = Marshal.SecureStringToBSTR(@this)),
+				Marshal.Copy(bstr = Marshal.SecureStringToBSTR(@this),
 				ssBytes, 0, ssBytes.Length);
 			}
 			finally
@@ -413,12 +364,10 @@ namespace System
 				Marshal.ZeroFreeBSTR(bstr);
 			}
 			var k = new Rfc2898DeriveBytes(ssBytes, Salt, 1024);
-			using (var sha = new SHA512Managed())
-			{
-				byte[] hashed = sha.ComputeHash(k.GetBytes(256));
-				sha.Clear();
-				return Convert.ToBase64String(hashed);
-			}
+			using var sha = new SHA512Managed();
+			byte[] hashed = sha.ComputeHash(k.GetBytes(256));
+			sha.Clear();
+			return Convert.ToBase64String(hashed);
 		}
 	}
 

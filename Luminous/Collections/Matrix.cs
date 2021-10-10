@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -53,33 +53,24 @@ namespace Luminous.Collections
 		private readonly List<T> _items;
 		public T this[int row, int column]
 		{
-			get
-			{
-				if (row < 0 || row >= Height)
-				{
-					throw new ArgumentOutOfRangeException("row", row, "0 ≤ row < Height");
-				}
-
-				if (column < 0 || column >= Width)
-				{
-					throw new ArgumentOutOfRangeException("column", column, "0 ≤ column < Width");
-				}
-
-				return _items[Width * row + column];
-			}
+			get => row < 0 || row >= Height
+					? throw new ArgumentOutOfRangeException(nameof(row), row, "0 ≤ row < Height")
+					: column < 0 || column >= Width
+						? throw new ArgumentOutOfRangeException(nameof(column), column, "0 ≤ column < Width")
+						: _items[(Width * row) + column];
 			set
 			{
 				if (row < 0 || row >= Height)
 				{
-					throw new ArgumentOutOfRangeException("row", row, "0 ≤ row < Height");
+					throw new ArgumentOutOfRangeException(nameof(row), row, "0 ≤ row < Height");
 				}
 
 				if (column < 0 || column >= Width)
 				{
-					throw new ArgumentOutOfRangeException("column", column, "0 ≤ column < Width");
+					throw new ArgumentOutOfRangeException(nameof(column), column, "0 ≤ column < Width");
 				}
 
-				_items[Width * row + column] = value;
+				_items[(Width * row) + column] = value;
 			}
 		}
 
@@ -93,12 +84,12 @@ namespace Luminous.Collections
 		{
 			if (width <= 0)
 			{
-				throw new ArgumentOutOfRangeException("width", width, "width > 0");
+				throw new ArgumentOutOfRangeException(nameof(width), width, "width > 0");
 			}
 
 			if (height < 0)
 			{
-				throw new ArgumentOutOfRangeException("height", height, "height ≥ 0");
+				throw new ArgumentOutOfRangeException(nameof(height), height, "height ≥ 0");
 			}
 
 			_items = new List<T>();
@@ -144,7 +135,7 @@ namespace Luminous.Collections
 		{
 			if (row == null)
 			{
-				throw new ArgumentNullException();
+				throw new ArgumentNullException(nameof(row));
 			}
 
 			InsertRow(Height, row);
@@ -154,12 +145,12 @@ namespace Luminous.Collections
 		{
 			if (row == null)
 			{
-				throw new ArgumentNullException();
+				throw new ArgumentNullException(nameof(row));
 			}
 
 			if (index < 0 || index > Height)
 			{
-				throw new ArgumentOutOfRangeException("index", index, "0 ≤ index ≤ Height");
+				throw new ArgumentOutOfRangeException(nameof(index), index, "0 ≤ index ≤ Height");
 			}
 
 			var rowArray = row.ToList();
@@ -176,7 +167,7 @@ namespace Luminous.Collections
 		{
 			if (index < 0 || index >= Height)
 			{
-				throw new ArgumentOutOfRangeException("index", index, "0 ≤ index < Height");
+				throw new ArgumentOutOfRangeException(nameof(index), index, "0 ≤ index < Height");
 			}
 
 			_items.RemoveRange(index * Width, Width);
@@ -184,26 +175,23 @@ namespace Luminous.Collections
 
 		public List<T> GetRow(int index)
 		{
-			if (index < 0 || index >= Height)
-			{
-				throw new ArgumentOutOfRangeException("index", index, "0 ≤ index < Height");
-			}
-
-			return _items.GetRange(index * Width, Width);
+			return index < 0 || index >= Height
+				? throw new ArgumentOutOfRangeException(nameof(index), index, "0 ≤ index < Height")
+				: _items.GetRange(index * Width, Width);
 		}
 
 		public List<T> GetColumn(int index)
 		{
 			if (index < 0 || index >= Width)
 			{
-				throw new ArgumentOutOfRangeException("index", index, "0 ≤ index < Width");
+				throw new ArgumentOutOfRangeException(nameof(index), index, "0 ≤ index < Width");
 			}
 
 			var list = new List<T>(Height);
 
 			for (int i = 0; i < Height; i++)
 			{
-				list.Add(_items[i * Width + index]);
+				list.Add(_items[(i * Width) + index]);
 			}
 
 			return list;

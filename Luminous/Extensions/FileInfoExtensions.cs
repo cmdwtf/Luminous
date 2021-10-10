@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -37,7 +37,7 @@ namespace System.IO
 			Contract.Requires<ArgumentNullException>(fileInfo != null);
 
 			DateTime dt = DateTime.UtcNow;
-			FileStream fs = null;
+			FileStream fs;
 			while ((fs = TryOpen(fileInfo, access, share)) == null && (DateTime.UtcNow - dt) < timeout)
 			{
 				Thread.Sleep(250); // who knows better way and wants a free cookie? ;)

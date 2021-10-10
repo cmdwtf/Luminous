@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -30,13 +30,6 @@ namespace Luminous.ComponentModel
 
 		private readonly Dictionary<string, PropertyChangingEventHandler> _changingHandlers;
 		private readonly Dictionary<string, PropertyChangedEventHandler> _changedHandlers;
-
-		[ContractInvariantMethod]
-		private void ObjectInvariant()
-		{
-			Contract.Invariant(_changingHandlers != null);
-			Contract.Invariant(_changedHandlers != null);
-		}
 
 		public NotificationDispatcher()
 		{
@@ -126,14 +119,7 @@ namespace Luminous.ComponentModel
 		{
 			Contract.Requires<ArgumentNullException>(handler != null);
 
-			if (!_changingHandlers.ContainsKey(propertyName))
-			{
-				_changingHandlers[propertyName] = handler;
-			}
-			else
-			{
-				_changingHandlers[propertyName] = _changingHandlers[propertyName] += handler;
-			}
+			_changingHandlers[propertyName] = !_changingHandlers.ContainsKey(propertyName) ? handler : (_changingHandlers[propertyName] += handler);
 		}
 
 		public void UnregisterNotificationHandler(string propertyName, PropertyChangingEventHandler handler)
@@ -150,14 +136,7 @@ namespace Luminous.ComponentModel
 		{
 			Contract.Requires<ArgumentNullException>(handler != null);
 
-			if (!_changedHandlers.ContainsKey(propertyName))
-			{
-				_changedHandlers[propertyName] = handler;
-			}
-			else
-			{
-				_changedHandlers[propertyName] = _changedHandlers[propertyName] += handler;
-			}
+			_changedHandlers[propertyName] = !_changedHandlers.ContainsKey(propertyName) ? handler : (_changedHandlers[propertyName] += handler);
 		}
 
 		public void UnregisterNotificationHandler(string propertyName, PropertyChangedEventHandler handler)

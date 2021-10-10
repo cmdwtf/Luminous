@@ -62,33 +62,11 @@ namespace System
 
 		public bool IsFirst => !_is2;
 
-		public T1 First
-		{
-			get
-			{
-				if (_is2)
-				{
-					throw new InvalidOperationException();
-				}
-
-				return _item1;
-			}
-		}
+		public T1 First => _is2 ? throw new InvalidOperationException() : _item1;
 
 		public bool IsSecond => _is2;
 
-		public T2 Second
-		{
-			get
-			{
-				if (!_is2)
-				{
-					throw new InvalidOperationException();
-				}
-
-				return _item2;
-			}
-		}
+		public T2 Second => !_is2 ? throw new InvalidOperationException() : _item2;
 
 		#endregion
 
@@ -106,11 +84,9 @@ namespace System
 
 		public static bool operator ==(Either<T1, T2> left, Either<T1, T2> right)
 		{
-			return left._is2 == right._is2
-				   ? (left._is2
+			return left._is2 == right._is2 && (left._is2
 					  ? left._item2.Equals(right._item2)
-					  : left._item1.Equals(right._item1))
-				   : false;
+					  : left._item1.Equals(right._item1));
 		}
 
 		public static bool operator !=(Either<T1, T2> left, Either<T1, T2> right)

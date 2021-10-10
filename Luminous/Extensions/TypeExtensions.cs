@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -33,7 +33,7 @@ namespace System
 			}
 
 			string name = @this.FullName;
-			if (name.IndexOf('`') >= 0)
+			if (name.Contains("`"))
 			{
 				name = name.Substring(0, name.IndexOf('`'));
 			}

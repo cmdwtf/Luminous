@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -28,7 +28,7 @@ namespace Luminous.Xml.Linq
 		public XClassAttribute(params string[] classes)
 			: base("class", string.Join(" ", classes))
 		{
-			_classes = (classes ?? new string[0]).Distinct().ToList();
+			_classes = (classes ?? Array.Empty<string>()).Distinct().ToList();
 		}
 
 		public void Add(string @class)
@@ -59,7 +59,7 @@ namespace Luminous.Xml.Linq
 		{
 			if (@this == null)
 			{
-				throw new ArgumentNullException();
+				throw new ArgumentNullException(nameof(@this));
 			}
 
 			XClassAttribute c = @this.ClassAttribute();
@@ -74,7 +74,7 @@ namespace Luminous.Xml.Linq
 		{
 			if (@this == null)
 			{
-				throw new ArgumentNullException();
+				throw new ArgumentNullException(nameof(@this));
 			}
 
 			XClassAttribute c = @this.ClassAttribute();
@@ -85,36 +85,26 @@ namespace Luminous.Xml.Linq
 		}
 
 		public static bool HasClassAttribute(this XElement @this)
-		{
-			if (@this == null)
-			{
-				throw new ArgumentNullException();
-			}
-
-			return @this.ClassAttribute() != null;
-		}
+			=> @this == null
+				? throw new ArgumentNullException(nameof(@this))
+				: @this.ClassAttribute() != null;
 
 		public static bool HasClass(this XElement @this, string @class)
 		{
 			if (@this == null)
 			{
-				throw new ArgumentNullException();
+				throw new ArgumentNullException(nameof(@this));
 			}
 
 			XClassAttribute c = @this.ClassAttribute();
-			if (c == null)
-			{
-				return false;
-			}
-
-			return c.Classes().Contains(@class);
+			return c != null && c.Classes().Contains(@class);
 		}
 
 		public static void ToggleClass(this XElement @this, string @class)
 		{
 			if (@this == null)
 			{
-				throw new ArgumentNullException();
+				throw new ArgumentNullException(nameof(@this));
 			}
 
 			if (@this.HasClass(@class))
@@ -128,13 +118,8 @@ namespace Luminous.Xml.Linq
 		}
 
 		public static XClassAttribute ClassAttribute(this XElement @this)
-		{
-			if (@this == null)
-			{
-				throw new ArgumentNullException();
-			}
-
-			return @this.Attribute("class") as XClassAttribute;
-		}
+			=> @this == null
+				? throw new ArgumentNullException(nameof(@this))
+				: @this.Attribute("class") as XClassAttribute;
 	}
 }

@@ -32,7 +32,7 @@ namespace Luminous.ExpressionParser
 		public readonly List<IFunction> Functions = new();
 		public readonly List<IStatement> Statements = new();
 		private const string NumberChars = "0123456789.";
-		private string NonoperatorChars => "0123456789()," + AdditionalVariableChars;
+		public string NonoperatorChars => "0123456789()," + AdditionalVariableChars;
 		protected string AdditionalVariableChars { get; set; }
 		private const string ParseExceptionText = "Invalid {0} (position: {1}, value: ‘{2}’)";
 
@@ -169,7 +169,7 @@ namespace Luminous.ExpressionParser
 				}
 				// If the token is a function argument separator (e.g., a comma):
 				// • Until the topmost element of the stack is a left parenthesis, pop the element onto the output queue.
-				//   If no left parentheses are encountered, either the separator was misplaced or parentheses were mismatched. 
+				//   If no left parentheses are encountered, either the separator was misplaced or parentheses were mismatched.
 				else if (!afterFunction && insideFunction && token == Symbol.FunctionArgumentSeparator)
 				{
 					if (afterFnParenthesis)
@@ -193,7 +193,7 @@ namespace Luminous.ExpressionParser
 				//       o1 is associative or left-associative and its precedence is less than (lower precedence) or equal to that of o2, or
 				//       o1 is right-associative and its precedence is less than (lower precedence) that of o2,
 				//     pop o2 off the stack, onto the output queue;
-				// • push o1 onto the stack. 
+				// • push o1 onto the stack.
 				else if (!afterFunction && (token is IOperator || (token is MultipleElements && (token as MultipleElements).Elements[0] is IOperator)))
 				{
 					IOperator op = null;
@@ -356,7 +356,7 @@ namespace Luminous.ExpressionParser
 			{
 				if (stack.Peek() == Symbol.LeftParenthesis || stack.Peek() == Symbol.RightParenthesis)
 				{
-					IExpressionElement r = stack.Peek();
+					_ = stack.Peek();
 					throw new ArgumentException("There are mismatched parentheses.");
 				}
 				output.Add(stack.Pop());
@@ -380,7 +380,7 @@ namespace Luminous.ExpressionParser
 				}
 				if (dict[name].Count > 0)
 				{
-					if (!(element is IOperator || element is IFunction))
+					if (element is not (IOperator or IFunction))
 					{
 						throw new ArgumentException("Only operators and functions can be overloaded.");
 					}
@@ -424,11 +424,11 @@ namespace Luminous.ExpressionParser
 				char c = expression[i];
 				if (char.IsWhiteSpace(c))
 				{ /* eat */ }
-				else if (NumberChars.IndexOf(c) >= 0)
+				else if (NumberChars.Contains(c))
 				{
 					int pos = i;
 					var token = new StringBuilder();
-					while (i < l && NumberChars.IndexOf(expression[i]) >= 0)
+					while (i < l && NumberChars.Contains(expression[i]))
 					{
 						token.Append(expression[i]);
 						i++;
@@ -456,10 +456,10 @@ namespace Luminous.ExpressionParser
 				{
 					tokens.Add(Symbol.FunctionArgumentSeparator);
 				}
-				else if (char.IsLetter(c) || AdditionalVariableChars.IndexOf(c) >= 0)
+				else if (char.IsLetter(c) || AdditionalVariableChars.Contains(c))
 				{
 					var token = new StringBuilder();
-					while (i < l && (char.IsLetterOrDigit(expression[i]) || AdditionalVariableChars.IndexOf(expression[i]) >= 0))
+					while (i < l && (char.IsLetterOrDigit(expression[i]) || AdditionalVariableChars.Contains(expression[i])))
 					{
 						token.Append(expression[i]);
 						i++;
@@ -469,15 +469,7 @@ namespace Luminous.ExpressionParser
 					if (dict.ContainsKey(strtoken))
 					{
 						List<IExpressionElement> elements = dict[strtoken];
-						IExpressionElement element;
-						if (elements.Count == 1)
-						{
-							element = elements[0];
-						}
-						else
-						{
-							element = new MultipleElements(elements);
-						}
+						IExpressionElement element = elements.Count == 1 ? elements[0] : new MultipleElements(elements);
 						tokens.Add(element);
 					}
 					else
@@ -538,15 +530,7 @@ namespace Luminous.ExpressionParser
 					if (dict.ContainsKey(strop))
 					{
 						List<IExpressionElement> ops = dict[strop];
-						IExpressionElement op;
-						if (ops.Count == 1)
-						{
-							op = ops[0];
-						}
-						else
-						{
-							op = new MultipleElements(ops);
-						}
+						IExpressionElement op = ops.Count == 1 ? ops[0] : new MultipleElements(ops);
 						tokens.Add(op);
 					}
 					else

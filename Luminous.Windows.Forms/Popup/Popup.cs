@@ -199,11 +199,7 @@ namespace Luminous.Windows.Forms
 		}
 
 		#endregion
-
 		#region Methods
-
-		[ContractInvariantMethod]
-		private void ObjectInvariant() => Contract.Invariant(Content != null);
 
 		/// <summary>
 		/// Raises the <see cref="E:System.Windows.Forms.ToolStripItem.VisibleChanged"/> event.
@@ -225,21 +221,11 @@ namespace Luminous.Windows.Forms
 			PopupAnimations _flags = Visible ? ShowingAnimation : HidingAnimation;
 			if (_flags == PopupAnimations.SystemDefault)
 			{
-				if (SystemInformation.IsMenuAnimationEnabled)
-				{
-					if (SystemInformation.IsMenuFadeEnabled)
-					{
-						_flags = PopupAnimations.Blend;
-					}
-					else
-					{
-						_flags = PopupAnimations.Slide | (Visible ? PopupAnimations.TopToBottom : PopupAnimations.BottomToTop);
-					}
-				}
-				else
-				{
-					_flags = PopupAnimations.None;
-				}
+				_flags = SystemInformation.IsMenuAnimationEnabled
+					? SystemInformation.IsMenuFadeEnabled
+						? PopupAnimations.Blend
+						: PopupAnimations.Slide | (Visible ? PopupAnimations.TopToBottom : PopupAnimations.BottomToTop)
+					: PopupAnimations.None;
 			}
 			if ((_flags & (PopupAnimations.Blend | PopupAnimations.Center | PopupAnimations.Roll | PopupAnimations.Slide)) == PopupAnimations.None)
 			{
@@ -267,7 +253,7 @@ namespace Luminous.Windows.Forms
 					_flags = (_flags & ~PopupAnimations.LeftToRight) | PopupAnimations.RightToLeft;
 				}
 			}
-			flags = flags | (NativeMethods.AnimationFlags.Mask & (NativeMethods.AnimationFlags)(int)_flags);
+			flags |= (NativeMethods.AnimationFlags.Mask & (NativeMethods.AnimationFlags)(int)_flags);
 			NativeMethods.SetTopMost(this);
 			NativeMethods.AnimateWindow(this, AnimationDuration, flags);
 		}
@@ -329,7 +315,7 @@ namespace Luminous.Windows.Forms
 		{
 			if (control == null)
 			{
-				throw new ArgumentNullException("control");
+				throw new ArgumentNullException(nameof(control));
 			}
 			Show(control, control.ClientRectangle);
 		}
@@ -349,7 +335,7 @@ namespace Luminous.Windows.Forms
 			if (location.X + Size.Width > (screen.Left + screen.Width))
 			{
 				_resizableLeft = true;
-				location.X = (screen.Left + screen.Width) - Size.Width;
+				location.X = screen.Left + screen.Width - Size.Width;
 			}
 			if (location.Y + Size.Height > (screen.Top + screen.Height))
 			{
@@ -373,7 +359,7 @@ namespace Luminous.Windows.Forms
 		{
 			if (control == null)
 			{
-				throw new ArgumentNullException("control");
+				throw new ArgumentNullException(nameof(control));
 			}
 			SetOwnerItem(control);
 
@@ -383,7 +369,7 @@ namespace Luminous.Windows.Forms
 			if (location.X + Size.Width > (screen.Left + screen.Width))
 			{
 				_resizableLeft = true;
-				location.X = (screen.Left + screen.Width) - Size.Width;
+				location.X = screen.Left + screen.Width - Size.Width;
 			}
 			if (location.Y + Size.Height > (screen.Top + screen.Height))
 			{
@@ -641,46 +627,44 @@ namespace Luminous.Windows.Forms
 				return;
 			}
 			Size clientSize = Content.ClientSize;
-			using (var gripImage = new Bitmap(0x10, 0x10))
+			using var gripImage = new Bitmap(0x10, 0x10);
+			using (var g = Graphics.FromImage(gripImage))
 			{
-				using (var g = Graphics.FromImage(gripImage))
+				if (Application.RenderWithVisualStyles)
 				{
-					if (Application.RenderWithVisualStyles)
+					if (_sizeGripRenderer == null)
 					{
-						if (_sizeGripRenderer == null)
-						{
-							_sizeGripRenderer = new VS.VisualStyleRenderer(VS.VisualStyleElement.Status.Gripper.Normal);
-						}
-						_sizeGripRenderer.DrawBackground(g, new Rectangle(0, 0, 0x10, 0x10));
+						_sizeGripRenderer = new VS.VisualStyleRenderer(VS.VisualStyleElement.Status.Gripper.Normal);
 					}
-					else
-					{
-						ControlPaint.DrawSizeGrip(g, Content.BackColor, 0, 0, 0x10, 0x10);
-					}
+					_sizeGripRenderer.DrawBackground(g, new Rectangle(0, 0, 0x10, 0x10));
 				}
-				GraphicsState gs = e.Graphics.Save();
-				e.Graphics.ResetTransform();
-				if (_resizableTop)
+				else
 				{
-					if (_resizableLeft)
-					{
-						e.Graphics.RotateTransform(180);
-						e.Graphics.TranslateTransform(-clientSize.Width, -clientSize.Height);
-					}
-					else
-					{
-						e.Graphics.ScaleTransform(1, -1);
-						e.Graphics.TranslateTransform(0, -clientSize.Height);
-					}
+					ControlPaint.DrawSizeGrip(g, Content.BackColor, 0, 0, 0x10, 0x10);
 				}
-				else if (_resizableLeft)
-				{
-					e.Graphics.ScaleTransform(-1, 1);
-					e.Graphics.TranslateTransform(-clientSize.Width, 0);
-				}
-				e.Graphics.DrawImage(gripImage, clientSize.Width - 0x10, clientSize.Height - 0x10 + 1, 0x10, 0x10);
-				e.Graphics.Restore(gs);
 			}
+			GraphicsState gs = e.Graphics.Save();
+			e.Graphics.ResetTransform();
+			if (_resizableTop)
+			{
+				if (_resizableLeft)
+				{
+					e.Graphics.RotateTransform(180);
+					e.Graphics.TranslateTransform(-clientSize.Width, -clientSize.Height);
+				}
+				else
+				{
+					e.Graphics.ScaleTransform(1, -1);
+					e.Graphics.TranslateTransform(0, -clientSize.Height);
+				}
+			}
+			else if (_resizableLeft)
+			{
+				e.Graphics.ScaleTransform(-1, 1);
+				e.Graphics.TranslateTransform(-clientSize.Width, 0);
+			}
+			e.Graphics.DrawImage(gripImage, clientSize.Width - 0x10, clientSize.Height - 0x10 + 1, 0x10, 0x10);
+			e.Graphics.Restore(gs);
 		}
 
 		#endregion

@@ -61,10 +61,7 @@ namespace Luminous.Windows.Forms
 		/// Occurs when the button is clicked, but before the TaskDialog form is closed.
 		/// </summary>
 		public event EventHandler Click;
-		internal void RaiseClickEvent(object sender, EventArgs e)
-		{
-			Click?.Invoke(sender, e);
-		}
+		internal void RaiseClickEvent(object sender, EventArgs e) => Click?.Invoke(sender, e);
 		#endregion
 
 		#region Constructors

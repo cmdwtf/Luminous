@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -27,7 +27,7 @@ namespace Luminous.ExpressionParser
 		{
 			var dummy = new HashSet<string>();
 
-			return IsValid(expression, VariableChecking.Standard, null, ref dummy, out HashSet<string> dummy2, out error);
+			return IsValid(expression, VariableChecking.Standard, null, ref dummy, out _, out error);
 		}
 
 		public static bool IsValid(string expression, List<IConstant> constants, ref HashSet<string> initializedVariables, out HashSet<string> uninitializedVariables, out string error) => IsValid(expression, VariableChecking.Standard, constants, ref initializedVariables, out uninitializedVariables, out error);

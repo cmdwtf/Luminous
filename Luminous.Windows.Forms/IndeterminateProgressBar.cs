@@ -128,30 +128,28 @@ namespace Luminous.Windows.Forms
 			{
 				return;
 			}
-			using (Brush b = new SolidBrush(ForeColor))
+			using Brush b = new SolidBrush(ForeColor);
+			for (int i = -2; i <= 2; i++)
 			{
-				for (int i = -2; i <= 2; i++)
-				{
-					DrawDot(pe, b, i);
-				}
+				DrawDot(pe, b, i);
 			}
 		}
 
 		private void DrawDot(PaintEventArgs pe, Brush b, int index)
 		{
-			double frame = _currentFrame + index / 50.0;
+			double frame = _currentFrame + (index / 50.0);
 			/*const double min = -8;
 			const double max = 8;
 			double arg = 2 * 2 * (frame - .5);
 			double tan = arg * arg * arg * arg * arg;
 			double val = (tan - min) / (max - min);*/
-			float val = (float)(Math.Pow(4 * frame - 2, 5) + 8) / 16;
-			float x = (float)(val * Width + /*index bias*/index * 16 + /*frame bias*/ 2 * (frame * 100 - 50));
+			float val = (float)(Math.Pow((4 * frame) - 2, 5) + 8) / 16;
+			float x = (float)((val * Width) + /*index bias*/(index * 16) + /*frame bias*/ (2 * ((frame * 100) - 50)));
 			if (RightToLeft == RightToLeft.Yes)
 			{
 				x = Width - x;
 			}
-			pe.Graphics.FillRectangle(b, x, Height / 2 - 2, 4, 4);
+			pe.Graphics.FillRectangle(b, x, (Height / 2) - 2, 4, 4);
 		}
 
 		private void Timer_Tick(object sender, EventArgs e)

@@ -38,11 +38,7 @@ namespace System.Windows.Forms
 				{
 					control = control.Parent;
 				}
-				if (control == null)
-				{
-					return false;
-				}
-				return control.IsHandleCreated;
+				return control != null && control.IsHandleCreated;
 			}
 		}
 

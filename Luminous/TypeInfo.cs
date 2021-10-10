@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -21,95 +21,75 @@ namespace System
 	using System.Linq.Expressions;
 	using System.Reflection;
 
+	[Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Readability.")]
 	public static class TypeInfo
 	{
 		public static FieldInfo GetField<TField>(Expression<Func<TField>> field)
 		{
 			if (field is not LambdaExpression lambdaExpression)
 			{
-				throw new ArgumentNullException("field");
+				throw new ArgumentNullException(nameof(field));
 			}
 			if (lambdaExpression.Body is not MemberExpression memberExpression)
 			{
-				throw new ArgumentNullException("field");
+				throw new ArgumentNullException(nameof(field));
 			}
-			if (!(memberExpression.Member is FieldInfo))
-			{
-				throw new ArgumentNullException("field");
-			}
-			return (FieldInfo)memberExpression.Member;
+			return memberExpression.Member is not FieldInfo ? throw new ArgumentNullException(nameof(field)) : (FieldInfo)memberExpression.Member;
 		}
 
 		public static FieldInfo GetField<TType, TField>(Expression<Func<TType, TField>> field)
 		{
 			if (field is not LambdaExpression lambdaExpression)
 			{
-				throw new ArgumentNullException("field");
+				throw new ArgumentNullException(nameof(field));
 			}
 			if (lambdaExpression.Body is not MemberExpression memberExpression)
 			{
-				throw new ArgumentNullException("field");
+				throw new ArgumentNullException(nameof(field));
 			}
-			if (!(memberExpression.Member is FieldInfo))
-			{
-				throw new ArgumentNullException("field");
-			}
-			return (FieldInfo)memberExpression.Member;
+			return memberExpression.Member is not FieldInfo ? throw new ArgumentNullException(nameof(field)) : (FieldInfo)memberExpression.Member;
 		}
 
 		public static PropertyInfo GetProperty<TProperty>(Expression<Func<TProperty>> property)
 		{
 			if (property is not LambdaExpression lambdaExpression)
 			{
-				throw new ArgumentNullException("property");
+				throw new ArgumentNullException(nameof(property));
 			}
 			if (lambdaExpression.Body is not MemberExpression memberExpression)
 			{
-				throw new ArgumentNullException("property");
+				throw new ArgumentNullException(nameof(property));
 			}
-			if (!(memberExpression.Member is PropertyInfo))
-			{
-				throw new ArgumentNullException("property");
-			}
-			return (PropertyInfo)memberExpression.Member;
+			return memberExpression.Member is not PropertyInfo ? throw new ArgumentNullException(nameof(property))
+				: (PropertyInfo)memberExpression.Member;
 		}
 
 		public static PropertyInfo GetProperty<TType, TProperty>(Expression<Func<TType, TProperty>> property)
 		{
 			if (property is not LambdaExpression lambdaExpression)
 			{
-				throw new ArgumentNullException("property");
+				throw new ArgumentNullException(nameof(property));
 			}
 			if (lambdaExpression.Body is not MemberExpression memberExpression)
 			{
-				throw new ArgumentNullException("property");
+				throw new ArgumentNullException(nameof(property));
 			}
-			if (!(memberExpression.Member is PropertyInfo))
-			{
-				throw new ArgumentNullException("property");
-			}
-			return (PropertyInfo)memberExpression.Member;
+			return memberExpression.Member is not PropertyInfo ? throw new ArgumentNullException(nameof(property))
+				: (PropertyInfo)memberExpression.Member;
 		}
 
 		private static MethodInfo GetMethodInfo(Expression method)
 		{
 			if (method is not LambdaExpression lambda)
 			{
-				throw new ArgumentNullException("method");
+				throw new ArgumentNullException(nameof(method));
 			}
-			MethodCallExpression methodExpr = null;
-			if (lambda.Body.NodeType == ExpressionType.Convert)
-			{
-				methodExpr = ((UnaryExpression)lambda.Body).Operand as MethodCallExpression;
-			}
-			else if (lambda.Body.NodeType == ExpressionType.Call)
-			{
-				methodExpr = lambda.Body as MethodCallExpression;
-			}
-			else
-			{
-				throw new ArgumentException("method");
-			}
+
+			MethodCallExpression methodExpr = lambda.Body.NodeType == ExpressionType.Convert
+				? ((UnaryExpression)lambda.Body).Operand as MethodCallExpression
+				: lambda.Body.NodeType == ExpressionType.Call
+					? lambda.Body as MethodCallExpression
+					: throw new ArgumentException(null, nameof(method));
 
 			return methodExpr.Method;
 		}

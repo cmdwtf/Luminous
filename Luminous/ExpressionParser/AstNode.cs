@@ -63,11 +63,9 @@ namespace Luminous.ExpressionParser
 
 					if (Value is AssignmentOperator)
 					{
-						if (Children[0].Value is not IVariable var)
-						{
-							throw new InvalidOperationException("The left-hand side of an assignment must be a variable.");
-						}
-						return (Value as AssignmentOperator).Invoke(var, Children[1].Evaluate());
+						return Children[0].Value is not IVariable var
+							?                         throw new InvalidOperationException("The left-hand side of an assignment must be a variable.")
+							: (Value as AssignmentOperator).Invoke(var, Children[1].Evaluate());
 					}
 
 					if (Value is ILiteral)
@@ -82,11 +80,9 @@ namespace Luminous.ExpressionParser
 
 					if (Value is UnknownVariable)
 					{
-						if (_parsedExpression.EvaluateUndefinedVariable == null)
-						{
-							throw new InvalidOperationException(string.Format("Cannot evaluate the value of ‘{0}’ variable.", Value.Name));
-						}
-						return (Value as UnknownVariable).Value = _parsedExpression.EvaluateUndefinedVariable(Value.Name);
+						return _parsedExpression.EvaluateUndefinedVariable == null
+							?                            throw new InvalidOperationException(string.Format("Cannot evaluate the value of ‘{0}’ variable.", Value.Name))
+							: ((Value as UnknownVariable).Value = _parsedExpression.EvaluateUndefinedVariable(Value.Name));
 					}
 
 					if (Value is IVariable)
@@ -111,31 +107,25 @@ namespace Luminous.ExpressionParser
 							throw new InvalidOperationException(string.Format("Cannot evaluate the value of ‘{0}’ function.", Value.Name));
 						}
 						var func = Value as IFunction;
-						if (Children.Count != func.ParametersCount)
-						{
-							throw new ArgumentException(string.Format("There is no function ‘{0}’ with {1} parameters defined.", func.Name, func.ParametersCount));
-						}
-						return _parsedExpression.EvaluateUndefinedFunction(Value.Name, Children.Select(node => node.Evaluate()).ToArray());
+						return Children.Count != func.ParametersCount
+							?                         throw new ArgumentException(string.Format("There is no function ‘{0}’ with {1} parameters defined.", func.Name, func.ParametersCount))
+							: _parsedExpression.EvaluateUndefinedFunction(Value.Name, Children.Select(node => node.Evaluate()).ToArray());
 					}
 
 					if (Value is IStatement)
 					{
 						var statement = Value as IStatement;
-						if (Children.Count != statement.ParametersCount)
-						{
-							throw new ArgumentException(string.Format("There is no statement ‘{0}’ with {1} parameters defined.", statement.Name, statement.ParametersCount));
-						}
-						return statement.Invoke(Children.Cast<IEvaluableElement>().ToArray());
+						return Children.Count != statement.ParametersCount
+							?                            throw new ArgumentException(string.Format("There is no statement ‘{0}’ with {1} parameters defined.", statement.Name, statement.ParametersCount))
+							: statement.Invoke(Children.Cast<IEvaluableElement>().ToArray());
 					}
 
 					if (Value is IFunction)
 					{
 						var func = Value as IFunction;
-						if (Children.Count != func.ParametersCount)
-						{
-							throw new ArgumentException(string.Format("There is no function ‘{0}’ with {1} parameters defined.", func.Name, func.ParametersCount));
-						}
-						return func.Invoke(Children.Select(node => node.Evaluate()).ToArray());
+						return Children.Count != func.ParametersCount
+							?                         throw new ArgumentException(string.Format("There is no function ‘{0}’ with {1} parameters defined.", func.Name, func.ParametersCount))
+							: func.Invoke(Children.Select(node => node.Evaluate()).ToArray());
 					}
 
 					throw new ArgumentException(string.Format("Unexpected element: ‘{0}’.", Value.Name));

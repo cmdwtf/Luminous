@@ -146,27 +146,15 @@ namespace Luminous.Windows.Forms
 				Content = text,
 				WindowTitle = caption
 			};
-			switch (buttons)
+			td.Buttons = buttons switch
 			{
-				case MessageBoxButtons.AbortRetryIgnore:
-					td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Abort), new TaskDialogButton(TaskDialogResult.Retry), new TaskDialogButton(TaskDialogResult.Ignore) };
-					break;
-				case MessageBoxButtons.OKCancel:
-					td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.OK), new TaskDialogButton(TaskDialogResult.Cancel) };
-					break;
-				case MessageBoxButtons.RetryCancel:
-					td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Retry), new TaskDialogButton(TaskDialogResult.Cancel) };
-					break;
-				case MessageBoxButtons.YesNo:
-					td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Yes), new TaskDialogButton(TaskDialogResult.No) };
-					break;
-				case MessageBoxButtons.YesNoCancel:
-					td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Yes), new TaskDialogButton(TaskDialogResult.No), new TaskDialogButton(TaskDialogResult.Cancel) };
-					break;
-				default:
-					td.Buttons = new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.OK) };
-					break;
-			}
+				MessageBoxButtons.AbortRetryIgnore => new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Abort), new TaskDialogButton(TaskDialogResult.Retry), new TaskDialogButton(TaskDialogResult.Ignore) },
+				MessageBoxButtons.OKCancel => new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.OK), new TaskDialogButton(TaskDialogResult.Cancel) },
+				MessageBoxButtons.RetryCancel => new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Retry), new TaskDialogButton(TaskDialogResult.Cancel) },
+				MessageBoxButtons.YesNo => new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Yes), new TaskDialogButton(TaskDialogResult.No) },
+				MessageBoxButtons.YesNoCancel => new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.Yes), new TaskDialogButton(TaskDialogResult.No), new TaskDialogButton(TaskDialogResult.Cancel) },
+				_ => new TaskDialogButton[] { new TaskDialogButton(TaskDialogResult.OK) },
+			};
 			switch (icon)
 			{
 				case MessageBoxIcon.Information:
@@ -191,17 +179,7 @@ namespace Luminous.Windows.Forms
 			return TaskDialogHelpers.MakeDialogResult(td.Result);
 		}
 
-		private static void SetStartPosition(Form f, IWin32Window o)
-		{
-			if (o == null)
-			{
-				f.StartPosition = FormStartPosition.CenterScreen;
-			}
-			else
-			{
-				f.StartPosition = FormStartPosition.CenterParent;
-			}
-		}
+		private static void SetStartPosition(Form f, IWin32Window o) => f.StartPosition = o == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
 		#endregion
 
@@ -213,36 +191,24 @@ namespace Luminous.Windows.Forms
 		/// Shows the TaskDialog form as a modal dialog box.
 		/// </summary>
 		/// <returns>One of the TaskDialogResult values.</returns>
-		public TaskDialogResult Show()
-		{
-			if (LockSystem)
-			{
-				return LockSystemAndShow();
-			}
-			else
-			{
-				return ShowInternal(Owner);
-			}
-		}
+		public TaskDialogResult Show() => LockSystem ? LockSystemAndShow() : ShowInternal(Owner);
 
 		private TaskDialogResult ShowInternal(IWin32Window owner)
 		{
-			using (var tdf = new TaskDialogForm { _taskDialog = this })
-			{
-				_tdf = tdf;
-				tdf.LinkClicked += Tdf_LinkClicked;
-				tdf.Load += Tdf_Load;
-				tdf.RightToLeft = RightToLeft;
-				tdf.RightToLeftLayout = RightToLeftLayout;
-				SetStartPosition(tdf, owner);
-				tdf.ShowDialog(owner);
-				_tdf = null;
-				VerificationFlagChecked = tdf.CheckBoxState;
-				Result = tdf.Tag is TaskDialogButton button
-					? button.Result
-					: (TaskDialogResult)(-1); // TaskDialog force-closed by exiting app
-				return Result;
-			}
+			using var tdf = new TaskDialogForm { _taskDialog = this };
+			_tdf = tdf;
+			tdf.LinkClicked += Tdf_LinkClicked;
+			tdf.Load += Tdf_Load;
+			tdf.RightToLeft = RightToLeft;
+			tdf.RightToLeftLayout = RightToLeftLayout;
+			SetStartPosition(tdf, owner);
+			tdf.ShowDialog(owner);
+			_tdf = null;
+			VerificationFlagChecked = tdf.CheckBoxState;
+			Result = tdf.Tag is TaskDialogButton button
+				? button.Result
+				: (TaskDialogResult)(-1); // TaskDialog force-closed by exiting app
+			return Result;
 		}
 
 		private void Tdf_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => LinkClicked?.Invoke(sender, e);
@@ -363,14 +329,7 @@ namespace Luminous.Windows.Forms
 		/// </summary>
 		public SystemSound Sound
 		{
-			get
-			{
-				if (LockSystem && _sound == null)
-				{
-					return SoundScheme.WindowsUAC;
-				}
-				return _sound;
-			}
+			get => LockSystem && _sound == null ? SoundScheme.WindowsUAC : _sound;
 			set => _sound = value;
 		}
 
@@ -394,14 +353,7 @@ namespace Luminous.Windows.Forms
 			{
 				if (_contentLink == null)
 				{
-					if (_tdf != null)
-					{
-						_contentLink = _tdf.LabelContent;
-					}
-					else
-					{
-						_contentLink = new LinkLabel();
-					}
+					_contentLink = _tdf != null ? _tdf.LabelContent : new LinkLabel();
 				}
 				return _contentLink.Links;
 			}
@@ -457,14 +409,7 @@ namespace Luminous.Windows.Forms
 			{
 				if (_footer == null)
 				{
-					if (_tdf != null)
-					{
-						_footer = _tdf.LabelFooter;
-					}
-					else
-					{
-						_footer = new LinkLabel();
-					}
+					_footer = _tdf != null ? _tdf.LabelFooter : new LinkLabel();
 				}
 				return _footer.Links;
 			}
@@ -535,16 +480,11 @@ namespace Luminous.Windows.Forms
 			{
 				if (_expanded == null)
 				{
-					if (_tdf != null)
-					{
-						_expanded = ExpandFooterArea
+					_expanded = _tdf != null
+						? ExpandFooterArea
 									? _tdf.LabelExpandedFooter
-									: _tdf.LabelExpandedContent;
-					}
-					else
-					{
-						_expanded = new LinkLabel();
-					}
+									: _tdf.LabelExpandedContent
+						: new LinkLabel();
 				}
 				return _expanded.Links;
 			}
@@ -559,6 +499,7 @@ namespace Luminous.Windows.Forms
 		/// Gets or sets the string to be used to label the button for expanding the expandable information.
 		/// </summary>
 		public string CollapsedControlText { get; set; }
+		public static Func<IButtonControlWithImage> ButtonFactory { get; set; } = new(() => new Button() { AutoSizeMode = AutoSizeMode.GrowAndShrink, TextImageRelation = TextImageRelation.ImageBeforeText });
 
 		#endregion
 
@@ -567,77 +508,63 @@ namespace Luminous.Windows.Forms
 		private TaskDialogResult LockSystemAndShow()
 		{
 			var owner = Owner as Control;
-			Screen scr;
-			if (owner == null)
+			Screen scr = owner == null ? Screen.PrimaryScreen : Screen.FromControl(owner);
+			using var background = new Bitmap(scr.Bounds.Width, scr.Bounds.Height);
+			using (var g = Graphics.FromImage(background))
 			{
-				scr = Screen.PrimaryScreen;
-			}
-			else
-			{
-				scr = Screen.FromControl(owner);
-			}
-			using (var background = new Bitmap(scr.Bounds.Width, scr.Bounds.Height))
-			{
-				using (var g = Graphics.FromImage(background))
+				g.CopyFromScreen(0, 0, 0, 0, scr.Bounds.Size);
+				using (Brush br = new SolidBrush(Color.FromArgb(192, Color.Black)))
 				{
-					g.CopyFromScreen(0, 0, 0, 0, scr.Bounds.Size);
-					using (Brush br = new SolidBrush(Color.FromArgb(192, Color.Black)))
-					{
-						g.FillRectangle(br, scr.Bounds);
-					}
-
-					if (owner != null)
-					{
-						Form form = owner.FindForm();
-						g.CopyFromScreen(form.Location, form.Location, form.Size);
-						using (Brush br = new SolidBrush(Color.FromArgb(128, Color.Black)))
-						{
-							g.FillRectangle(br, new Rectangle(form.Location, form.Size));
-						}
-					}
+					g.FillRectangle(br, scr.Bounds);
 				}
 
-				IntPtr originalThread;
-				IntPtr originalInput;
-				IntPtr newDesktop;
-
-				originalThread = Native.GetThreadDesktop((uint)Thread.CurrentThread.ManagedThreadId);
-				originalInput = Native.OpenInputDesktop(0, false, Native.DESKTOP_SWITCHDESKTOP);
-
-				newDesktop = Native.CreateDesktop("Desktop" + Guid.NewGuid(), null, null, 0, Native.GENERIC_ALL, IntPtr.Zero);
-				Native.SetThreadDesktop(newDesktop);
-				Native.SwitchDesktop(newDesktop);
-
-				var newThread = new Thread(NewThreadMethod)
+				if (owner != null)
 				{
-					CurrentCulture = Thread.CurrentThread.CurrentCulture,
-					CurrentUICulture = Thread.CurrentThread.CurrentUICulture
-				};
-				newThread.Start(new TaskDialogLockSystemParameters(newDesktop, background));
-				newThread.Join();
-
-				Native.SwitchDesktop(originalInput);
-				Native.SetThreadDesktop(originalThread);
-
-				Native.CloseDesktop(newDesktop);
-				Native.CloseDesktop(originalInput);
-
-				return Result;
+					Form form = owner.FindForm();
+					g.CopyFromScreen(form.Location, form.Location, form.Size);
+					using Brush br = new SolidBrush(Color.FromArgb(128, Color.Black));
+					g.FillRectangle(br, new Rectangle(form.Location, form.Size));
+				}
 			}
+
+			IntPtr originalThread;
+			IntPtr originalInput;
+			IntPtr newDesktop;
+
+			originalThread = Native.GetThreadDesktop((uint)Thread.CurrentThread.ManagedThreadId);
+			originalInput = Native.OpenInputDesktop(0, false, Native.DESKTOP_SWITCHDESKTOP);
+
+			newDesktop = Native.CreateDesktop("Desktop" + Guid.NewGuid(), null, null, 0, Native.GENERIC_ALL, IntPtr.Zero);
+			Native.SetThreadDesktop(newDesktop);
+			Native.SwitchDesktop(newDesktop);
+
+			var newThread = new Thread(NewThreadMethod)
+			{
+				CurrentCulture = Thread.CurrentThread.CurrentCulture,
+				CurrentUICulture = Thread.CurrentThread.CurrentUICulture
+			};
+			newThread.Start(new TaskDialogLockSystemParameters(newDesktop, background));
+			newThread.Join();
+
+			Native.SwitchDesktop(originalInput);
+			Native.SetThreadDesktop(originalThread);
+
+			Native.CloseDesktop(newDesktop);
+			Native.CloseDesktop(originalInput);
+
+			return Result;
 		}
 
 		private void NewThreadMethod(object @params)
 		{
 			var p = (TaskDialogLockSystemParameters)@params;
 			Native.SetThreadDesktop(p.NewDesktop);
-			using (Form f = new BackgroundForm(p.Background))
-			{
-				f.Show();
-				ShowInternal(f);
-				f.BackgroundImage = null;
-				Application.DoEvents();
-				Thread.Sleep(250);
-			}
+			using Form f = new BackgroundForm(p.Background);
+			f.Show();
+			ShowInternal(f);
+			f.BackgroundImage = null;
+			Application.DoEvents();
+			Thread.Sleep(250);
 		}
 		#endregion
 
@@ -651,7 +578,6 @@ namespace Luminous.Windows.Forms
 
 		#region Custom Theming
 
-		public static Func<IButtonControlWithImage> ButtonFactory = new(() => new Button() { AutoSizeMode = AutoSizeMode.GrowAndShrink, TextImageRelation = TextImageRelation.ImageBeforeText });
 
 		internal static void OnFormConstructed(Form form) => FormConstructed(form, EventArgs.Empty);
 

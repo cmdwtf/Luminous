@@ -30,14 +30,11 @@ namespace Luminous.Windows.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is CommandLinkIcon icon)
-			{
-				return icon == CommandLinkIcon.None
+			return value is CommandLinkIcon icon
+				? icon == CommandLinkIcon.None
 					? Visibility.Collapsed
-					: (object)((icon == CommandLinkIcon.Arrow ^ System.Convert.ToBoolean(parameter)) ? Visibility.Visible : Visibility.Collapsed);
-			}
-
-			return CommandLinkIcon.None;
+					: (object)((icon == CommandLinkIcon.Arrow ^ System.Convert.ToBoolean(parameter)) ? Visibility.Visible : Visibility.Collapsed)
+				: CommandLinkIcon.None;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;

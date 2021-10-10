@@ -83,12 +83,7 @@ namespace Luminous.ComponentModel
 
 			name = string.Format("{0}::{1}::{2}", GetType().FullName, _id, name);
 
-			if (!PropertyStore<T>.Store.ContainsKey(name))
-			{
-				return defaultValueProvider();
-			}
-
-			return PropertyStore<T>.Store[name];
+			return !PropertyStore<T>.Store.ContainsKey(name) ? defaultValueProvider() : PropertyStore<T>.Store[name];
 		}
 
 		public void SetValue<T>(string name, T value)

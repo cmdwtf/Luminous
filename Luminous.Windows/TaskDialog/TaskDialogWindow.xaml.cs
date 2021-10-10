@@ -199,7 +199,7 @@ namespace Luminous.Windows
 			}
 		}
 
-		private string ContetTextWithoutHyperlinks { get; set; }
+		public string ContetTextWithoutHyperlinks { get; private set; }
 		public string ContentText
 		{
 			get => LabelContent.Text;
@@ -400,7 +400,7 @@ namespace Luminous.Windows
 			}
 		}
 
-		private string FooterTextWithoutHyperlinks { get; set; }
+		public string FooterTextWithoutHyperlinks { get; private set; }
 		public string FooterText
 		{
 			get => LabelFooter.Text;
@@ -763,14 +763,7 @@ namespace Luminous.Windows
 		{
 			if (Tag == null)
 			{
-				if (IsOnlyOK == true)
-				{
-					Tag = TaskDialogResult.OK;
-				}
-				else
-				{
-					Tag = TaskDialogResult.Cancel;
-				}
+				Tag = IsOnlyOK == true ? TaskDialogResult.OK : (object)TaskDialogResult.Cancel;
 			}
 			if (CanClose != null)
 			{
@@ -874,6 +867,7 @@ namespace Luminous.Windows
 			}
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Future use.")]
 		private void StopTimer()
 		{
 			if (_timer != null)
@@ -1119,14 +1113,7 @@ namespace Luminous.Windows
 					{
 						btn.IsCancel = true;
 					}
-					if (b.Result == TaskDialogResult.OK && IsOnlyOK == null)
-					{
-						IsOnlyOK = true;
-					}
-					else
-					{
-						IsOnlyOK = false;
-					}
+					IsOnlyOK = b.Result == TaskDialogResult.OK && IsOnlyOK == null;
 					(UseCommandLinks ? PanelCommandLinks : (Panel)PanelRightButtons).Children.Add(btn);
 				}
 			}
@@ -1153,14 +1140,7 @@ namespace Luminous.Windows
 						{
 							btn.IsCancel = true;
 						}
-						if (cb == TaskDialogCommonButtons.OK && IsOnlyOK == null)
-						{
-							IsOnlyOK = true;
-						}
-						else
-						{
-							IsOnlyOK = false;
-						}
+						IsOnlyOK = cb == TaskDialogCommonButtons.OK && IsOnlyOK == null;
 						PanelRightButtons.Children.Add(btn);
 					}
 				}
@@ -1177,14 +1157,7 @@ namespace Luminous.Windows
 					//if (d < 68.0) d = 68.0;
 					b.MinWidth = /*Math.Ceiling((d - 68.0) / 20.0) * 20.0 +*/ 68.0;
 				}
-				if (!IsTaskDialog)
-				{
-					b.MinHeight = TaskDialogHelpers.IsSegoeUIInstalled ? 26.0 : 23.0;
-				}
-				else
-				{
-					b.MinHeight = 23.0;
-				}
+				b.MinHeight = !IsTaskDialog ? TaskDialogHelpers.IsSegoeUIInstalled ? 26.0 : 23.0 : 23.0;
 			}
 			SetDefaultButton();
 			RecheckCancellation();
@@ -1266,26 +1239,22 @@ namespace Luminous.Windows
 				if (LabelMainInstruction.Visibility == Visibility.Visible)
 				{
 					ImageMainIcon.SetValue(Grid.RowProperty, 0);
-					if (MainIcon >= TaskDialogIcon.SecuritySuccess && MainIcon <= TaskDialogIcon.SecurityShieldGray && MainIcon != TaskDialogIcon.SecurityShield)
+					if (MainIcon is >= TaskDialogIcon.SecuritySuccess and <= TaskDialogIcon.SecurityShieldGray and not TaskDialogIcon.SecurityShield)
 					{
 						ImageMainIcon.SetValue(Grid.RowSpanProperty, 1);
 						BorderGradient.Visibility = Visibility.Visible;
 						LabelMainInstruction.Foreground = MainIcon == TaskDialogIcon.SecurityWarning ? Brushes.Black : Brushes.White;
-						switch (MainIcon)
+						BorderGradient.Background = MainIcon switch
 						{
-							case TaskDialogIcon.SecuritySuccess:
-							case TaskDialogIcon.SecurityQuestion:
-							case TaskDialogIcon.SecurityWarning:
-							case TaskDialogIcon.SecurityError:
-							case TaskDialogIcon.SecurityShieldBlue:
-							case TaskDialogIcon.SecurityShieldGray:
-								BorderGradient.Background = Resources["Gradient" + MainIcon.ToString()] as Brush;
-								break;
-
-							default:
-								BorderGradient.Background = Resources["GradientNormal"] as Brush;
-								break;
-						}
+							TaskDialogIcon.SecuritySuccess
+							or TaskDialogIcon.SecurityQuestion
+							or TaskDialogIcon.SecurityWarning
+							or TaskDialogIcon.SecurityError
+							or TaskDialogIcon.SecurityShieldBlue
+							or TaskDialogIcon.SecurityShieldGray
+								=> Resources["Gradient" + MainIcon.ToString()] as Brush,
+							_ => Resources["GradientNormal"] as Brush,
+						};
 					}
 					else
 					{

@@ -72,7 +72,7 @@ namespace Luminous.Windows.Forms
 				proposedSize.Height = (int)(TaskDialog.CustomScale * 41);
 			}
 			//proposedSize.Width = proposedSize.Width * 4 / 3;
-			proposedSize.Width = (int)(TaskDialog.CustomScale * TextRenderer.MeasureText(Text, Font).Width / 0.75 + 60);
+			proposedSize.Width = (int)((TaskDialog.CustomScale * TextRenderer.MeasureText(Text, Font).Width / 0.75) + 60);
 			return proposedSize;
 		}
 
@@ -218,28 +218,15 @@ namespace Luminous.Windows.Forms
 		/// <value>The state of the button control.</value>
 		[Browsable(false)]
 		public PushButtonState State
-		{
-			get
-			{
-				if (!Enabled)
-				{
-					return PushButtonState.Disabled;
-				}
-				if (IsPressed)
-				{
-					return PushButtonState.Pressed;
-				}
-				if (_isHovered)
-				{
-					return PushButtonState.Hot;
-				}
-				if (_isFocused || IsDefault)
-				{
-					return PushButtonState.Default;
-				}
-				return PushButtonState.Normal;
-			}
-		}
+			=> !Enabled
+				? PushButtonState.Disabled
+				: IsPressed
+					? PushButtonState.Pressed
+					: _isHovered
+						? PushButtonState.Hot
+						: _isFocused || IsDefault
+							? PushButtonState.Default
+							: PushButtonState.Normal;
 		#endregion
 
 		#region Events
@@ -495,12 +482,10 @@ namespace Luminous.Windows.Forms
 			}
 			if (IsAnimating)
 			{
-				using (var alphaImage = new Bitmap(ClientSize.Width, ClientSize.Height))
-				{
-					DrawAlphaImage(alphaImage, _frames[_animatingFrom], (float)(_animationDuration - _animationProgress) / _animationDuration);
-					DrawAlphaImage(alphaImage, _frames[_animatingTo], (float)_animationProgress / _animationDuration);
-					graphics.DrawImage(alphaImage, Point.Empty);
-				}
+				using var alphaImage = new Bitmap(ClientSize.Width, ClientSize.Height);
+				DrawAlphaImage(alphaImage, _frames[_animatingFrom], (float)(_animationDuration - _animationProgress) / _animationDuration);
+				DrawAlphaImage(alphaImage, _frames[_animatingTo], (float)_animationProgress / _animationDuration);
+				graphics.DrawImage(alphaImage, Point.Empty);
 			}
 			else
 			{
@@ -520,10 +505,8 @@ namespace Luminous.Windows.Forms
 			var imageAttributes = new ImageAttributes();
 			imageAttributes.ClearColorKey();
 			imageAttributes.SetColorMatrix(matrix);
-			using (var gr = Graphics.FromImage(alphaImage))
-			{
-				gr.DrawImage(image, new Rectangle(0, 0, Size.Width, Size.Height), 0, 0, Size.Width, Size.Height, GraphicsUnit.Pixel, imageAttributes);
-			}
+			using var gr = Graphics.FromImage(alphaImage);
+			gr.DrawImage(image, new Rectangle(0, 0, Size.Width, Size.Height), 0, 0, Size.Width, Size.Height, GraphicsUnit.Pixel, imageAttributes);
 		}
 
 		private Image CreateBackgroundFrame(FrameType frameType)
@@ -579,10 +562,8 @@ namespace Luminous.Windows.Forms
 						{
 							g.DrawPath(p, bw);
 						}
-						using (var b = new SolidBrush(_pressedBackground))
-						{
-							g.FillPath(b, bw);
-						}
+						using var b = new SolidBrush(_pressedBackground);
+						g.FillPath(b, bw);
 					}
 
 					if (_showElevationIcon)
@@ -614,10 +595,8 @@ namespace Luminous.Windows.Forms
 					rect.Height -= 1;
 					using (GraphicsPath bw = CreateRoundRectangle(rect, 3))
 					{
-						using (var p = new Pen(_hoveredBorder1))
-						{
-							g.DrawPath(p, bw);
-						}
+						using var p = new Pen(_hoveredBorder1);
+						g.DrawPath(p, bw);
 					}
 
 					rect.Inflate(-1, -1);
@@ -625,17 +604,13 @@ namespace Luminous.Windows.Forms
 					{
 						using (var b = new LinearGradientBrush(rect, _hoveredBorder2, _hoveredBorder3, LinearGradientMode.Vertical))
 						{
-							using (var p = new Pen(b))
-							{
-								g.DrawPath(p, bw);
-							}
+							using var p = new Pen(b);
+							g.DrawPath(p, bw);
 						}
 						if (rect.Height < 40)
 						{
-							using (var b = new LinearGradientBrush(rect, _hoveredBackground1, _hoveredBackground2, LinearGradientMode.Vertical))
-							{
-								g.FillPath(b, bw);
-							}
+							using var b = new LinearGradientBrush(rect, _hoveredBackground1, _hoveredBackground2, LinearGradientMode.Vertical);
+							g.FillPath(b, bw);
 						}
 						else
 						{
@@ -677,13 +652,9 @@ namespace Luminous.Windows.Forms
 					rect.Height -= 1;
 					using (GraphicsPath bw = CreateRoundRectangle(rect, 3))
 					{
-						using (var b = new LinearGradientBrush(rect, _activeBorderHot1, _activeBorderHot2, LinearGradientMode.Vertical))
-						{
-							using (var p = new Pen(b))
-							{
-								g.DrawPath(p, bw);
-							}
-						}
+						using var b = new LinearGradientBrush(rect, _activeBorderHot1, _activeBorderHot2, LinearGradientMode.Vertical);
+						using var p = new Pen(b);
+						g.DrawPath(p, bw);
 					}
 
 					if (_showElevationIcon)
@@ -704,10 +675,8 @@ namespace Luminous.Windows.Forms
 					rect.Height -= 1;
 					using (GraphicsPath bw = CreateRoundRectangle(rect, 3))
 					{
-						using (var p = new Pen(_activeBorderCold))
-						{
-							g.DrawPath(p, bw);
-						}
+						using var p = new Pen(_activeBorderCold);
+						g.DrawPath(p, bw);
 					}
 
 					if (_showElevationIcon)
@@ -734,20 +703,18 @@ namespace Luminous.Windows.Forms
 				ControlPaint.DrawFocusRectangle(g, rect);
 			}
 
-			using (var f = new Font(Font.FontFamily, Font.SizeInPoints / 0.75f, Font.Style, GraphicsUnit.Point, Font.GdiCharSet, Font.GdiVerticalFont))
+			using var f = new Font(Font.FontFamily, Font.SizeInPoints / 0.75f, Font.Style, GraphicsUnit.Point, Font.GdiCharSet, Font.GdiVerticalFont);
+			if (!Enabled)
 			{
-				if (!Enabled)
-				{
-					TextRenderer.DrawText(g, Text, f, new Point(28, 12), Color.Gray, Color.Transparent);
-				}
-				else if (State == PushButtonState.Hot)
-				{
-					TextRenderer.DrawText(g, Text, f, new Point(28, 12), HotForeColor, Color.Transparent);
-				}
-				else
-				{
-					TextRenderer.DrawText(g, Text, f, new Point(28, 12), ForeColor, Color.Transparent);
-				}
+				TextRenderer.DrawText(g, Text, f, new Point(28, 12), Color.Gray, Color.Transparent);
+			}
+			else if (State == PushButtonState.Hot)
+			{
+				TextRenderer.DrawText(g, Text, f, new Point(28, 12), HotForeColor, Color.Transparent);
+			}
+			else
+			{
+				TextRenderer.DrawText(g, Text, f, new Point(28, 12), ForeColor, Color.Transparent);
 			}
 
 		}
@@ -1011,7 +978,7 @@ namespace Luminous.Windows.Forms
 			if (_animationProgress > _animationDuration)
 			{
 				_animationProgress = _animationDuration;
-				if (_animatingTo == FrameType.Active1 || _animatingTo == FrameType.Active2)
+				if (_animatingTo is FrameType.Active1 or FrameType.Active2)
 				{
 					if (_animatingTo == FrameType.Active1)
 					{

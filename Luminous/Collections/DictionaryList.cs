@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -34,15 +34,7 @@ namespace Luminous.Collections
 			_keyIsObject = new Dictionary<T, int>();
 		}
 
-		public int IndexOf(T item)
-		{
-			if (!_keyIsObject.ContainsKey(item))
-			{
-				return -1;
-			}
-
-			return _keyIsObject[item] - _firstIndex;
-		}
+		public int IndexOf(T item) => !_keyIsObject.ContainsKey(item) ? -1 : _keyIsObject[item] - _firstIndex;
 
 		public void Insert(int index, T item)
 		{

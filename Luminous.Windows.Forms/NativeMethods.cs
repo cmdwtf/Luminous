@@ -77,7 +77,7 @@ namespace Luminous.Windows.Forms
 
 			try
 			{
-				AnimateWindow(new HandleRef(control, control.Handle), time, flags);
+				_ = AnimateWindow(new HandleRef(control, control.Handle), time, flags);
 			}
 			catch (SecurityException) { }
 		}

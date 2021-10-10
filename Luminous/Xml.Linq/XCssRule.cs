@@ -56,7 +56,7 @@ namespace Luminous.Xml.Linq
 				sb.Append("    ").AppendLine(declaration.ToString());
 			}
 			sb.Insert(0, Selector + " {" + Environment.NewLine);
-			sb.Append("}");
+			sb.Append('}');
 			return sb.ToString();
 		}
 	}

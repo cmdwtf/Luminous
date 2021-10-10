@@ -64,24 +64,17 @@ namespace Luminous.Windows.Forms
 
 		private void SetImage()
 		{
-			if (IsPressed)
-			{
-				Image = _expanded
-						? Properties.Resources.ChevronLessPressed
-						: Properties.Resources.ChevronMorePressed;
-			}
-			else if (_isHovered || _isFocused)
-			{
-				Image = _expanded
+			Image = IsPressed
+				? _expanded
+					? Properties.Resources.ChevronLessPressed
+					: Properties.Resources.ChevronMorePressed
+				: _isHovered || _isFocused
+					? _expanded
 						? Properties.Resources.ChevronLessHovered
-						: Properties.Resources.ChevronMoreHovered;
-			}
-			else
-			{
-				Image = _expanded
+						: Properties.Resources.ChevronMoreHovered
+					: _expanded
 						? Properties.Resources.ChevronLess
 						: Properties.Resources.ChevronMore;
-			}
 		}
 
 		#endregion
@@ -148,7 +141,7 @@ namespace Luminous.Windows.Forms
 
 		protected override void OnMouseUp(MouseEventArgs mevent)
 		{
-			if ((_isMouseDown))
+			if (_isMouseDown)
 			{
 				_isMouseDown = false;
 				SetImage();

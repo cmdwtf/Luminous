@@ -71,8 +71,7 @@ namespace Luminous.ExpressionParser
 
 		public static decimal Power(decimal x, decimal n)
 		{
-			Func<decimal, decimal, decimal> Pow = null;
-			Pow = (a, b) =>
+			static decimal Pow(decimal a, decimal b)
 			{
 				if (b == 0)
 				{
@@ -91,14 +90,9 @@ namespace Luminous.ExpressionParser
 				}
 
 				return result;
-			};
-
-			if (n == decimal.Truncate(n))
-			{
-				return Pow(x, n);
 			}
 
-			return (decimal)Math.Pow((double)x, (double)n);
+			return n == decimal.Truncate(n) ? Pow(x, n) : (decimal)Math.Pow((double)x, (double)n);
 		}
 
 		public override int ParametersCount => 2;
@@ -142,7 +136,7 @@ namespace Luminous.ExpressionParser
 				left += right * Math.Sign(left % right);
 			}
 
-			decimal result = left - left % right;
+			decimal result = left - (left % right);
 			return result;
 		}
 

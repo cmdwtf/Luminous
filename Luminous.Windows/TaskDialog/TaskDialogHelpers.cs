@@ -37,24 +37,57 @@ namespace Luminous.Windows
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
 
-		private const uint MF_BYCOMMAND = 0x00000000;
-		private const uint MF_GRAYED = 0x00000001;
-		private const uint MF_ENABLED = 0x00000000;
-		private const uint SC_SIZE = 0xF000;
-		private const uint SC_MINIMIZE = 0xF020;
-		private const uint SC_MAXIMIZE = 0xF030;
-		private const uint SC_CLOSE = 0xF060;
-		private const uint SC_RESTORE = 0xF120;
-		private const int WM_SHOWWINDOW = 0x18;
-		private const int WM_CLOSE = 0x10;
-
-		public static IntPtr CloseButtonHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+		public static class MF
 		{
-			if (msg == WM_SHOWWINDOW)
+			public const uint BYCOMMAND = 0x00000000;
+			public const uint GRAYED = 0x00000001;
+			public const uint ENABLED = 0x00000000;
+		}
+
+		public static class SC
+		{
+
+			public const uint SIZE = 0xF000;
+			public const uint MINIMIZE = 0xF020;
+			public const uint MAXIMIZE = 0xF030;
+			public const uint CLOSE = 0xF060;
+			public const uint RESTORE = 0xF120;
+		}
+
+		public static class WM
+		{
+			public const int SHOWWINDOW = 0x18;
+			public const int CLOSE = 0x10;
+			public const uint SETICON = 0x0080;
+		}
+
+		public static class WS
+		{
+			public static class EX
+			{
+				public const int DLGMODALFRAME = 0x0001;
+			}
+		}
+		public static class GWL
+		{
+			public const int EXSTYLE = -20;
+		}
+
+		public static class SWP
+		{
+			public const int NOSIZE = 0x0001;
+			public const int NOMOVE = 0x0002;
+			public const int NOZORDER = 0x0004;
+			public const int FRAMECHANGED = 0x0020;
+		}
+
+		public static IntPtr CloseButtonHook(IntPtr hwnd, int msg, IntPtr _, IntPtr _1, ref bool handled)
+		{
+			if (msg == WM.SHOWWINDOW)
 			{
 				DisableCloseButton(hwnd);
 			}
-			else if (msg == WM_CLOSE)
+			else if (msg == WM.CLOSE)
 			{
 				handled = true;
 			}
@@ -66,17 +99,17 @@ namespace Luminous.Windows
 			IntPtr hMenu = GetSystemMenu(hwnd, false);
 			if (hMenu != IntPtr.Zero)
 			{
-				EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+				EnableMenuItem(hMenu, SC.CLOSE, MF.BYCOMMAND | MF.GRAYED);
 				DisableOtherButtons(hMenu);
 			}
 		}
 
 		private static void DisableOtherButtons(IntPtr hMenu)
 		{
-			EnableMenuItem(hMenu, SC_SIZE, MF_BYCOMMAND | MF_GRAYED);
-			EnableMenuItem(hMenu, SC_MINIMIZE, MF_BYCOMMAND | MF_GRAYED);
-			EnableMenuItem(hMenu, SC_MAXIMIZE, MF_BYCOMMAND | MF_GRAYED);
-			EnableMenuItem(hMenu, SC_RESTORE, MF_BYCOMMAND | MF_GRAYED);
+			EnableMenuItem(hMenu, SC.SIZE, MF.BYCOMMAND | MF.GRAYED);
+			EnableMenuItem(hMenu, SC.MINIMIZE, MF.BYCOMMAND | MF.GRAYED);
+			EnableMenuItem(hMenu, SC.MAXIMIZE, MF.BYCOMMAND | MF.GRAYED);
+			EnableMenuItem(hMenu, SC.RESTORE, MF.BYCOMMAND | MF.GRAYED);
 		}
 
 		private static void EnableCloseButton(IntPtr hwnd)
@@ -84,7 +117,7 @@ namespace Luminous.Windows
 			IntPtr hMenu = GetSystemMenu(hwnd, false);
 			if (hMenu != IntPtr.Zero)
 			{
-				EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND);
+				EnableMenuItem(hMenu, SC.CLOSE, MF.BYCOMMAND);
 				DisableOtherButtons(hMenu);
 			}
 		}
@@ -121,14 +154,6 @@ namespace Luminous.Windows
 		[DllImport("user32.dll")]
 		private static extern IntPtr SendMessage(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-		private const int GWL_EXSTYLE = -20;
-		private const int WS_EX_DLGMODALFRAME = 0x0001;
-		private const int SWP_NOSIZE = 0x0001;
-		private const int SWP_NOMOVE = 0x0002;
-		private const int SWP_NOZORDER = 0x0004;
-		private const int SWP_FRAMECHANGED = 0x0020;
-		private const uint WM_SETICON = 0x0080;
-
 		public static void RemoveWindowIcon(Window window)
 		{
 			if (PresentationSource.FromVisual(window) is not HwndSource hwndSource)
@@ -137,11 +162,11 @@ namespace Luminous.Windows
 			}
 
 			IntPtr hwnd = hwndSource.Handle;
-			int extendedStyle = (int)GetWindowLong(hwnd, GWL_EXSTYLE);
-			SetWindowLong(hwnd, GWL_EXSTYLE, new IntPtr(extendedStyle | WS_EX_DLGMODALFRAME));
-			SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
-			SendMessage(hwnd, WM_SETICON, IntPtr.Zero, IntPtr.Zero); // remove small icon
-																	 // SendMessage(hwnd, WM_SETICON, new IntPtr(1), IntPtr.Zero); // remove big icon
+			int extendedStyle = (int)GetWindowLong(hwnd, GWL.EXSTYLE);
+			SetWindowLong(hwnd, GWL.EXSTYLE, new IntPtr(extendedStyle | WS.EX.DLGMODALFRAME));
+			SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP.NOMOVE | SWP.NOSIZE | SWP.NOZORDER | SWP.FRAMECHANGED);
+			SendMessage(hwnd, WM.SETICON, IntPtr.Zero, IntPtr.Zero); // remove small icon
+																	 // SendMessage(hwnd, WM.SETICON, new IntPtr(1), IntPtr.Zero); // remove big icon
 		}
 
 		#endregion
@@ -150,88 +175,46 @@ namespace Luminous.Windows
 
 		public static string ToLocalizedString(this TaskDialogResult @this)
 		{
-			switch (@this)
+			return @this switch
 			{
-				case TaskDialogResult.OK:
-					return Properties.Resources.OKText;
-
-				case TaskDialogResult.Yes:
-					return Properties.Resources.YesText;
-
-				case TaskDialogResult.No:
-					return Properties.Resources.NoText;
-
-				case TaskDialogResult.Abort:
-					return Properties.Resources.AbortText;
-
-				case TaskDialogResult.Retry:
-					return Properties.Resources.RetryText;
-
-				case TaskDialogResult.Ignore:
-					return Properties.Resources.IgnoreText;
-
-				case TaskDialogResult.Cancel:
-					return Properties.Resources.CancelText;
-
-				case TaskDialogResult.Close:
-					return Properties.Resources.CloseText;
-
-				default:
-					return Properties.Resources.NoneText;
-			}
+				TaskDialogResult.OK => Properties.Resources.OKText,
+				TaskDialogResult.Yes => Properties.Resources.YesText,
+				TaskDialogResult.No => Properties.Resources.NoText,
+				TaskDialogResult.Abort => Properties.Resources.AbortText,
+				TaskDialogResult.Retry => Properties.Resources.RetryText,
+				TaskDialogResult.Ignore => Properties.Resources.IgnoreText,
+				TaskDialogResult.Cancel => Properties.Resources.CancelText,
+				TaskDialogResult.Close => Properties.Resources.CloseText,
+				_ => Properties.Resources.NoneText,
+			};
 		}
 
 		public static string ToLocalizedString(this TaskDialogCommonButtons @this)
 		{
-			switch (@this)
+			return @this switch
 			{
-				case TaskDialogCommonButtons.OK:
-					return Properties.Resources.OKText;
-
-				case TaskDialogCommonButtons.Yes:
-					return Properties.Resources.YesText;
-
-				case TaskDialogCommonButtons.No:
-					return Properties.Resources.NoText;
-
-				case TaskDialogCommonButtons.Abort:
-					return Properties.Resources.AbortText;
-
-				case TaskDialogCommonButtons.Retry:
-					return Properties.Resources.RetryText;
-
-				case TaskDialogCommonButtons.Ignore:
-					return Properties.Resources.IgnoreText;
-
-				case TaskDialogCommonButtons.Cancel:
-					return Properties.Resources.CancelText;
-
-				case TaskDialogCommonButtons.Close:
-					return Properties.Resources.CloseText;
-
-				default:
-					return Properties.Resources.NoneText;
-			}
+				TaskDialogCommonButtons.OK => Properties.Resources.OKText,
+				TaskDialogCommonButtons.Yes => Properties.Resources.YesText,
+				TaskDialogCommonButtons.No => Properties.Resources.NoText,
+				TaskDialogCommonButtons.Abort => Properties.Resources.AbortText,
+				TaskDialogCommonButtons.Retry => Properties.Resources.RetryText,
+				TaskDialogCommonButtons.Ignore => Properties.Resources.IgnoreText,
+				TaskDialogCommonButtons.Cancel => Properties.Resources.CancelText,
+				TaskDialogCommonButtons.Close => Properties.Resources.CloseText,
+				_ => Properties.Resources.NoneText,
+			};
 		}
 
 		#endregion
 
-		public static string ProductName
-		{
-			get
-			{
-				if (Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false).FirstOrDefault() is not AssemblyProductAttribute p)
-				{
-					return "Application";
-				}
-				return p.Product;
-			}
-		}
+		public static string ProductName => Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false).FirstOrDefault() is not AssemblyProductAttribute p
+					? "Application"
+					: p.Product;
 
 		/*public static ImageSource CreateIconImageSource(byte[] iconData)
-        {
-            return BitmapFrame.Create(new MemoryStream(iconData));
-        }*/
+		{
+			return BitmapFrame.Create(new MemoryStream(iconData));
+		}*/
 
 		public static readonly string SegoeUIFontFamily = "Segoe UI";
 		public static readonly bool IsSegoeUIInstalled = CheckSegoeUI();
@@ -372,21 +355,21 @@ namespace Luminous.Windows
 		}
 
 		/*public static string ContentToCommandLinkText(string text)
-        {
-            if (text.Contains(Environment.NewLine))
-            {
-                return text.Substring(0, text.IndexOf(Environment.NewLine));
-            }
-            return text;
-        }
+		{
+			if (text.Contains(Environment.NewLine))
+			{
+				return text.Substring(0, text.IndexOf(Environment.NewLine));
+			}
+			return text;
+		}
 
-        public static string ContentToCommandLinkNote(string text)
-        {
-            if (text.Contains(Environment.NewLine))
-            {
-                return text.Substring(text.IndexOf(Environment.NewLine) + Environment.NewLine.Length);
-            }
-            return null;
-        }*/
+		public static string ContentToCommandLinkNote(string text)
+		{
+			if (text.Contains(Environment.NewLine))
+			{
+				return text.Substring(text.IndexOf(Environment.NewLine) + Environment.NewLine.Length);
+			}
+			return null;
+		}*/
 	}
 }

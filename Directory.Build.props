@@ -17,6 +17,7 @@
     <Company>cmd.wtf</Company>
     <Copyright>Copyright © 2021 Chris Marc Dailey, Copyright © 2014 Łukasz Świątkowski</Copyright>
     <AssemblyOriginatorKeyFile>..\.meta\cmdwtf.Luminous.snk</AssemblyOriginatorKeyFile>
+    <NeutralLanguage>en</NeutralLanguage>
 
 
     <SignAssembly>true</SignAssembly>

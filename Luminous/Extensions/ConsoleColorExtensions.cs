@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -70,7 +70,7 @@ namespace System
 				}
 				catch (Exception e)
 				{
-					if (!(e is ArgumentException || e is SecurityException || e is IOException))
+					if (e is not (ArgumentException or SecurityException or IOException))
 					{
 						throw;
 					}
@@ -97,7 +97,7 @@ namespace System
 					}
 					catch (Exception e)
 					{
-						if (!(e is ArgumentException || e is SecurityException || e is IOException))
+						if (e is not (ArgumentException or SecurityException or IOException))
 						{
 							throw;
 						}

@@ -50,10 +50,8 @@ namespace Luminous.Media
 				}
 				if (File.Exists(soundPath))
 				{
-					using (var player = new SoundPlayer(soundPath))
-					{
-						player.Play();
-					}
+					using var player = new SoundPlayer(soundPath);
+					player.Play();
 				}
 			}
 			catch (IOException) { }

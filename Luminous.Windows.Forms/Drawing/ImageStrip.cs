@@ -78,32 +78,32 @@ namespace Luminous.Drawing
 		{
 			if (imageStrip == null)
 			{
-				throw new ArgumentNullException("imageStrip");
+				throw new ArgumentNullException(nameof(imageStrip));
 			}
 			if (subImagesCount < 1)
 			{
-				throw new ArgumentOutOfRangeException();
+				throw new ArgumentOutOfRangeException(nameof(subImagesCount));
 			}
 			switch (orientation)
 			{
 				case ImageStripOrientation.Horizontal:
 					if (imageStrip.Width % subImagesCount != 0)
 					{
-						throw new ArgumentException();
+						throw new ArgumentException(null, nameof(subImagesCount));
 					}
 					break;
 				case ImageStripOrientation.Vertical:
 					if (imageStrip.Height % subImagesCount != 0)
 					{
-						throw new ArgumentException();
+						throw new ArgumentException(null, nameof(subImagesCount));
 					}
 					break;
 				default:
-					throw new ArgumentException("orientation");
+					throw new ArgumentException(null, nameof(orientation));
 			}
 			if (subImageBorderThickness < 0)
 			{
-				throw new ArgumentOutOfRangeException();
+				throw new ArgumentOutOfRangeException(nameof(subImageBorderThickness));
 			}
 			ImageStripBitmap = new Bitmap(imageStrip);
 			Orientation = orientation;
@@ -148,15 +148,15 @@ namespace Luminous.Drawing
 			}
 			if (g == null)
 			{
-				throw new ArgumentNullException("g");
+				throw new ArgumentNullException(nameof(g));
 			}
 			if (subImageNumber < 0 || subImageNumber >= SubImagesCount)
 			{
-				throw new ArgumentOutOfRangeException();
+				throw new ArgumentOutOfRangeException(nameof(subImageNumber));
 			}
 			if (borderThickness < 0)
 			{
-				throw new ArgumentOutOfRangeException();
+				throw new ArgumentOutOfRangeException(nameof(borderThickness));
 			}
 
 			var dp = new DrawingParameters
@@ -217,15 +217,15 @@ namespace Luminous.Drawing
 		{
 			if (g == null)
 			{
-				throw new ArgumentNullException("g");
+				throw new ArgumentNullException(nameof(g));
 			}
 			if (image == null)
 			{
-				throw new ArgumentNullException("image");
+				throw new ArgumentNullException(nameof(image));
 			}
 			if (borderThickness < 0)
 			{
-				throw new ArgumentOutOfRangeException();
+				throw new ArgumentOutOfRangeException(nameof(borderThickness));
 			}
 
 			if (borderThickness == 0)
@@ -284,7 +284,11 @@ namespace Luminous.Drawing
 		#region Dispose Pattern
 
 		/// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-		public void Dispose() => Dispose(true);
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
 		private bool _disposed;
 		/// <summary>Clean up any resources being used.</summary>

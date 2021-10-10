@@ -37,7 +37,10 @@ namespace Luminous.Threading
 				result = func();
 			});
 
-			if (tk.Wait(timeout) && tk.IsCompletedSuccessfully)
+			if (tk.Wait(timeout)
+				&& tk.IsCompleted
+				&& !tk.IsFaulted
+				&& !tk.IsCanceled) // IsCompletedSuccessfully is only in .NET Standard 2.1+
 			{
 				return result;
 			}

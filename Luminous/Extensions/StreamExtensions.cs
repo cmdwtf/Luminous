@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -39,11 +39,9 @@ namespace System.IO
 			}
 			try
 			{
-				using (var ms = new MemoryStream())
-				{
-					stream.CopyTo(ms);
-					return ms.ToArray();
-				}
+				using var ms = new MemoryStream();
+				stream.CopyTo(ms);
+				return ms.ToArray();
 			}
 			finally
 			{
