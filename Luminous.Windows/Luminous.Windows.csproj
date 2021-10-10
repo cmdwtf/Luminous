@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>$(RootNamespace).Windows</RootNamespace>
     <AssemblyName>$(AssemblyName).Windows</AssemblyName>
+    <AssemblyTitle>$(AssemblyName).Windows</AssemblyTitle>
+    <RootNamespace>$(RootNamespace).Windows</RootNamespace>
     <ProjectGuid>{26AF19AD-07C5-4141-B078-8CCCED8EECC4}</ProjectGuid>
     <UseWPF>true</UseWPF>
   </PropertyGroup>

@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>$(RootNamespace).Windows.Forms</RootNamespace>
     <AssemblyName>$(AssemblyName).Windows.Forms</AssemblyName>
+    <AssemblyTitle>$(AssemblyName).Windows.Forms</AssemblyTitle>
+    <RootNamespace>$(RootNamespace).Windows.Forms</RootNamespace>
     <ProjectGuid>{D5761A90-93E9-4E30-9E57-855A408E170C}</ProjectGuid>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
