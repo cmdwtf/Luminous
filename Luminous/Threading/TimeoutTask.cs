@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -19,7 +19,7 @@
 namespace Luminous.Threading
 {
 	using System;
-	using System.Threading;
+	using System.Threading.Tasks;
 
 	public static class TimeoutTask
 	{
@@ -31,32 +31,30 @@ namespace Luminous.Threading
 
 		public static T Run<T>(Func<T> func, int timeout)
 		{
-			Exception e = null;
 			var result = default(T);
-			var t = new Thread(() =>
+			var tk = Task.Run(() =>
 			{
-				try
-				{
-					result = func();
-				}
-				catch (Exception ex)
-				{
-					e = ex;
-				}
+				result = func();
 			});
-			t.Start();
-			t.Join(timeout);
-			if (t.IsAlive)
+
+			if (tk.Wait(timeout) && tk.IsCompletedSuccessfully)
 			{
-				t.Abort();
-				throw new TimeoutException();
-			}
-			if (e != null)
-			{
-				throw new ArgumentException("The action has thrown an exception.", e);
+				return result;
 			}
 
-			return result;
+			if (tk.IsFaulted)
+			{
+				if (tk.Exception is not null)
+				{
+					throw tk.Exception;
+				}
+				else
+				{
+					throw new ArgumentException("The action has thrown an unknown exception.");
+				}
+			}
+
+			throw new TimeoutException();
 		}
 	}
 }
