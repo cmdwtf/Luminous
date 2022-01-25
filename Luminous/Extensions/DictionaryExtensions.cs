@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -19,34 +19,51 @@
 namespace System.Collections.Generic
 {
 	using System;
-	using System.Diagnostics.Contracts;
 
 	/// <summary>Extension methods for the Dictionary class.</summary>
 	public static class DictionaryExtensions
 	{
-		[Pure]
 		public static TValue TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
 		{
-			Contract.Requires<ArgumentNullException>(dictionary != null);
+			if (dictionary == null)
+			{
+				throw new ArgumentNullException(nameof(dictionary), $"Contract assertion not met: {nameof(dictionary)} != null");
+			}
 
 			return dictionary.TryGetValue(key, out TValue value) ? value : defaultValue;
 		}
 
-		[Pure]
 		public static TValue TryGetNotNullValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
 		{
-			Contract.Requires<ArgumentNullException>(dictionary != null);
-			Contract.Requires<ArgumentNullException>(defaultValue != null);
+			if (dictionary == null)
+			{
+				throw new ArgumentNullException(nameof(dictionary), $"Contract assertion not met: {nameof(dictionary)} != null");
+			}
+
+			if (defaultValue == null)
+			{
+				throw new ArgumentNullException(nameof(defaultValue), $"Contract assertion not met: {nameof(defaultValue)} != null");
+			}
 
 			return dictionary.TryGetValue(key, out TValue value) && value != null ? value : defaultValue;
 		}
 
-		[Pure]
 		public static TValue TryGetNotEmptyValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
 		{
-			Contract.Requires<ArgumentNullException>(dictionary != null);
-			Contract.Requires<ArgumentNullException>(defaultValue != null);
-			Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(defaultValue.ToString()));
+			if (dictionary == null)
+			{
+				throw new ArgumentNullException(nameof(dictionary), $"Contract assertion not met: {nameof(dictionary)} != null");
+			}
+
+			if (defaultValue == null)
+			{
+				throw new ArgumentNullException(nameof(defaultValue), $"Contract assertion not met: {nameof(defaultValue)} != null");
+			}
+
+			if (string.IsNullOrEmpty(defaultValue.ToString()))
+			{
+				throw new ArgumentNullException(nameof(defaultValue), $"Contract assertion not met: !string.IsNullOrEmpty({nameof(defaultValue)}.ToString())");
+			}
 
 			return dictionary.TryGetValue(key, out TValue value) && value != null && value.ToString().Length > 0 ? value : defaultValue;
 		}

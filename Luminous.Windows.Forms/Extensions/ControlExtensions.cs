@@ -20,7 +20,6 @@ namespace System.Windows.Forms
 {
 	using System;
 	using System.ComponentModel;
-	using System.Diagnostics.Contracts;
 
 	/// <summary>Extension methods for the Control class.</summary>
 	public static class ControlExtensions
@@ -30,7 +29,11 @@ namespace System.Windows.Forms
 		/// </summary>
 		public static bool IsHandleCreatedAnywhere(this Control @this)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
+
 			lock (@this)
 			{
 				Control control = @this;
@@ -44,8 +47,15 @@ namespace System.Windows.Forms
 
 		public static void SafeInvoke(this Control @this, Action action)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
-			Contract.Requires<ArgumentNullException>(action != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
+
+			if (action == null)
+			{
+				throw new ArgumentNullException(nameof(action), $"Contract assertion not met: {nameof(action)} != null");
+			}
 
 			if (@this == null)
 			{
@@ -84,8 +94,15 @@ namespace System.Windows.Forms
 
 		public static TResult SafeInvoke<TResult>(this Control @this, Func<TResult> func)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
-			Contract.Requires<ArgumentNullException>(func != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
+
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func), $"Contract assertion not met: {nameof(func)} != null");
+			}
 
 			var result = default(TResult);
 			SafeInvoke(@this, () =>
@@ -97,7 +114,10 @@ namespace System.Windows.Forms
 
 		public static bool IsInDesignMode(this Control target)
 		{
-			Contract.Requires<ArgumentNullException>(target != null);
+			if (target == null)
+			{
+				throw new ArgumentNullException(nameof(target), $"Contract assertion not met: {nameof(target)} != null");
+			}
 
 			for (Control control = target; control != null; control = control.Parent)
 			{
@@ -112,7 +132,10 @@ namespace System.Windows.Forms
 
 		public static bool IsInRuntimeMode(this Control target)
 		{
-			Contract.Requires<ArgumentNullException>(target != null);
+			if (target == null)
+			{
+				throw new ArgumentNullException(nameof(target), $"Contract assertion not met: {nameof(target)} != null");
+			}
 
 			for (Control control = target; control != null; control = control.Parent)
 			{

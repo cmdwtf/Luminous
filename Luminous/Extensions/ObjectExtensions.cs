@@ -18,7 +18,6 @@
 
 namespace System
 {
-	using System.Diagnostics.Contracts;
 
 	/// <summary>Extension methods for the Object class.</summary>
 	public static class ObjectExtensions
@@ -31,7 +30,10 @@ namespace System
 		/// <summary>Checks whether the object can be converted to the provided type.</summary>
 		public static bool CanConvert(this object @this, Type conversionType, IFormatProvider formatProvider = null)
 		{
-			Contract.Requires<ArgumentNullException>(conversionType != null);
+			if (conversionType == null)
+			{
+				throw new ArgumentNullException(nameof(conversionType), $"Contract assertion not met: {nameof(conversionType)} != null");
+			}
 
 			try
 			{
@@ -48,7 +50,10 @@ namespace System
 		/// <summary>Converts the object to the provided type.</summary>
 		public static T Convert<T>(this object @this, IFormatProvider formatProvider = null)
 		{
-			Contract.Requires<InvalidCastException>(!(@this == null && typeof(T).IsValueType));
+			if ((@this == null && typeof(T).IsValueType))
+			{
+				throw new InvalidCastException($"Contract assertion not met: !(@{nameof(@this)} == null && typeof(T).IsValueType)");
+			}
 
 			Type type = typeof(T);
 			object result = Convert(@this, type, formatProvider);
@@ -67,7 +72,10 @@ namespace System
 		/// <summary>Converts the object to the provided type.</summary>
 		public static object Convert(this object @this, Type conversionType, IFormatProvider formatProvider = null)
 		{
-			Contract.Requires<ArgumentNullException>(conversionType != null);
+			if (conversionType == null)
+			{
+				throw new ArgumentNullException(nameof(conversionType), $"Contract assertion not met: {nameof(conversionType)} != null");
+			}
 
 			return System.Convert.ChangeType(@this, conversionType, formatProvider);
 		}

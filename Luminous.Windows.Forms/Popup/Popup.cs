@@ -20,7 +20,6 @@ namespace Luminous.Windows.Forms
 {
 	using System;
 	using System.ComponentModel;
-	using System.Diagnostics.Contracts;
 	using System.Drawing;
 	using System.Drawing.Drawing2D;
 	using System.Runtime.InteropServices;
@@ -131,7 +130,11 @@ namespace Luminous.Windows.Forms
 			get
 			{
 				CreateParams cp = base.CreateParams;
-				Contract.Assume(cp != null);
+				if (cp == null)
+				{
+					throw new InvalidOperationException($"Contract assertion not met: {nameof(cp)} != null");
+				}
+
 				cp.ExStyle |= NativeMethods.WS_EX_NOACTIVATE;
 				if (NonInteractive)
 				{
@@ -156,7 +159,10 @@ namespace Luminous.Windows.Forms
 		/// <exception cref="T:System.ArgumentNullException"><paramref name="content" /> is <code>null</code>.</exception>
 		public Popup(Control content)
 		{
-			Contract.Requires<ArgumentNullException>(content != null);
+			if (content == null)
+			{
+				throw new ArgumentNullException(nameof(content), $"Contract assertion not met: {nameof(content)} != null");
+			}
 
 			Content = content;
 			FocusOnOpen = true;

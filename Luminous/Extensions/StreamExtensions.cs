@@ -19,7 +19,6 @@
 namespace System.IO
 {
 	using System;
-	using System.Diagnostics.Contracts;
 
 	/// <summary>Extension methods for the Stream class.</summary>
 	public static class StreamExtensions
@@ -29,7 +28,10 @@ namespace System.IO
 		/// </summary>
 		public static byte[] ReadToEnd(this Stream stream)
 		{
-			Contract.Requires<ArgumentNullException>(stream != null);
+			if (stream == null)
+			{
+				throw new ArgumentNullException(nameof(stream), $"Contract assertion not met: {nameof(stream)} != null");
+			}
 
 			long? originalPosition = null;
 			if (stream.CanSeek)

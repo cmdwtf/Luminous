@@ -18,14 +18,16 @@
 
 namespace System
 {
-	using System.Diagnostics.Contracts;
 
 	/// <summary>Extension methods for the Type class.</summary>
 	public static class TypeExtensions
 	{
 		public static string GetFullName(this Type @this)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
 
 			if (!@this.IsGenericType)
 			{

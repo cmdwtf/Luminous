@@ -19,7 +19,6 @@
 namespace System.IO
 {
 	using System;
-	using System.Diagnostics.Contracts;
 	using System.Threading;
 
 	/// <summary>Extension methods for the FileInfo class.</summary>
@@ -27,14 +26,20 @@ namespace System.IO
 	{
 		public static FileStream TryOpen(this FileInfo fileInfo, FileAccess access = FileAccess.ReadWrite, FileShare share = FileShare.None)
 		{
-			Contract.Requires<ArgumentNullException>(fileInfo != null);
+			if (fileInfo == null)
+			{
+				throw new ArgumentNullException(nameof(fileInfo), $"Contract assertion not met: {nameof(fileInfo)} != null");
+			}
 
 			return fileInfo.Open(FileMode.Open, access, share);
 		}
 
 		public static FileStream WaitAndOpen(this FileInfo fileInfo, TimeSpan timeout, FileAccess access = FileAccess.ReadWrite, FileShare share = FileShare.None)
 		{
-			Contract.Requires<ArgumentNullException>(fileInfo != null);
+			if (fileInfo == null)
+			{
+				throw new ArgumentNullException(nameof(fileInfo), $"Contract assertion not met: {nameof(fileInfo)} != null");
+			}
 
 			DateTime dt = DateTime.UtcNow;
 			FileStream fs;

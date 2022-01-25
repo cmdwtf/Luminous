@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -37,7 +37,6 @@ namespace Luminous.Windows
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics.Contracts;
 	using System.Windows;
 	using System.Windows.Controls;
 
@@ -235,7 +234,7 @@ namespace Luminous.Windows
 			get => _customScale;
 			set
 			{
-				Contract.Requires<ArgumentOutOfRangeException>(value > 0);
+				if (!(value > 0)) throw new ArgumentOutOfRangeException(nameof(value), $"Contract assertion not met: {nameof(value)} > 0");
 
 				_customScale = value;
 			}

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -19,7 +19,6 @@
 namespace System.Windows.Forms
 {
 	using System;
-	using System.Diagnostics.Contracts;
 
 	using Luminous.Windows.Forms;
 
@@ -28,14 +27,20 @@ namespace System.Windows.Forms
 	{
 		public static void EnableSimpleSelect(this ListView @this, bool enable)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
 
 			Native.ListView.SetExtendedListViewStyle(@this, Native.ListView.ExtendedStyle.SimpleSelect, enable);
 		}
 
 		public static void EnableDoubleBuffering(this ListView @this, bool enable = true)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
 
 			Native.ListView.SetExtendedListViewStyle(@this, Native.ListView.ExtendedStyle.DoubleBuffer, enable);
 		}

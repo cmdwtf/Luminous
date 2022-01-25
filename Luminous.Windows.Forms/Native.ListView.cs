@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -19,7 +19,6 @@
 namespace Luminous.Windows.Forms
 {
 	using System;
-	using System.Diagnostics.Contracts;
 	using System.Runtime.InteropServices;
 
 	internal static partial class Native
@@ -34,7 +33,10 @@ namespace Luminous.Windows.Forms
 
 			public static void SetExtendedListViewStyle(System.Windows.Forms.ListView @this, ExtendedStyle style, bool enable = true)
 			{
-				Contract.Requires<ArgumentNullException>(@this != null);
+				if (@this == null)
+				{
+					throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+				}
 
 				Messages.Send(new HandleRef(@this, @this.Handle), (uint)Messages.ListView.SetExtendedListViewStyle, new IntPtr((int)style), enable ? new IntPtr((int)style) : IntPtr.Zero);
 			}

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -19,13 +19,15 @@
 namespace System.ComponentModel
 {
 	using System;
-	using System.Diagnostics.Contracts;
 
 	public static class IComponentExtensions
 	{
 		public static bool IsInDesignMode(this IComponent component)
 		{
-			Contract.Requires<ArgumentNullException>(component != null);
+			if (component == null)
+			{
+				throw new ArgumentNullException(nameof(component), $"Contract assertion not met: {nameof(component)} != null");
+			}
 
 			bool designMode = false;
 			ISite site = component.Site;
@@ -38,7 +40,10 @@ namespace System.ComponentModel
 
 		public static bool IsInRuntimeMode(this IComponent component)
 		{
-			Contract.Requires<ArgumentNullException>(component != null);
+			if (component == null)
+			{
+				throw new ArgumentNullException(nameof(component), $"Contract assertion not met: {nameof(component)} != null");
+			}
 
 			bool flag = true;
 			ISite site = component.Site;
@@ -51,8 +56,15 @@ namespace System.ComponentModel
 
 		public static void DisposeAlso(this IComponent component, IDisposable disposable)
 		{
-			Contract.Requires<ArgumentNullException>(component != null);
-			Contract.Requires<ArgumentNullException>(disposable != null);
+			if (component == null)
+			{
+				throw new ArgumentNullException(nameof(component), $"Contract assertion not met: {nameof(component)} != null");
+			}
+
+			if (disposable == null)
+			{
+				throw new ArgumentNullException(nameof(disposable), $"Contract assertion not met: {nameof(disposable)} != null");
+			}
 
 			component.Disposed += (sender, e) =>
 			{

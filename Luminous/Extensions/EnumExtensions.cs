@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -19,7 +19,6 @@
 namespace System
 {
 	using System.ComponentModel;
-	using System.Diagnostics.Contracts;
 
 	/// <summary>Extension methods for the Enum class.</summary>
 	public static class EnumExtensions
@@ -27,10 +26,13 @@ namespace System
 		/// <summary>
 		/// Returns the enum’s description.
 		/// </summary>
-		[Pure]
 		public static string GetDescription(this Enum @this)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
+
 			if (!Enum.IsDefined(@this.GetType(), @this))
 			{
 				return null; //Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(@this.GetType(), @this));

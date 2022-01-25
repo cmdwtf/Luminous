@@ -20,7 +20,6 @@ namespace System
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics.Contracts;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
@@ -36,10 +35,8 @@ namespace System
 	{
 		#region Coalesce
 
-		[Pure]
 		public static string Coalesce(this string @this, string other) => !string.IsNullOrEmpty(@this) ? @this : other;
 
-		[Pure]
 		public static string Coalesce(this string @this, params string[] values)
 		{
 			if (!string.IsNullOrEmpty(@this) || values == null || values.Length == 0)
@@ -75,72 +72,116 @@ namespace System
 			return null;
 		}
 
-		[Pure]
 		public static string CoalesceWithEmpty(this string @this, params string[] values)
 		{
-			Contract.Ensures(Contract.Result<string>() != null);
 
-			return @this.Coalesce(values) ?? string.Empty;
+			string result = @this.Coalesce(values) ?? string.Empty;
+			if (result == null)
+			{
+				throw new InvalidOperationException($"Contract assertion not met: $result != null");
+			}
+
+			return result;
 		}
 
 		public static string CoalesceWithEmpty(this string @this, IEnumerable<string> values)
 		{
-			Contract.Ensures(Contract.Result<string>() != null);
 
-			return @this.Coalesce(values) ?? string.Empty;
+			string result = @this.Coalesce(values) ?? string.Empty;
+			if (result == null)
+			{
+				throw new InvalidOperationException($"Contract assertion not met: $result != null");
+			}
+
+			return result;
 		}
 
 		#endregion
 
 		#region ToStringOrNull
 
-		[Pure]
 		public static string ToStringOrNull<T>(this T @this)
 			where T : class => @this?.ToString();
 
-		[Pure]
 		public static string ToStringOrNull<T>(this T @this, string format, IFormatProvider formatProvider = null)
 			where T : class, IFormattable => @this?.ToString(format, formatProvider);
 
-		[Pure]
 		public static string ToStringOrNull<T>(this T? @this)
 			where T : struct => !@this.HasValue ? null : @this.Value.ToString();
 
-		[Pure]
 		public static string ToStringOrNull<T>(this T? @this, string format, IFormatProvider formatProvider = null)
 			where T : struct, IFormattable => !@this.HasValue ? null : @this.Value.ToString(format, formatProvider);
 
 		#endregion
 
-		[Pure]
 		public static string SubstringTo(this string @this, int startIndex, int endIndex)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
-			Contract.Requires<ArgumentOutOfRangeException>(startIndex >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(startIndex <= endIndex || startIndex == endIndex + 1);
-			Contract.Requires<ArgumentOutOfRangeException>(endIndex < @this.Length);
-			Contract.Ensures(Contract.Result<string>() != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
 
-			return @this.Substring(startIndex, endIndex - startIndex + 1);
+			if (!(startIndex >= 0))
+			{
+				throw new ArgumentOutOfRangeException(nameof(startIndex), $"Contract assertion not met: {nameof(startIndex)} >= 0");
+			}
+
+			if (!(startIndex <= endIndex || startIndex == endIndex + 1))
+			{
+				throw new ArgumentOutOfRangeException(nameof(startIndex), $"Contract assertion not met: {nameof(startIndex)} <= endIndex || {nameof(startIndex)} == endIndex + 1");
+			}
+
+			if (!(endIndex < @this.Length))
+			{
+				throw new ArgumentOutOfRangeException(nameof(endIndex), $"Contract assertion not met: {nameof(endIndex)} < @this.Length");
+			}
+
+			string result = @this.Substring(startIndex, endIndex - startIndex + 1);
+			if (result == null)
+			{
+				throw new InvalidOperationException($"Contract assertion not met: $result != null");
+			}
+
+			return result;
 		}
 
-		[Pure]
 		public static string Clip(this string @this, int startClipLength, int endClipLength)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
-			Contract.Requires<ArgumentOutOfRangeException>(startClipLength >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(endClipLength >= 0);
-			Contract.Requires<ArgumentOutOfRangeException>(@this.Length - startClipLength - endClipLength >= 0);
-			Contract.Ensures(Contract.Result<string>() != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
 
-			return @this.Substring(startClipLength, @this.Length - startClipLength - endClipLength);
+			if (!(startClipLength >= 0))
+			{
+				throw new ArgumentOutOfRangeException(nameof(startClipLength), $"Contract assertion not met: {nameof(startClipLength)} >= 0");
+			}
+
+			if (!(endClipLength >= 0))
+			{
+				throw new ArgumentOutOfRangeException(nameof(endClipLength), $"Contract assertion not met: {nameof(endClipLength)} >= 0");
+			}
+
+			if (!(@this.Length - startClipLength - endClipLength >= 0))
+			{
+				throw new ArgumentOutOfRangeException(nameof(@this), $"Contract assertion not met: @{nameof(@this)}.Length - startClipLength - endClipLength >= 0");
+			}
+
+			string result = @this.Substring(startClipLength, @this.Length - startClipLength - endClipLength);
+			if (result == null)
+			{
+				throw new InvalidOperationException($"Contract assertion not met: $result != null");
+			}
+
+			return result;
 		}
 
-		[Pure]
 		public static string ToXmlEncodedString(this string @this)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
-			Contract.Ensures(Contract.Result<string>() != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
 
 			var sb = new StringBuilder();
 			using (var xw = XmlWriter.Create(sb, new XmlWriterSettings
@@ -151,14 +192,21 @@ namespace System
 			{
 				new XElement("_", @this).Save(xw);
 			}
-			return sb.ToString().Clip(3, 4);
+			string result = sb.ToString().Clip(3, 4);
+			if (result == null)
+			{
+				throw new InvalidOperationException($"Contract assertion not met: $result != null");
+			}
+
+			return result;
 		}
 
-		[Pure]
 		public static string ToXmlDecodedString(this string @this)
 		{
-			Contract.Requires<ArgumentNullException>(@this != null);
-			Contract.Ensures(Contract.Result<string>() != null);
+			if (@this == null)
+			{
+				throw new ArgumentNullException(nameof(@this), $"Contract assertion not met: @{nameof(@this)} != null");
+			}
 
 			using var xw = XmlReader.Create(new StringReader(string.Format("<_>{0}</_>", @this)), new XmlReaderSettings
 			{
@@ -166,14 +214,21 @@ namespace System
 			});
 			var xd = XDocument.Load(xw);
 			XElement el = null;
-			return xd == null || (el = xd.Element("_")) == null
-				? throw new ArgumentException("The specified string is not a valid XML encoded string.")
-				: el.Value;
+			string result = xd == null || (el = xd.Element("_")) == null ? throw new ArgumentException("The specified string is not a valid XML encoded string.") : el.Value;
+			if (result == null)
+			{
+				throw new InvalidOperationException($"Contract assertion not met: $result != null");
+			}
+
+			return result;
 		}
 
 		public static string Indent(this string @this, int width = 4, char indentChar = ' ')
 		{
-			Contract.Requires<ArgumentException>(width >= 0);
+			if (!(width >= 0))
+			{
+				throw new ArgumentException($"Contract assertion not met: {nameof(width)} >= 0", nameof(width));
+			}
 
 			return string.Join(
 				Environment.NewLine,

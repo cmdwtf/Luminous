@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -20,7 +20,6 @@ namespace Luminous.Windows.Forms
 {
 	using System;
 	using System.ComponentModel;
-	using System.Diagnostics.Contracts;
 	using System.Drawing;
 	using System.Windows.Forms;
 
@@ -53,7 +52,7 @@ namespace Luminous.Windows.Forms
 			get => _dropDownControl;
 			set
 			{
-				Contract.Requires<ArgumentNullException>(value != null);
+				if (value == null) throw new ArgumentNullException(nameof(value), $"Contract assertion not met: {nameof(value)} != null");
 
 				if (_dropDownControl == value)
 				{

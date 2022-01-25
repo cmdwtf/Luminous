@@ -21,7 +21,6 @@ namespace Luminous.ComponentModel
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
-	using System.Diagnostics.Contracts;
 
 	public class NotifyingObject : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -79,7 +78,10 @@ namespace Luminous.ComponentModel
 
 		public T GetValue<T>(string name, Func<T> defaultValueProvider)
 		{
-			Contract.Requires<ArgumentNullException>(defaultValueProvider != null);
+			if (defaultValueProvider == null)
+			{
+				throw new ArgumentNullException(nameof(defaultValueProvider), $"Contract assertion not met: {nameof(defaultValueProvider)} != null");
+			}
 
 			name = string.Format("{0}::{1}::{2}", GetType().FullName, _id, name);
 

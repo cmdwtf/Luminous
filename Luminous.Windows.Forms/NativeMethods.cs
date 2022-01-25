@@ -19,7 +19,6 @@
 namespace Luminous.Windows.Forms
 {
 	using System;
-	using System.Diagnostics.Contracts;
 	using System.Drawing;
 	using System.Runtime.InteropServices;
 	using System.Security;
@@ -73,7 +72,10 @@ namespace Luminous.Windows.Forms
 
 		internal static void AnimateWindow(Control control, int time, AnimationFlags flags)
 		{
-			Contract.Requires<ArgumentNullException>(control != null);
+			if (control == null)
+			{
+				throw new ArgumentNullException(nameof(control), $"Contract assertion not met: {nameof(control)} != null");
+			}
 
 			try
 			{
@@ -88,7 +90,10 @@ namespace Luminous.Windows.Forms
 
 		internal static void SetTopMost(Control control)
 		{
-			Contract.Requires<ArgumentNullException>(control != null);
+			if (control == null)
+			{
+				throw new ArgumentNullException(nameof(control), $"Contract assertion not met: {nameof(control)} != null");
+			}
 
 			try
 			{

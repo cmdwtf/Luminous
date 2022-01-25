@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright © 2021 Chris Marc Dailey (nitz) <https://cmd.wtf>
 // Copyright © 2014 Łukasz Świątkowski <http://www.lukesw.net/>
 //
@@ -18,12 +18,10 @@
 
 namespace System.Collections.Generic
 {
-	using System.Diagnostics.Contracts;
 
 	/// <summary>Extension methods for the List class.</summary>
 	public static class ListExtensions
 	{
-		[Pure]
 		public static bool IsNullOrEmpty<T>(this IList<T> list) => list == null || list.Count == 0;
 	}
 }
